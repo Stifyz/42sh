@@ -1,0 +1,14 @@
+##
+## Makefile.libmy for  in /blinux_home/bazin_q/rendu/gfx_incendie
+## 
+## Made by Quentin Bazin
+## Login   <bazin_q@epitech.net>
+## 
+## Started on  Fri Dec 04 21:37:21 2015 Quentin Bazin
+## Last update Mon Dec 14 13:16:28 2015 Quentin Bazin
+##
+
+CFLAGS		+= $(foreach lib,$(MY_LIBS),-Ilib/lib$(lib)/include)
+
+LDFLAGS		+= $(foreach lib,$(MY_LIBS),-Llib/lib$(lib))
+LDFLAGS		+= $(foreach lib,$(MY_LIBS),-l$(lib))
