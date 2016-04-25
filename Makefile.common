@@ -16,7 +16,7 @@ ifndef NAME
 	NAME		= $(shell basename $(shell pwd))
 endif
 
-CFLAGS		+= -g -Wall -Wextra -Wfatal-errors -pedantic
+CFLAGS		+= -g -Wall -Wextra -Wfatal-errors -pedantic -MD
 CFLAGS		+= $(foreach inc_dir,$(INC_DIRS),-I$(inc_dir))
 
 LDFLAGS		+= $(foreach lib_dir,$(LIB_DIRS),-L$(lib_dir))
@@ -67,5 +67,7 @@ install_libs: fclean
 %.o: %.c
 	@echo "=>" $<
 	@$(CC) -c $< -o $@ $(CFLAGS)
+
+include */*.d
 
 .PHONY: all clean fclean re run debug libs install_libs

@@ -3,7 +3,7 @@
 *~
 *.o
 *.a
-test*
+*.d
 Notes
 TODO
 a.out
