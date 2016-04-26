@@ -14,7 +14,8 @@ INC_DIRS	= include
 
 SOURCES		= source/application.c \
 			  source/error.c \
-			  source/main.c
+			  source/main.c \
+			  source/signals.c
 
 MY_LIBS		= my_printf my
 

@@ -4,6 +4,7 @@
 *.o
 *.a
 *.d
+build
 Notes
 TODO
 a.out

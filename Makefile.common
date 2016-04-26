@@ -16,31 +16,36 @@ ifndef NAME
 	NAME		= $(shell basename $(shell pwd))
 endif
 
+BUILD		= build
+
 CFLAGS		+= -g -Wall -Wextra -Wfatal-errors -pedantic -MD
 CFLAGS		+= $(foreach inc_dir,$(INC_DIRS),-I$(inc_dir))
 
 LDFLAGS		+= $(foreach lib_dir,$(LIB_DIRS),-L$(lib_dir))
 LDFLAGS		+= $(foreach lib,$(LIBS_EXT),-l$(lib))
 
-OBJS		= $(SOURCES:.c=.o)
+OBJS		= $(addprefix build/,$(notdir $(SOURCES:.c=.o)))
 
 all: libs $(NAME)
 	@echo "Done for $(NAME)."
 	@[ -e TODO ] && echo "Don't forget to read the TODO file." || echo -n
 	@fixmes="$(shell cat $(shell find . -name "*.c" -or -name "*.h") | grep FIXME | wc -l)" && [ "$$fixmes" != "0" ] && echo $$fixmes "fixme(s) remaining." || echo -n
-	@[ -e ~/.local/bin/goku ] && goku | tail -1 || echo -n
+	@[ -e ~/.local/bin/goku ] && goku -nocheat | tail -1 || echo -n
 
-$(NAME): $(OBJS)
+$(NAME): $(BUILD) $(OBJS)
 	@echo "Linking $(NAME)..."
 	@$(CC) -o $(NAME) $(OBJS) $(LDFLAGS)
 
 clean:
 	@echo "Cleaning .o files..."
-	@rm -f $(OBJS)
+	@rm -rf $(BUILD)
 
 fclean: clean
 	@echo "Cleaning executable..."
 	@rm -f $(NAME)
+
+$(BUILD):
+	@mkdir -p build
 
 re: fclean all
 
@@ -64,7 +69,7 @@ install_libs: fclean
 		echo "OK."; \
 		done;
 
-%.o: %.c
+build/%.o: source/%.c
 	@echo "=>" $<
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
