@@ -1,21 +1,23 @@
 /*
-** main.c for  in /home/bazin_q/rendu/CPE/sudoki-bi/source
+** main.c for  in /home/bazin_q/rendu/PSU/PSU_2015_minishell2/source
 ** 
 ** Made by Quentin Bazin
 ** Login   <bazin_q@epitech.net>
 ** 
-** Started on  Fri Feb 26 21:12:44 2016 Quentin Bazin
-** Last update Fri Feb 26 21:12:44 2016 Quentin Bazin
+** Started on  Fri Mar 25 16:57:01 2016 Quentin Bazin
+** Last update Fri Mar 25 16:57:01 2016 Quentin Bazin
 */
 
 #include "application.h"
 
-int		main()
+int		main(int argc, char **argv, char **env)
 {
   t_application	app;
 
-  if (!application_init(&app))
+  (void)argc;
+  (void)argv;
+  if (application_init(&app, env) == 0)
     application_run(&app);
   application_free(&app);
-  return (0);
+  return (app.exit_code);
 }

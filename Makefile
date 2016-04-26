@@ -13,9 +13,19 @@ NAME		= 42sh
 INC_DIRS	= include
 
 SOURCES		= source/application.c \
+			  source/builtin_cd.c \
+			  source/builtin_env.c \
+			  source/builtins.c \
+			  source/command.c \
+			  source/command_run.c \
+			  source/env.c \
+			  source/env_utils.c \
 			  source/error.c \
 			  source/main.c \
-			  source/signals.c
+			  source/parser.c \
+			  source/redirection.c \
+			  source/signals.c \
+			  source/utils.c
 
 MY_LIBS		= my_printf my
 

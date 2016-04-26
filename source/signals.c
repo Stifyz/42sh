@@ -1,11 +1,11 @@
 /*
-** signals.c for  in /home/bazin_q/rendu/PSU/PSU_2015_42sh/source
+** signals.c for  in /home/bazin_q/rendu/PSU/PSU_2015_minishell2/source
 ** 
 ** Made by Quentin Bazin
 ** Login   <bazin_q@epitech.net>
 ** 
-** Started on  Tue Apr 26 13:47:05 2016 Quentin Bazin
-** Last update Tue Apr 26 13:47:05 2016 Quentin Bazin
+** Started on  Sat Mar 26 10:53:23 2016 Quentin Bazin
+** Last update Sat Mar 26 10:53:23 2016 Quentin Bazin
 */
 
 #include <my.h>
