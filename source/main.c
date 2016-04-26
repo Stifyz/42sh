@@ -14,7 +14,7 @@ int		main()
 {
   t_application	app;
 
-  if (application_init(&app))
+  if (!application_init(&app))
     application_run(&app);
   application_free(&app);
   return (0);

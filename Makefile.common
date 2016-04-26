@@ -68,6 +68,6 @@ install_libs: fclean
 	@echo "=>" $<
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
-include */*.d
+-include */*.d
 
 .PHONY: all clean fclean re run debug libs install_libs
