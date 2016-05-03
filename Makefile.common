@@ -24,7 +24,7 @@ CFLAGS		+= $(foreach inc_dir,$(INC_DIRS),-I$(inc_dir))
 LDFLAGS		+= $(foreach lib_dir,$(LIB_DIRS),-L$(lib_dir))
 LDFLAGS		+= $(foreach lib,$(LIBS_EXT),-l$(lib))
 
-OBJS		= $(addprefix build/,$(notdir $(SOURCES:.c=.o)))
+OBJS		= $(addprefix $(BUILD)/,$(notdir $(SOURCES:.c=.o)))
 
 all: libs $(NAME)
 	@echo "Done for $(NAME)."

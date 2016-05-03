@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "application.h"
-#include "parser.h"
 
 t_err		parser_parse_str(t_parser	*parser,
 				 t_application	*app,
