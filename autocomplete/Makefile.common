@@ -1,0 +1,77 @@
+##
+## Makefile.common for  in /blinux_home/bazin_q/rendu/gfx_incendie
+##
+## Made by Quentin Bazin
+## Login   <bazin_q@epitech.net>
+##
+## Started on  Fri Dec 04 20:23:33 2015 Quentin Bazin
+## Last update Fri Apr 29 15:43:53 2016 Benjamin Audet
+##
+
+ifndef CC
+	CC			= gcc
+endif
+
+ifndef NAME
+	NAME		= $(shell basename $(shell pwd))
+endif
+
+CFLAGS		+= -g -Wall -Wextra -Wfatal-errors -pedantic
+CFLAGS		+= $(foreach inc_dir,$(INC_DIRS),-I$(inc_dir))
+
+LDFLAGS		+= $(foreach lib_dir,$(LIB_DIRS),-L$(lib_dir)) -lncurses
+LDFLAGS		+= $(foreach lib,$(LIBS_EXT),-l$(lib))
+
+OBJS		= $(SOURCES:.c=.o)
+
+OBJS2		=	$(SOURCES2:.c=.o)
+
+all: libs $(NAME)
+	@echo "Done for $(NAME)."
+	@[ -e TODO ] && echo "Don't forget to read the TODO file." || echo -n
+	@fixmes="$(shell cat $(shell find . -name "*.c" -or -name "*.h") | grep FIXME | wc -l)" && [ "$$fixmes" != "0" ] && echo $$fixmes "fixme(s) remaining." || echo -n
+	@[ -e ~/.local/bin/goku ] && goku | tail -1 || echo -n
+
+caca: $(OBJS2)
+	@echo "Linking $(NAME)..."
+	@$(CC) -o $(NAME) $(OBJS2) $(LDFLAGS)
+
+$(NAME): $(OBJS)
+	@echo "Linking $(NAME)..."
+	@$(CC) -o $(NAME) $(OBJS) $(LDFLAGS)
+
+clean:
+	@echo "Cleaning .o files..."
+	@rm -f $(OBJS)
+
+fclean: clean
+	@echo "Cleaning executable..."
+	@rm -f $(NAME)
+
+re: fclean all
+
+run: $(NAME)
+	@./$(NAME) $(RUN_ARGS)
+
+debug: $(NAME)
+	@gdb ./$(NAME) $(RUN_ARGS)
+
+libs:
+	@[ -n "$(MY_LIBS)" ] && [ ! -e lib ] && make --no-print-directory install_libs || echo -n
+	@for lib in $(MY_LIBS); do make --no-print-directory -C lib/lib$$lib; done;
+
+install_libs: fclean
+	@rm -rf lib
+	@for lib in $(MY_LIBS); do \
+		echo -n "Installing lib$$lib... "; \
+		mkdir -p lib/lib$$lib; \
+		cp -r ~/rendu/MyLibs/lib$$lib/{include,source,Makefile} lib/lib$$lib/; \
+		make --no-print-directory -C lib/lib$$lib fclean > /dev/null; \
+		echo "OK."; \
+		done;
+
+%.o: %.c
+	@echo "=>" $<
+	@$(CC) -c $< -o $@ $(CFLAGS)
+
+.PHONY: all clean fclean re run debug libs install_libs
