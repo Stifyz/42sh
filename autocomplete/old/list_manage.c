@@ -5,7 +5,7 @@
 ** Login   <audet_b@epitech.eu>
 **
 ** Started on  Wed Apr  6 02:55:46 2016 Benjamin Audet
-** Last update Mon May  9 15:53:17 2016 Benjamin Audet
+** Last update Tue May 10 14:48:52 2016 Benjamin Audet
 */
 
 #include "list.h"
@@ -16,11 +16,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void		free_list(t_autocomp *head)
+void		free_list(t_list *list)
 {
-  t_autocomp	*tmp[2];
+  t_element	*tmp[2];
 
-  tmp[0] = head;
+  tmp[0] = list->first;
   while ((tmp[0]))
     {
       free(tmp[0]->file_name);
@@ -30,41 +30,37 @@ void		free_list(t_autocomp *head)
     }
 }
 
-void		manage_list(t_autocomp *head)
+void		manage_list(t_list *list)
 {
-  fill_list(head, "/bin", 1);
-}
+  fill_list(list, "/bin", 1);
+  fill_list(list, ".", 0);
+  fill_list(list, "/sbin", 0);
+ }
 
-t_autocomp	*new_elem(char *var)
+t_element	*new_elem(char *var)
 {
-  t_autocomp	*tmp;
+  t_element	*tmp;
 
-  tmp = malloc(sizeof(t_autocomp));
+  tmp = malloc(sizeof(t_element));
   tmp->file_name = malloc(my_strlen(var) + 1);
   tmp->file_name = my_strcpy(tmp->file_name, var);
   return (tmp);
 }
 
-void		fill_list(t_autocomp *head, char *path, int a)
+void		fill_list(t_list *list, char *path, int a)
 {
   struct dirent	*s_dir;
   DIR		*dir;
-  t_autocomp	*tmp;
+  t_element	*tmp;
 
   if ((dir = opendir(path)) == NULL)
     error_opendir();
   if ((s_dir = readdir(dir)) == NULL)
     error_readdir();
-  if (a == 0)
+  if (a == 1)
     {
-      tmp = head;
-      while (tmp->next)
-	tmp = tmp->next;
-    }
-  else
-    {
-      head = new_elem(s_dir->d_name);
-      tmp = head;
+      list->first = new_elem(s_dir->d_name);
+      tmp = list->first;
     }
   while ((s_dir = readdir(dir)) != NULL)
     {
@@ -78,11 +74,11 @@ void		fill_list(t_autocomp *head, char *path, int a)
   closedir(dir);
 }
 
-void 		display_list(t_autocomp *head)
+void 		display_list(t_list *list)
 {
-  t_autocomp 	*tmp;
+  t_element 	*tmp;
 
-  tmp = head;
+  tmp = list->first;
   while (tmp != NULL)
     {
       my_putstr(tmp->file_name);
@@ -91,11 +87,11 @@ void 		display_list(t_autocomp *head)
     }
 }
 
-void		display_element(t_autocomp *head, char *var)
+void		display_element(t_list *list, char *var)
 {
-  t_autocomp	*tmp;
+  t_element	*tmp;
 
-  tmp = head;
+  tmp = list->first;
   while (tmp != NULL)
     {
       if (my_strncmp(tmp->file_name, var, my_strlen(var)) == 0)
