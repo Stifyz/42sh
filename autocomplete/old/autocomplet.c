@@ -5,12 +5,11 @@
 ** Login   <audet_b@epitech.eu>
 **
 ** Started on  Wed Apr 20 16:22:04 2016 Benjamin Audet
-** Last update Fri Apr 29 15:36:11 2016 Benjamin Audet
+** Last update Mon May  9 15:52:44 2016 Benjamin Audet
 */
 
 #include <string.h>
 #include "list.h"
-#include "my.h"
 #include <stdio.h>
 #include <sys/types.h>
 #include <dirent.h>

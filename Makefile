@@ -5,10 +5,12 @@
 ## Login   <bazin_q@epitech.net>
 ## 
 ## Started on  Tue Dec 01 15:46:23 2015 Quentin Bazin
-## Last update Mon Dec 14 13:18:25 2015 Quentin Bazin
+## Last update Mon May  9 15:53:57 2016 Benjamin Audet
 ##
 
 NAME		= 42sh
+
+NAME2		= autocomplete
 
 INC_DIRS	= include
 

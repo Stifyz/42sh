@@ -5,14 +5,13 @@
 ** Login   <audet_b@epitech.eu>
 **
 ** Started on  Tue Apr  5 16:24:30 2016 Benjamin Audet
-** Last update Fri Apr 29 15:36:09 2016 Benjamin Audet
+** Last update Mon May  9 15:52:17 2016 Benjamin Audet
 */
 
 #include <sys/types.h>
 #include <dirent.h>
 #include <limits.h>
 #include <stdlib.h>
-#include "my.h"
 #include "list.h"
 
 void		replace_element(t_list *list, char *var, char *content)

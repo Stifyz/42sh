@@ -5,11 +5,10 @@
 ** Login   <audet_b@epitech.eu>
 **
 ** Started on  Fri Apr 29 12:23:26 2016 Benjamin Audet
-** Last update Fri Apr 29 12:24:45 2016 Benjamin Audet
+** Last update Mon May  9 15:52:57 2016 Benjamin Audet
 */
 
 #include "list.h"
-#include "my.h"
 
 void	error_opendir()
 {
