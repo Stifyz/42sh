@@ -1,28 +1,41 @@
 ##
-## Makefile for  in /blinux_home/bazin_q/rendu/PSU_2015_my_select
+## Makefile for Makefile in /home/zimmer_n
+## 
+## Made by Nicolas Zimmermann
+## Login   <zimmer_n@epitech.net>
+## 
+## Started on  Fri Nov 13 15:25:22 2015 Nicolas Zimmermann
+## Last update Tue May 10 15:57:21 2016 Nicolas Zimmermann
 ##
-## Made by Quentin Bazin
-## Login   <bazin_q@epitech.net>
-##
-## Started on  Tue Dec 01 15:46:23 2015 Quentin Bazin
-## Last update Mon May  9 15:47:59 2016 Benjamin Audet
-##
 
-NAME		= mysh
+CC	= gcc
 
-INC_DIRS	= include
+RM	= rm -f
 
-SOURCES		= old/autocomplet.c \
-						old/list_manage.c \
-						old/list_manipulation.c \
-						old/error.c
+CFLAGS	+= -W -Wall -Werror -Wextra
+CFLAGS	+= -I. -I../lib/libmy/include
+CFLAGS	+= -L../lib/libmy -lmy
 
-SOURCES2	=	autocomplet2.c \
-						list_manage2.c \
-						list_manipulation2.c \
-						error.c
+NAME   	= autocomplete
 
-MY_LIBS		= my_printf my
+SRCS	= main.c \
+	file_list.c \
+	free_list.c \
+	show_list.c
 
-include Makefile.libmy
-include Makefile.common
+OBJS	= $(SRCS:.c=.o)
+
+all:	$(NAME)
+
+$(NAME):	$(OBJS)
+	$(CC) -o $(NAME) $(OBJS) $(CFLAGS)
+
+clean:
+	$(RM) $(OBJS)
+
+fclean:	clean
+	$(RM) $(NAME)
+
+re:	fclean all
+
+.PHONY:	all clean fclean re
