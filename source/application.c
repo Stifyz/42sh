@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "application.h"
+#include "lexer.h"
 #include "signals.h"
 #include "utils.h"
 
@@ -52,10 +53,25 @@ void		application_run(t_application *app)
     }
 }
 
+void	application_test_lexer(char *cmd)
+{
+  t_string_reader	reader;
+  t_token_list		list;
+
+  my_memset(&list, 0, sizeof(t_token_list));
+  reader.string = cmd;
+  reader.length = my_strlen(cmd);
+  reader.pos = 0;
+  lexer_fill_token_list(&reader, &list);
+  token_list_print(&list);
+  token_list_free(&list);
+}
+
 char	*application_run_command(t_application *app, char *cmd)
 {
   t_command	*tmp;
 
+  /* application_test_lexer(cmd); FIXME: TO REMOVE */
   cmd = my_epur_str(cmd);
   if (cmd[0] != '\0' && (cmd[0] != ' ' || cmd[1] != '\0'))
     {
