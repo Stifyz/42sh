@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:54:46 2016 Nicolas Zimmermann
-** Last update Wed May 11 16:50:44 2016 Nicolas Zimmermann
+** Last update Wed May 11 17:10:23 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -65,8 +65,5 @@ void		list_file(t_autocomp *autoc)
       closedir(dir[i]);
     }
   free(tmp[0]);
-  if (tmp[1])
-    tmp[1]->next = NULL;
-  else
-    autoc->head = NULL;
+  (tmp[1]) ? (tmp[1]->next = NULL) : (autoc->head = NULL);
 }
