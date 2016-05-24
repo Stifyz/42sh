@@ -5,7 +5,7 @@
 ## Login   <zimmer_n@epitech.net>
 ## 
 ## Started on  Fri Nov 13 15:25:22 2015 Nicolas Zimmermann
-## Last update Tue May 10 15:57:21 2016 Nicolas Zimmermann
+## Last update Tue May 24 17:38:38 2016 Nicolas Zimmermann
 ##
 
 CC	= gcc
@@ -13,15 +13,16 @@ CC	= gcc
 RM	= rm -f
 
 CFLAGS	+= -W -Wall -Werror -Wextra
-CFLAGS	+= -I. -I../lib/libmy/include
-CFLAGS	+= -L../lib/libmy -lmy
+CFLAGS	+= -I./include -I../lib/libmy/include -I../lib/libmy_printf/include
+CFLAGS	+= -L../lib/libmy -lmy -L../lib/libmy_printf -lmy_printf -lncurses
 
 NAME   	= autocomplete
 
 SRCS	= main.c \
-	file_list.c \
-	free_list.c \
-	show_list.c
+	list/file_list.c \
+	list/free_list.c \
+	list/show_list.c \
+	ncurse/OM42sh.c
 
 OBJS	= $(SRCS:.c=.o)
 
