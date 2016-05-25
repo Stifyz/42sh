@@ -30,18 +30,63 @@ t_err		application_init(t_application *app, char **env)
   return (0);
 }
 
+#include <asm-generic/ioctls.h>
+#include <stropts.h>
+#include <termios.h>
+#include <unistd.h>
+
+char			my_getch()
+{
+  struct termios	old_t;
+  struct termios	new_t;
+  char			c;
+
+  ioctl(0, TCGETS, &old_t);
+  new_t = old_t;
+  new_t.c_lflag &= ~(ECHO | ICANON);
+  ioctl(0, TCSETS, &new_t);
+  if (read(0, &c, 1) == 0)
+    return (-1);
+  ioctl(0, TCSETS, &old_t);
+  return (c);
+}
+
+char		*read_line()
+{
+  char		*line;
+  char		c;
+
+  line = NULL;
+  while ((c = my_getch()) != -1 && c != '\n' && c != '\r')
+    {
+      if (c == 127)
+	{
+	  line[my_strlen(line) - 1] = '\0';
+	  my_putstr("\b \b");
+	}
+      else
+	{
+	  line = my_strncatm(line, &c, 1);
+	  my_putchar(c);
+	}
+    }
+  my_putstr("\n");
+  return (line);
+}
+
 void		application_run(t_application *app)
 {
   char	*line;
+  int	first_invalid_char;
 
   while (app->is_running)
     {
       if (isatty(1))
 	my_putstr("> ");
-      if ((line = my_getline(0)) != NULL)
+      if ((line = read_line()) != NULL)
 	{
-	  if (!my_cmd_isvalid(line))
-	    print_error(ERROR_SYNTAX_ERROR);
+	  if ((first_invalid_char = my_cmd_isvalid(line)) != -1)
+	    print_error(ERROR_SYNTAX_ERROR, first_invalid_char);
 	  else
 	    line = application_run_command(app, line);
 	  free(line);

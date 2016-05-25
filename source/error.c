@@ -35,6 +35,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[16] = "Unexpected char at position %d";
   messages[17] = "Unexpected end of string";
   messages[18] = "Expected char '%c' at position %d";
+  messages[19] = "Curses init failed";
   messages[126] = "%s: Command not found";
 }
 

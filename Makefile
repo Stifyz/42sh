@@ -33,5 +33,7 @@ SOURCES		= source/application.c \
 
 MY_LIBS		= my_printf my
 
+LIBS_EXT	= ncurses
+
 include Makefile.libmy
 include Makefile.common
