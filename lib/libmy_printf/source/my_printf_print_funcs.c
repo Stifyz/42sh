@@ -16,7 +16,7 @@ int	my_printf_print_int(va_list *args, char specifier, int fd)
 {
   int	arg;
 
-  arg = va_arg(args, int);
+  arg = va_arg(*args, int);
   (void)specifier;
   return (my_printf_putlnbr_base(arg, "0123456789", fd));
 }
@@ -35,7 +35,7 @@ int	my_printf_print_uint(va_list *args, char specifier, int fd)
     base = "0123456789abcdef";
   else
     base = "0123456789ABCDEF";
-  return (my_printf_putulnbr_base(va_arg(args, unsigned int), base, fd));
+  return (my_printf_putulnbr_base(va_arg(*args, unsigned int), base, fd));
 }
 
 int	my_printf_print_chars(va_list *args, char specifier, int fd)
@@ -44,17 +44,17 @@ int	my_printf_print_chars(va_list *args, char specifier, int fd)
 
   if (specifier == 'c')
     {
-      my_printf_putchar(va_arg(args, int), fd);
+      my_printf_putchar(va_arg(*args, int), fd);
       return (1);
     }
   else if (specifier == 's')
     {
-      arg = va_arg(args, char *);
+      arg = va_arg(*args, char *);
       my_printf_putstr(arg, fd);
       return (my_strlen(arg));
     }
   else
-    return (my_printf_showstr_oct(va_arg(args, char *), fd));
+    return (my_printf_showstr_oct(va_arg(*args, char *), fd));
 }
 
 int	my_printf_print_addr(va_list *args, char specifier, int fd)
@@ -62,7 +62,7 @@ int	my_printf_print_addr(va_list *args, char specifier, int fd)
   void	*ptr;
 
   (void)specifier;
-  ptr = va_arg(args, void *);
+  ptr = va_arg(*args, void *);
   if (ptr != NULL)
     {
       my_putstr("0x");

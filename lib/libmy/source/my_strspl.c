@@ -32,7 +32,8 @@ char		**my_strspl(const char *str, bool keep_empty, char delim)
 	}
       ++tmp;
     }
-  array[i++] = my_strdup(str);
+  if (str && str[0])
+    array[i++] = my_strdup(str);
   array[i] = NULL;
   return (array);
 }
