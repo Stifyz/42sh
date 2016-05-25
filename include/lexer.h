@@ -4,52 +4,49 @@
 ** Made by Quentin Bazin
 ** Login   <bazin_q@epitech.net>
 ** 
-** Started on  Wed Apr 27 11:07:52 2016 Quentin Bazin
-** Last update Wed Apr 27 11:07:52 2016 Quentin Bazin
+** Started on  Sun May 22 14:43:42 2016 Quentin Bazin
+** Last update Sun May 22 14:43:42 2016 Quentin Bazin
 */
 #ifndef LEXER_H_
 # define LEXER_H_
 
-# include <stddef.h>
+# include <stdbool.h>
+# include "token.h"
 
-typedef enum		e_token_type
+typedef struct	s_string_reader
 {
-  TOKEN_COMMAND		= 0,
-  TOKEN_PARAMETER	= 1,
-  TOKEN_SEPARATOR	= 2,
-  TOKEN_LREDIR		= 3,
-  TOKEN_RREDIR		= 4,
-  TOKEN_DLREDIR		= 5,
-  TOKEN_DRREDIR		= 6,
-  TOKEN_AND		= 7,
-  TOKEN_OR		= 8
-}			t_token_type;
+  char		*string;
+  size_t	length;
+  size_t	pos;
+}		t_string_reader;
 
-typedef struct		s_token
+typedef enum	e_match_type
 {
-  size_t		begin;
-  size_t		end;
-  char			*str;
-  t_token_type		type;
-}			t_token;
+  MATCH_NONE,
+  MATCH_TOKEN,
+  MATCH_ERROR
+}		t_match_type;
 
-typedef enum		e_result_type
+typedef struct	s_match
 {
-  RESULT_TOKEN		= 0,
-  RESULT_ERROR		= 1,
-  RESULT_NULL		= 2
-}			t_result_type;
+  t_match_type	type;
+  t_token	token;
+}		t_match;
 
-typedef struct		s_result
-{
-  t_result_type		type;
-  t_token		token;
-}			t_result;
+typedef t_match (*t_match_func)(t_string_reader *, size_t);
 
-typedef struct		s_token_list
-{
-  t_token		token;
-  struct s_token_list	*next;
-}			t_token_list;
+/* lexer.c */
+t_err		lexer_fill_token_list(t_string_reader *reader, t_token_list *);
+
+/* lexer_match.c */
+t_match		lexer_match(t_string_reader *reader);
+
+/* lexer_utils.c */
+bool		lexer_is_name(char c);
+t_match		lexer_gen_empty_match();
+t_match		gen_match_from_token(t_string_reader	*reader,
+				     size_t		end,
+				     t_token_type	type,
+				     t_token_value	value);
 
 #endif /* !LEXER_H_ */

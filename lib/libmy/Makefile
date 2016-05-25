@@ -55,6 +55,7 @@ SRCS	+=	source/my_basename.c \
 			source/my_revstr.c \
 			source/my_strcapitalize.c \
 			source/my_strcat.c \
+			source/my_strcatm.c \
 			source/my_strchr.c \
 			source/my_strcnt.c \
 			source/my_strcmp.c \
@@ -64,7 +65,6 @@ SRCS	+=	source/my_basename.c \
 			source/my_strins.c \
 			source/my_strlcat.c \
 			source/my_strmatch.c \
-			source/my_strmcat.c \
 			source/my_strlen.c \
 			source/my_strlowcase.c \
 			source/my_strncat.c \

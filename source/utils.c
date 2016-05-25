@@ -41,13 +41,16 @@ int	my_is_valid(char c)
 
 int	my_cmd_isvalid(char *str)
 {
+  int	i;
+
+  i = 0;
   if (str == NULL)
     return (0);
-  while (*str != '\0')
+  while (str[i])
     {
-      if (!my_is_valid(*str))
-	return (0);
-      ++str;
+      if (!my_is_valid(str[i]))
+	return (i);
+      ++i;
     }
-  return (1);
+  return (-1);
 }

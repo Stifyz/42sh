@@ -23,10 +23,14 @@ SOURCES		= source/application.c \
 			  source/env.c \
 			  source/env_utils.c \
 			  source/error.c \
+			  source/lexer.c \
+			  source/lexer_match.c \
+			  source/lexer_utils.c \
 			  source/main.c \
 			  source/parser.c \
 			  source/redirection.c \
 			  source/signals.c \
+			  source/token.c \
 			  source/utils.c
 
 MY_LIBS		= my_printf my
