@@ -19,11 +19,11 @@ char	*my_strdel(char *str, int nb)
   if (nb > 0)
     {
       i = nb;
-      while (str[i] != '\0')
+      while (str[i])
 	{
 	  str[j] = str[i];
-	  j = j + 1;
-	  i = i + 1;
+	  ++j;
+	  ++i;
 	}
       str[j] = '\0';
     }
