@@ -26,7 +26,7 @@ bool	prompt_add_char(t_prompt *prompt, int ch)
 
 bool	prompt_remove_char(t_prompt *prompt, int ch)
 {
-  if (!prompt->line || !prompt->line[0] || prompt->pos < 1)
+  if (!prompt->line || !prompt->line[0] || (prompt->pos < 1 && ch == 127))
     return (false);
   if (ch == 127 || ch == prompt->keys[K_DEL])
     {
@@ -56,6 +56,18 @@ bool	prompt_move(t_prompt *prompt, int ch)
     {
       my_putchar(prompt->line[prompt->pos]);
       ++prompt->pos;
+      return (true);
+    }
+  else if (ch == prompt->keys[K_HOME])
+    {
+      my_putnchar('\b', prompt->pos);
+      prompt->pos = 0;
+      return (true);
+    }
+  else if (ch == prompt->keys[K_END])
+    {
+      my_putstr(prompt->line + prompt->pos);
+      prompt->pos = my_strlen(prompt->line);
       return (true);
     }
   return (false);

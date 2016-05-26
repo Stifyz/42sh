@@ -14,19 +14,26 @@
 #include "prompt.h"
 #include "utils.h"
 
+void	init_caps(char *caps[KEY_COUNT])
+{
+  caps[K_LEFT] = tigetstr("kcub1");
+  caps[K_RIGHT] = tigetstr("kcuf1");
+  caps[K_DEL] = tigetstr("kdch1");
+  caps[K_HOME] = tigetstr("khome");
+  caps[K_END] = tigetstr("kend");
+}
+
 t_err		prompt_init(t_prompt *prompt)
 {
   char		*caps[KEY_COUNT];
   int		i;
   int		j;
 
+  i = 0;
   prompt->str = "> ";
   if (setterm(NULL) != OK)
     return (print_error(ERROR_SETTERM_FAILED));
-  caps[K_LEFT] = tigetstr("kcub1");
-  caps[K_RIGHT] = tigetstr("kcuf1");
-  caps[K_DEL] = tigetstr("kdch1");
-  i = 0;
+  init_caps(caps);
   while (i < KEY_COUNT)
     {
       prompt->keys[i] = 0;
@@ -42,6 +49,8 @@ t_err		prompt_init(t_prompt *prompt)
   return (0);
 }
 
+/* #include <my_printf.h> */
+/*  */
 /* void	print_key(int key) */
 /* { */
 /*   char	*seq; */
