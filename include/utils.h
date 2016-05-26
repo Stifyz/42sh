@@ -12,5 +12,6 @@
 
 void	my_epur_array(char **array);
 int	my_cmd_isvalid(char *str);
+int	my_getch();
 
 #endif /* !UTILS_H_ */

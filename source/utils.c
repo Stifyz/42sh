@@ -8,8 +8,12 @@
 ** Last update Sat Jan 23 21:34:13 2016 Quentin Bazin
 */
 
+#include <asm-generic/ioctls.h>
 #include <my.h>
 #include <stdlib.h>
+#include <stropts.h>
+#include <termios.h>
+#include <unistd.h>
 #include "utils.h"
 
 void	my_epur_array(char **array)
@@ -53,4 +57,31 @@ int	my_cmd_isvalid(char *str)
       ++i;
     }
   return (-1);
+}
+
+int			my_getch()
+{
+  struct termios	old_t;
+  struct termios	new_t;
+  char			buf[101];
+  int			read_size;
+  int			ch;
+  int			i;
+
+  ioctl(0, TCGETS, &old_t);
+  new_t = old_t;
+  new_t.c_lflag &= ~(ECHO | ICANON);
+  ioctl(0, TCSETS, &new_t);
+  if ((read_size = read(0, buf, 100)) == 0)
+    return (-1);
+  buf[read_size] = '\0';
+  ioctl(0, TCSETS, &old_t);
+  ch = 0;
+  i = 0;
+  while (buf[i])
+    {
+      ch += i * 128 + buf[i];
+      ++i;
+    }
+  return (ch);
 }
