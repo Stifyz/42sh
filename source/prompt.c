@@ -25,6 +25,7 @@ t_err		prompt_init(t_prompt *prompt)
     return (print_error(ERROR_SETTERM_FAILED));
   caps[K_LEFT] = tigetstr("kcub1");
   caps[K_RIGHT] = tigetstr("kcuf1");
+  caps[K_DEL] = tigetstr("kdch1");
   i = 0;
   while (i < KEY_COUNT)
     {
@@ -32,13 +33,32 @@ t_err		prompt_init(t_prompt *prompt)
       j = 0;
       while (caps[i][j])
 	{
-	  prompt->keys[i] += 128 * j + caps[i][j];
+	  prompt->keys[i] <<= 7;
+	  prompt->keys[i] |= caps[i][j];
 	  ++j;
 	}
       ++i;
     }
   return (0);
 }
+
+/* void	print_key(int key) */
+/* { */
+/*   char	*seq; */
+/*   char	c; */
+/*   int	value; */
+/*  */
+/*   seq = NULL; */
+/*   value = key; */
+/*   while (key > 0) */
+/*     { */
+/*       c = key & 0x7F; */
+/*       seq = my_strncatm(seq, &c, 1); */
+/*       key >>= 7; */
+/*     } */
+/*   my_revstr(seq); */
+/*   my_printf("Key with value %d = '%S'\n", value, seq); */
+/* } */
 
 char			*prompt_read_line(t_prompt *prompt)
 {

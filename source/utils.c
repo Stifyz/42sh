@@ -80,7 +80,8 @@ int			my_getch()
   i = 0;
   while (buf[i])
     {
-      ch += i * 128 + buf[i];
+      ch <<= 7;
+      ch |= buf[i];
       ++i;
     }
   return (ch);
