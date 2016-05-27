@@ -59,8 +59,11 @@ int	my_cmd_isvalid(char *str)
   return (-1);
 }
 
-int			my_getch()
-{
+#include <errno.h>
+#include <my_printf.h>
+#include <string.h>
+
+int			my_getch_term() {
   struct termios	old_t;
   struct termios	new_t;
   char			buf[101];
@@ -85,4 +88,15 @@ int			my_getch()
       ++i;
     }
   return (ch);
+}
+
+int	my_getch()
+{
+  char	c;
+
+  if (isatty(0))
+    return (my_getch_term());
+  if (read(0, &c, 1) == 0)
+    return (-1);
+  return (c);
 }

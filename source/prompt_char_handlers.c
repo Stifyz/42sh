@@ -13,9 +13,9 @@
 
 bool	prompt_add_char(t_prompt *prompt, int ch)
 {
-  if (ch < 127 && ch != 4)
+  if (ch > 4 && ch < 127)
     {
-      my_strins(prompt->line, ch, prompt->pos);
+      prompt->line = my_strinsm(prompt->line, ch, prompt->pos);
       my_putstr(prompt->line + prompt->pos);
       my_putnchar('\b', my_strlen(prompt->line) - prompt->pos - 1);
       ++prompt->pos;

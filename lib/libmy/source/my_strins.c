@@ -8,9 +8,10 @@
 ** Last update Sat Oct 31 18:35:07 2015 Quentin Bazin
 */
 
+#include <stdlib.h>
 #include "my.h"
 
-char		*my_strins(char *str, char c, unsigned int pos)
+char	*my_strins(char *str, char c, unsigned int pos)
 {
   int	i;
 
@@ -18,14 +19,25 @@ char		*my_strins(char *str, char c, unsigned int pos)
   while (i >= 0)
     {
       if ((unsigned int)i > pos)
-	{
-	  str[i] = str[i - 1];
-	}
+	str[i] = str[i - 1];
       else if ((unsigned int)i == pos)
-	{
-	  str[i] = c;
-	}
-      i = i - 1;
+	str[i] = c;
+      --i;
     }
   return (str);
+}
+
+char		*my_strinsm(char *str, char c, unsigned int pos)
+{
+  unsigned int	length;
+  char		*new;
+
+  length = my_strlen(str);
+  if (!str || pos > length || !(new = malloc(length + 2)))
+    return (NULL);
+  my_strncpy(new, str, pos);
+  new[pos] = c;
+  my_strcpy(new + pos + 1, str + pos);
+  free(str);
+  return (new);
 }

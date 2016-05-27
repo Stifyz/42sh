@@ -9,15 +9,16 @@
 */
 
 #include <stdlib.h>
+#include "my.h"
 
 char	*my_strcpy(char *dest, char *src)
 {
   int	i;
 
   i = 0;
-  if (dest == NULL || src == NULL)
+  if (!dest || !src)
     return (NULL);
-  while (src[i] != '\0')
+  while (src[i])
     {
       dest[i] = src[i];
       ++i;

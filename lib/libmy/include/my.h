@@ -93,6 +93,7 @@ int		my_strdlen(const char *str, char delim);
 char		*my_strdup(const char *str);
 size_t		my_strichr(const char *str, char c);
 char		*my_strins(char *str, char c, unsigned int pos);
+char		*my_strinsm(char *str, char c, unsigned int pos);
 int		my_strlcat(char *dest, char *src, int size);
 int		my_strlen(const char *str);
 char		*my_strlowcase(char *str);
