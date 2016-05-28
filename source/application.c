@@ -39,7 +39,8 @@ void		application_run(t_application *app)
     {
       if (isatty(1))
 	my_putstr(app->prompt.str);
-      if ((line = prompt_read_line(&app->prompt)) != NULL)
+      if ((isatty(0) && (line = prompt_read_line(&app->prompt)) != NULL) ||
+	  (!isatty(0) && (line = my_getline(0))))
 	{
 	  if ((first_invalid_char = my_cmd_isvalid(line)) != -1)
 	    print_error(ERROR_SYNTAX_ERROR, first_invalid_char);

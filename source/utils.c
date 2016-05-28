@@ -59,10 +59,6 @@ int	my_cmd_isvalid(char *str)
   return (-1);
 }
 
-#include <errno.h>
-#include <my_printf.h>
-#include <string.h>
-
 int			my_getch_term() {
   struct termios	old_t;
   struct termios	new_t;
