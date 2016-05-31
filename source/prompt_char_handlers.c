@@ -13,7 +13,7 @@
 
 bool	prompt_add_char(t_prompt *prompt, int ch)
 {
-  if (ch > 4 && ch < 127)
+  if ((ch > 31 && ch < 127) || ch == '\t')
     {
       prompt->line = my_strinsm(prompt->line, ch, prompt->pos);
       my_putstr(prompt->line + prompt->pos);
@@ -28,9 +28,9 @@ bool	prompt_remove_char(t_prompt *prompt, int ch)
 {
   if (!prompt->line || !prompt->line[0] || (prompt->pos < 1 && ch == 127))
     return (false);
-  if (ch == 127 || ch == prompt->keys[K_DEL])
+  if (ch == prompt->keys[K_BACKSPACE] || ch == prompt->keys[K_DEL])
     {
-      if (ch == 127)
+      if (ch == prompt->keys[K_BACKSPACE])
 	{
 	  --prompt->pos;
 	  my_putchar('\b');

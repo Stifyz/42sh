@@ -18,10 +18,31 @@ void	init_caps(char *caps[KEY_COUNT])
 {
   caps[K_LEFT] = tigetstr("kcub1");
   caps[K_RIGHT] = tigetstr("kcuf1");
+  caps[K_BACKSPACE] = tigetstr("kbs");
   caps[K_DEL] = tigetstr("kdch1");
   caps[K_HOME] = tigetstr("khome");
   caps[K_END] = tigetstr("kend");
 }
+
+/* #include <my_printf.h> */
+/*  */
+/* void	print_key(int key) */
+/* { */
+/*   char	*seq; */
+/*   char	c; */
+/*   int	value; */
+/*  */
+/*   seq = NULL; */
+/*   value = key; */
+/*   while (key > 0) */
+/*     { */
+/*       c = key & 0x7F; */
+/*       seq = my_strncatm(seq, &c, 1); */
+/*       key >>= 7; */
+/*     } */
+/*   my_revstr(seq); */
+/*   my_printf("Key with value %d = '%S'\n", value, seq); */
+/* } */
 
 t_err		prompt_init(t_prompt *prompt)
 {
@@ -49,26 +70,6 @@ t_err		prompt_init(t_prompt *prompt)
   return (0);
 }
 
-/* #include <my_printf.h> */
-/*  */
-/* void	print_key(int key) */
-/* { */
-/*   char	*seq; */
-/*   char	c; */
-/*   int	value; */
-/*  */
-/*   seq = NULL; */
-/*   value = key; */
-/*   while (key > 0) */
-/*     { */
-/*       c = key & 0x7F; */
-/*       seq = my_strncatm(seq, &c, 1); */
-/*       key >>= 7; */
-/*     } */
-/*   my_revstr(seq); */
-/*   my_printf("Key with value %d = '%S'\n", value, seq); */
-/* } */
-
 char			*prompt_read_line(t_prompt *prompt)
 {
   t_prompt_char_handler	handlers[3];
@@ -81,6 +82,7 @@ char			*prompt_read_line(t_prompt *prompt)
   prompt_fill_char_handlers(handlers);
   while ((ch = my_getch()) != -1 && ch != '\n' && ch != '\r')
     {
+      /* print_key(ch); */
       if (ch == 4 && prompt->line && !prompt->line[0])
 	break;
       i = 0;
