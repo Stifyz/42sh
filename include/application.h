@@ -14,6 +14,7 @@
 # include "builtins.h"
 # include "env.h"
 # include "parser.h"
+# include "prompt.h"
 
 typedef struct	s_application
 {
@@ -23,6 +24,7 @@ typedef struct	s_application
   int		exit_code;
   bool		is_running;
   t_parser	parser;
+  t_prompt	prompt;
   t_builtin	builtins[BUILTINS_COUNT];
 }		t_application;
 

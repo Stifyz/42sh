@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Wed May 25 18:37:49 2016 Nicolas Zimmermann
-** Last update Wed May 25 20:46:32 2016 Nicolas Zimmermann
+** Last update Mon May 30 16:22:32 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -57,12 +57,14 @@ void		display_autocomplete(t_autocomp *autoc)
   aff.nb_cols = NB_COLS_MAX;
   while ((aff.nb_cols) && found_nb_colums(autoc, &aff) == -1)
     {
+      my_printf("nbcols : %d\n", aff.nb_cols);
       free(aff.max_len);
       aff.nb_cols--;
     }
   if (!aff.nb_cols)
     {
       write(2, "Cannot display, one of the arguments is too long for your term.\n", 64);
+      write(2, "Please, resize and try again\n", 29);
       free(aff.max_len);
       return ;
     }

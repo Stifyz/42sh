@@ -8,7 +8,7 @@
 ** Last update Tue Oct  6 10:56:34 2015 Quentin Bazin
 */
 
-int	my_strlen(char *str);
+#include "my.h"
 
 char	*my_strncpy(char *dest, char *src, int n)
 {
@@ -16,21 +16,15 @@ char	*my_strncpy(char *dest, char *src, int n)
 
   i = 0;
   if (!dest || !src)
-    {
-      return (0);
-    }
+    return (NULL);
   if (n < 1)
+    return (dest);
+  while (i < n && src[i])
     {
-      return (dest);
-    }
-  while (i < n && i < my_strlen(src))
-    {
-      dest[i] = src[i % my_strlen(src)];
-      i = i + 1;
+      dest[i] = src[i];
+      ++i;
     }
   if (n > my_strlen(src))
-    {
-      dest[i] = '\0';
-    }
+    dest[i] = '\0';
   return (dest);
 }

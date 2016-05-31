@@ -20,7 +20,7 @@ char	*my_epur_str(char *str)
 
   i = 0;
   tmp = str;
-  if (!(new = malloc(my_strlen(str) + 1)))
+  if (!str || !(new = malloc(my_strlen(str) + 1)))
     return (NULL);
   while (*tmp)
     {
@@ -32,8 +32,8 @@ char	*my_epur_str(char *str)
 	}
       if (space)
 	new[i++] = ' ';
-      new[i++] = *tmp;
-      ++tmp;
+      else
+	new[i++] = *(tmp++);
     }
   new[i] = '\0';
   free(str);

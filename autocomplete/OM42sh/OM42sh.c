@@ -5,12 +5,13 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 24 16:55:24 2016 Nicolas Zimmermann
-** Last update Wed May 25 18:37:30 2016 Nicolas Zimmermann
+** Last update Sat May 28 17:06:21 2016 Nicolas Zimmermann
 */
 
+#include <my.h>
+#include <my_printf.h>
 #include <unistd.h>
 #include "autocomplete.h"
-#include "my_printf.h"
 
 int	check_nb_elem(t_autocomp *autoc)
 {
@@ -21,8 +22,9 @@ int	check_nb_elem(t_autocomp *autoc)
       my_printf("Autocomplete found %d elements beggining by %s\n", autoc->nb_elem, autoc->buf);
       while (42)
 	{
-	  my_printf("Do you want to display all ? <y/n>\n");
+	  my_printf("Do you want to display all ? <y/n>");
 	  read(1, &c, 1);
+	  my_putchar('\n');
 	  if (c == 'y' || c == 'n')
 	    return ((c == 'y') ? 0 : 1);
 	}

@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:49:26 2016 Nicolas Zimmermann
-** Last update Wed May 25 19:31:27 2016 Nicolas Zimmermann
+** Last update Mon May 30 16:16:34 2016 Nicolas Zimmermann
 */
 
 #ifndef AUTOCOMPLETE_H_
@@ -16,12 +16,13 @@
 # include "pos.h"
 
 # define NB_PATHES 7
-# define MAX_ELEM_PRINTABLE 10
+# define MAX_ELEM_PRINTABLE 50
 # define NB_COLS_MAX 4
 
 typedef	struct	s_file
 {
   char		*file_name;
+  int		len;
   struct s_file	*next;
 }	       	t_file;
 

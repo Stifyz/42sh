@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:54:46 2016 Nicolas Zimmermann
-** Last update Wed May 11 17:10:23 2016 Nicolas Zimmermann
+** Last update Mon May 30 16:17:53 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -57,6 +57,7 @@ void		list_file(t_autocomp *autoc)
     {
       while ((tmp[0]->file_name = give_filename(dir[i], autoc->buf)))
 	{
+	  tmp[0]->len = my_strlen(tmp[0]->file_name);
 	  autoc->nb_elem++;
 	  tmp[0]->next = malloc(sizeof(t_file));
 	  tmp[1] = tmp[0];

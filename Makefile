@@ -28,12 +28,16 @@ SOURCES		= source/application.c \
 			  source/lexer_utils.c \
 			  source/main.c \
 			  source/parser.c \
+			  source/prompt.c \
+			  source/prompt_char_handlers.c \
 			  source/redirection.c \
 			  source/signals.c \
 			  source/token.c \
 			  source/utils.c
 
 MY_LIBS		= my_printf my
+
+LIBS_EXT	= ncurses
 
 include Makefile.libmy
 include Makefile.common

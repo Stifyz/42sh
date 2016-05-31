@@ -17,9 +17,9 @@ char	*my_strdup(const char *src)
   int	i;
 
   i = 0;
-  if (src == NULL || (cpy = malloc(my_strlen(src) + 1)) == NULL)
+  if (!src || !(cpy = malloc(my_strlen(src) + 1)))
     return (NULL);
-  while (i < my_strlen(src))
+  while (src[i])
     {
       cpy[i] = src[i];
       ++i;
@@ -34,7 +34,7 @@ char	*my_strndup(const char *src, int n)
   int	i;
 
   i = 0;
-  if (src == NULL || n < 0 || (cpy = malloc(n + 1)) == NULL)
+  if (!src || n < 0 || !(cpy = malloc(n + 1)))
     return (NULL);
   while (i < n)
     {

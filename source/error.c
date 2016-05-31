@@ -36,6 +36,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[17] = "Unexpected end of string";
   messages[18] = "Expected char '%c' at position %d";
   messages[19] = "Curses init failed";
+  messages[20] = "setterm failed";
   messages[126] = "%s: Command not found";
 }
 
@@ -52,7 +53,7 @@ t_err		print_error(t_err error, ...)
   if (error < 0)
     return (error);
   fill_error_messages(errors);
-  my_puterr("mysh: ");
+  my_puterr("42sh: ");
   va_start(args, error);
   my_vfprintf(2, errors[error - 1], &args);
   va_end(args);
