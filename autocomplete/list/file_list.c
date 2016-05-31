@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:54:46 2016 Nicolas Zimmermann
-** Last update Tue May 31 20:08:39 2016 Nicolas Zimmermann
+** Last update Tue May 31 20:14:27 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -44,7 +44,7 @@ char		*give_filename(DIR *dir, char *buff)
 t_file	*add_file_elem(t_autocomp *autoc, t_file *tmp)
 {
   tmp->len = my_strlen(tmp->file_name);
-  tmp->nb = autoc->nb_elem++;
+  autoc->nb_elem++;
   if (!(tmp->next = malloc(sizeof(t_file))))
     exit (0);
   tmp->next->prev = tmp;

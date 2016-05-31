@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:49:26 2016 Nicolas Zimmermann
-** Last update Tue May 31 19:59:42 2016 Nicolas Zimmermann
+** Last update Tue May 31 20:13:53 2016 Nicolas Zimmermann
 */
 
 #ifndef AUTOCOMPLETE_H_
@@ -23,7 +23,6 @@ typedef	struct	s_file
 {
   char		*file_name;
   int		len;
-  int		nb;
   struct s_file	*next;
   struct s_file *prev;
 }	       	t_file;
@@ -34,13 +33,6 @@ typedef struct 	s_autocomp
   char		*buf;
   t_file	*head;
 }      		t_autocomp;
-
-typedef struct	s_aff
-{
-  t_pos		max;
-  int		nb_lines;
-  int		*max_len;
-}		t_aff;
 
 void	autocomplete(char *buf);
 

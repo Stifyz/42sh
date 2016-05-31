@@ -5,26 +5,12 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 31 11:02:41 2016 Nicolas Zimmermann
-** Last update Tue May 31 19:01:00 2016 Nicolas Zimmermann
+** Last update Tue May 31 20:14:44 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
 #include <stdbool.h>
 #include "autocomplete.h"
-
-void		give_new_nb(t_autocomp *autoc)
-{
-  t_file	*tmp;
-  int		i;
-
-  i = 0;
-  tmp = autoc->head;
-  while (tmp)
-    {
-      tmp->nb = i++;
-      tmp = tmp->next;
-    }
-}
 
 void		sort_list(t_autocomp *autoc)
 {
@@ -51,5 +37,4 @@ void		sort_list(t_autocomp *autoc)
 	      tmp = tmp->next;
 	}
     }
-  give_new_nb(autoc);
 }
