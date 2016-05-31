@@ -9,7 +9,8 @@
 */
 
 #include <my.h>
-#include "prompt.h"
+#include "application.h"
+#include "autocomplete.h"
 
 bool	prompt_add_char(t_prompt *prompt, int ch)
 {
@@ -77,6 +78,7 @@ bool	prompt_autocomplete(t_prompt *prompt, int ch)
 {
   if (ch == prompt->keys[K_TAB])
     {
+      autocomplete(prompt->line, prompt->app->path);
       return (true);
     }
   return (false);
@@ -84,8 +86,8 @@ bool	prompt_autocomplete(t_prompt *prompt, int ch)
 
 void	prompt_fill_char_handlers(t_prompt_char_handler handlers[HANDLER_COUNT])
 {
-  handlers[0] = prompt_add_char;
-  handlers[1] = prompt_remove_char;
-  handlers[2] = prompt_move;
-  handlers[3] = prompt_autocomplete;
+  handlers[0] = prompt_autocomplete;
+  handlers[1] = prompt_add_char;
+  handlers[2] = prompt_remove_char;
+  handlers[3] = prompt_move;
 }

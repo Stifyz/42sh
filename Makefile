@@ -13,6 +13,15 @@ NAME		= 42sh
 INC_DIRS	= include
 
 SOURCES		= source/application.c \
+			  source/autocomplete/OM42sh.c \
+			  source/autocomplete/autocomplete.c \
+			  source/autocomplete/display_autocomplete.c \
+			  source/autocomplete/file_list.c \
+			  source/autocomplete/free_list.c \
+			  source/autocomplete/my_getmaxyx.c \
+			  source/autocomplete/rm_elem.c \
+			  source/autocomplete/sort_list.c \
+			  source/autocomplete/swap_elem.c \
 			  source/builtin_cd.c \
 			  source/builtin_env.c \
 			  source/builtins.c \

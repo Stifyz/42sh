@@ -13,8 +13,9 @@
 #include <stdlib.h>
 #include "autocomplete.h"
 
-void	init_dir(DIR **dir, char **pathes)
+DIR	**init_dir(char **pathes)
 {
+  DIR	**dir;
   int	i;
 
   i = -1;
@@ -26,6 +27,7 @@ void	init_dir(DIR **dir, char **pathes)
     dir[i] = opendir(pathes[i]);
   dir[i++] = opendir(".");
   dir[i] = NULL;
+  return (dir);
 }
 
 char		*give_filename(DIR *dir, char *buff)
@@ -60,7 +62,7 @@ void		list_file(t_autocomp *autoc, char **pathes)
     exit (0);
   autoc->head->prev = NULL;
   tmp = autoc->head;
-  init_dir(dir, pathes);
+  dir = init_dir(pathes);
   autoc->nb_elem = 0;
   i = -1;
   while (dir[++i])

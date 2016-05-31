@@ -73,6 +73,10 @@ build/%.o: source/%.c
 	@echo "=>" $<
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
+build/%.o: source/autocomplete/%.c
+	@echo "=>" $<
+	@$(CC) -c $< -o $@ $(CFLAGS)
+
 -include */*.d
 
 .PHONY: all clean fclean re run debug libs install_libs

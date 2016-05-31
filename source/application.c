@@ -29,7 +29,7 @@ t_err		application_init(t_application *app, char **env)
   app->is_running = true;
   if (isatty(1))
     my_putstr(tigetstr("smkx"));
-  return (prompt_init(&app->prompt));
+  return (prompt_init(&app->prompt, app));
 }
 
 void		application_run(t_application *app)

@@ -11,7 +11,7 @@
 #include <my.h>
 #include <ncurses.h>
 #include <stdlib.h>
-#include "prompt.h"
+#include "application.h"
 #include "utils.h"
 
 void	init_caps(char *caps[KEY_COUNT])
@@ -45,7 +45,7 @@ void	init_caps(char *caps[KEY_COUNT])
 /*   my_printf("Key with value %d = '%S'\n", value, seq); */
 /* } */
 
-t_err		prompt_init(t_prompt *prompt)
+t_err		prompt_init(t_prompt *prompt, t_application *app)
 {
   char		*caps[KEY_COUNT];
   int		i;
@@ -53,6 +53,7 @@ t_err		prompt_init(t_prompt *prompt)
 
   i = 0;
   prompt->str = "> ";
+  prompt->app = app;
   init_caps(caps);
   while (i < KEY_COUNT)
     {

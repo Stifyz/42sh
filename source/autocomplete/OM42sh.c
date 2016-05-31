@@ -19,7 +19,7 @@ int	check_nb_elem(t_autocomp *autoc)
 
   if (autoc->nb_elem > MAX_ELEM_PRINTABLE)
     {
-      my_printf("Autocomplete found %d elements beggining by %s\n",
+      my_printf("\nAutocomplete found %d elements beggining by %s\n",
 		autoc->nb_elem, autoc->buf);
       while (42)
 	{

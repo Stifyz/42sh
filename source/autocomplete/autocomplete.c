@@ -10,12 +10,12 @@
 
 #include "autocomplete.h"
 
-void		autocomplete(char *buf)
+void		autocomplete(char *buf, char **pathes)
 {
   t_autocomp	autoc;
 
   autoc.buf = buf;
-  list_file(&autoc);
+  list_file(&autoc, pathes);
   sort_list(&autoc);
   oh_my_42sh(&autoc);
   free_file_list(&autoc);

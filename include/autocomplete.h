@@ -20,14 +20,14 @@ typedef	struct	s_file
   int		len;
   struct s_file	*next;
   struct s_file *prev;
-}	       	t_file;
+}		t_file;
 
-typedef struct 	s_autocomp
+typedef struct	s_autocomp
 {
   int		nb_elem;
   char		*buf;
   t_file	*head;
-}      		t_autocomp;
+}		t_autocomp;
 
 void	autocomplete(char *buf, char **pathes);
 

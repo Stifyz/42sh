@@ -16,6 +16,8 @@
 # define HANDLER_COUNT 4
 # define KEY_COUNT 7
 
+struct s_application;
+
 typedef enum	e_key
 {
   K_LEFT,
@@ -27,18 +29,19 @@ typedef enum	e_key
   K_TAB
 }		t_key;
 
-typedef struct	s_prompt
+typedef struct		s_prompt
 {
-  int		keys[KEY_COUNT];
-  char		*str;
-  int		pos;
-  char		*line;
-}		t_prompt;
+  struct s_application	*app;
+  int			keys[KEY_COUNT];
+  char			*str;
+  int			pos;
+  char			*line;
+}			t_prompt;
 
 typedef bool (*t_prompt_char_handler)(t_prompt *, int);
 
 /* prompt.c */
-t_err	prompt_init(t_prompt *prompt);
+t_err	prompt_init(t_prompt *prompt, struct s_application *app);
 char	*prompt_read_line(t_prompt *prompt);
 
 /* prompt_char_handlers.c */
