@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 31 13:19:44 2016 Nicolas Zimmermann
-** Last update Tue May 31 14:13:39 2016 Nicolas Zimmermann
+** Last update Tue May 31 20:01:51 2016 Nicolas Zimmermann
 */
 
 #include <stdlib.h>
@@ -22,6 +22,6 @@ void	rm_elem(t_file *node, t_autocomp *autoc)
       if (node->prev)
 	node->prev->next = node->next;
       free(node->file_name);
-      free(node);	    
+      free(node);
     }
 }

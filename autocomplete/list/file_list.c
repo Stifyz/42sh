@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:54:46 2016 Nicolas Zimmermann
-** Last update Tue May 31 19:01:22 2016 Nicolas Zimmermann
+** Last update Tue May 31 20:08:39 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -24,7 +24,7 @@ void	init_dir(DIR *dir[NB_PATHES])
   dir[7] =  NULL;
 }
 
-/* 
+/*
 **   dir[7] = opendir("/home/$USR/bin");
 **   !need env!
 */
@@ -39,6 +39,16 @@ char		*give_filename(DIR *dir, char *buff)
 	return (my_strdup(s_dir->d_name));
     }
   return (NULL);
+}
+
+t_file	*add_file_elem(t_autocomp *autoc, t_file *tmp)
+{
+  tmp->len = my_strlen(tmp->file_name);
+  tmp->nb = autoc->nb_elem++;
+  if (!(tmp->next = malloc(sizeof(t_file))))
+    exit (0);
+  tmp->next->prev = tmp;
+  return (tmp->next);
 }
 
 void		list_file(t_autocomp *autoc)
@@ -57,24 +67,15 @@ void		list_file(t_autocomp *autoc)
   while (dir[++i])
     {
       while ((tmp->file_name = give_filename(dir[i], autoc->buf)))
-	{
-	  tmp->len = my_strlen(tmp->file_name);
-	  tmp->nb = autoc->nb_elem++;
-	  if (!(tmp->next = malloc(sizeof(t_file))))
-	    exit (0);
-	  tmp->next->prev = tmp;
-	  tmp = tmp->next;
-	}
+	tmp = add_file_elem(autoc, tmp);
       closedir(dir[i]);
     }
   if (tmp == autoc->head)
     {
       free(tmp);
       autoc->head = NULL;
+      return ;
     }
-  else
-    {
-      tmp->prev->next = NULL;
-      free(tmp);
-    }
+  tmp->prev->next = NULL;
+  free(tmp);
 }

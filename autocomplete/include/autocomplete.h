@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:49:26 2016 Nicolas Zimmermann
-** Last update Tue May 31 18:20:04 2016 Nicolas Zimmermann
+** Last update Tue May 31 19:59:42 2016 Nicolas Zimmermann
 */
 
 #ifndef AUTOCOMPLETE_H_
@@ -46,11 +46,9 @@ void	autocomplete(char *buf);
 
 void	list_file(t_autocomp *autoc);
 void	free_file_list(t_autocomp *autoc);
-void	show_file_list(t_autocomp *autoc);
 
 void	swap_elem(t_file *node1, t_file *node2);
 void	rm_elem(t_file *node, t_autocomp *autoc);
-t_file	*found_elem_n(t_autocomp *autoc, int n);
 
 void	sort_list(t_autocomp *autoc);
 

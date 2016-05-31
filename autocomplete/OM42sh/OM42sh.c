@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 24 16:55:24 2016 Nicolas Zimmermann
-** Last update Sat May 28 17:06:21 2016 Nicolas Zimmermann
+** Last update Tue May 31 20:01:16 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -19,7 +19,8 @@ int	check_nb_elem(t_autocomp *autoc)
 
   if (autoc->nb_elem > MAX_ELEM_PRINTABLE)
     {
-      my_printf("Autocomplete found %d elements beggining by %s\n", autoc->nb_elem, autoc->buf);
+      my_printf("Autocomplete found %d elements beggining by %s\n",
+		autoc->nb_elem, autoc->buf);
       while (42)
 	{
 	  my_printf("Do you want to display all ? <y/n>");

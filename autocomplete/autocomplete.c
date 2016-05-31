@@ -5,11 +5,10 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 31 12:13:15 2016 Nicolas Zimmermann
-** Last update Tue May 31 19:10:23 2016 Nicolas Zimmermann
+** Last update Tue May 31 20:00:52 2016 Nicolas Zimmermann
 */
 
 #include "autocomplete.h"
-#include <my_printf.h>
 
 void		autocomplete(char *buf)
 {
@@ -18,6 +17,6 @@ void		autocomplete(char *buf)
   autoc.buf = buf;
   list_file(&autoc);
   sort_list(&autoc);
-  display_autocomplete(&autoc);
+  oh_my_42sh(&autoc);
   free_file_list(&autoc);
 }

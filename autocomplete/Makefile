@@ -5,7 +5,7 @@
 ## Login   <zimmer_n@epitech.net>
 ## 
 ## Started on  Fri Nov 13 15:25:22 2015 Nicolas Zimmermann
-## Last update Tue May 31 18:19:45 2016 Nicolas Zimmermann
+## Last update Tue May 31 20:00:17 2016 Nicolas Zimmermann
 ##
 
 CC	= gcc
@@ -22,11 +22,9 @@ SRCS	= main.c \
 	autocomplete.c \
 	list/file_list.c \
 	list/free_list.c \
-	list/show_list.c \
 	list/swap_elem.c \
 	list/rm_elem.c \
 	list/sort_list.c \
-	list/found_elem_n.c \
 	termcaps/my_getmaxyx.c \
 	OM42sh/OM42sh.c \
 	OM42sh/display_autocomplete.c
