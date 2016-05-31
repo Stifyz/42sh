@@ -5,29 +5,28 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:54:46 2016 Nicolas Zimmermann
-** Last update Tue May 31 20:14:27 2016 Nicolas Zimmermann
+** Last update Tue May 31 22:10:30 2016 Nicolas Zimmermann
 */
 
+#include <dirent.h>
 #include <my.h>
 #include <stdlib.h>
 #include "autocomplete.h"
 
-void	init_dir(DIR *dir[NB_PATHES])
+void	init_dir(DIR **dir, char **pathes)
 {
-  dir[0] = opendir(".");
-  dir[1] = opendir("/bin");
-  dir[2] = opendir("/sbin");
-  dir[3] = opendir("/usr/bin");
-  dir[4] = opendir("/usr/sbin");
-  dir[5] = opendir("/usr/heimdal/bin");
-  dir[6] = opendir("/usr/heimdal/sbin");
-  dir[7] =  NULL;
-}
+  int	i;
 
-/*
-**   dir[7] = opendir("/home/$USR/bin");
-**   !need env!
-*/
+  i = -1;
+  while (pathes[++i]);
+  if (!(dir = malloc(sizeof(DIR *) * (i + 2))))
+    exit(0);
+  i = -1;
+  while (pathes[++i])
+    dir[i] = opendir(pathes[i]);
+  dir[i++] = opendir(".");
+  dir[i] = NULL;
+}
 
 char		*give_filename(DIR *dir, char *buff)
 {
@@ -51,17 +50,17 @@ t_file	*add_file_elem(t_autocomp *autoc, t_file *tmp)
   return (tmp->next);
 }
 
-void		list_file(t_autocomp *autoc)
+void		list_file(t_autocomp *autoc, char **pathes)
 {
   t_file	*tmp;
-  DIR		*dir[NB_PATHES];
+  DIR		**dir;
   int		i;
 
   if (!(autoc->head = malloc(sizeof(t_file))))
     exit (0);
   autoc->head->prev = NULL;
   tmp = autoc->head;
-  init_dir(dir);
+  init_dir(dir, pathes);
   autoc->nb_elem = 0;
   i = -1;
   while (dir[++i])
@@ -70,6 +69,7 @@ void		list_file(t_autocomp *autoc)
 	tmp = add_file_elem(autoc, tmp);
       closedir(dir[i]);
     }
+  free(dir);
   if (tmp == autoc->head)
     {
       free(tmp);
