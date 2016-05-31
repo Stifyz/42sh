@@ -13,12 +13,13 @@
 # include <stdbool.h>
 # include "error.h"
 
-# define KEY_COUNT 5
+# define KEY_COUNT 6
 
 typedef enum	e_key
 {
   K_LEFT,
   K_RIGHT,
+  K_BACKSPACE,
   K_DEL,
   K_HOME,
   K_END
