@@ -1,84 +1,55 @@
 /*
-** display_autocomplete.c for 42sh in /home/zimmer_n/rendu/PSU_2015_42sh/autocomplete/OM42sh
+** display_autocomplete.c for 42sh in /home/zimmer_n/rendu/PSU_2015_42sh/autocomplete
 ** 
 ** Made by Nicolas Zimmermann
 ** Login   <zimmer_n@epitech.net>
 ** 
-** Started on  Wed May 25 18:37:49 2016 Nicolas Zimmermann
-** Last update Mon May 30 16:22:32 2016 Nicolas Zimmermann
+** Started on  Tue May 31 10:41:30 2016 Nicolas Zimmermann
+** Last update Tue May 31 19:51:46 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
 #include <my_printf.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "autocomplete.h"
 
-int		found_nb_colums(t_autocomp *autoc, t_aff *aff)
+int		found_max_len(t_autocomp *autoc)
 {
+  int		max_len;
   t_file	*tmp;
-  int		i;
-  int		j;
-  int		k;
 
-  if (!(aff->max_len = malloc(sizeof(int) * (aff->nb_cols + 1))))
-    exit (0);
-  i = -1;
-  while (++i < aff->nb_cols)
-    aff->max_len[i] = 0;
   tmp = autoc->head;
-  my_getmaxyx(&aff->max);
-  i = -1;
-  while (++i < aff->nb_cols)
+  max_len = 0;
+  while (tmp)
     {
-      j = -1;
-      while (++j < autoc->nb_elem / aff->nb_cols)
-	{
-	  if (my_strlen(tmp->file_name) > aff->max_len[i])
-	    aff->max_len[i] = my_strlen(tmp->file_name);
-	  tmp = tmp->next;
-	}
-      aff->max_len[aff->nb_cols] = 0;
-      k = -1;
-      while (++k < aff->nb_cols)
-	aff->max_len[aff->nb_cols] += aff->max_len[k];
-      if (aff->max_len[aff->nb_cols] > aff->max.x)
-	return (-1);
+      max_len = (tmp->len > max_len) ? tmp->len : max_len;
+      tmp = tmp->next;
     }
-  return (0);
+  return (max_len);
 }
 
 void		display_autocomplete(t_autocomp *autoc)
 {
-  t_aff		aff;
-  t_pos		pos;
+  t_file	*tmp;
+  int		max_cols;
+  int		max_len;
   int		i;
+  int		cnt;
 
-  aff.nb_cols = NB_COLS_MAX;
-  while ((aff.nb_cols) && found_nb_colums(autoc, &aff) == -1)
+  my_getmaxyx(&max_cols, NULL);
+  max_len = found_max_len(autoc) + 2;
+  tmp = autoc->head;
+  while (tmp)
     {
-      my_printf("nbcols : %d\n", aff.nb_cols);
-      free(aff.max_len);
-      aff.nb_cols--;
-    }
-  if (!aff.nb_cols)
-    {
-      write(2, "Cannot display, one of the arguments is too long for your term.\n", 64);
-      write(2, "Please, resize and try again\n", 29);
-      free(aff.max_len);
-      return ;
-    }
-  pos.y = -1;
-  while (++pos.y < autoc->nb_elem / aff.nb_cols)
-    {
-      pos.x = -1;
-      while (++pos.x < aff.nb_cols)
+      i = 0;
+      while (1)
 	{
-	  i = my_printf("%s", get_elem_nb(autoc, (autoc->nb_elem / aff.nb_cols * pos.y + pos.x))->file_name);
-	  while (i++ < aff.max_len[pos.x])
+	  cnt = my_printf("%s", tmp->file_name);
+	  tmp = tmp->next;
+	  if (!tmp || i++ >= (max_cols / max_len - 1))
+	    break ;
+	  while (cnt++ < max_len)
 	    my_putchar(' ');
 	}
+      my_putchar('\n');
     }
-  free(aff.max_len);
-  my_putstr("----------------------");
 }

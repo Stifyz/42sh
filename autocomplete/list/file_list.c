@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:54:46 2016 Nicolas Zimmermann
-** Last update Mon May 30 16:17:53 2016 Nicolas Zimmermann
+** Last update Tue May 31 19:01:22 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -43,28 +43,38 @@ char		*give_filename(DIR *dir, char *buff)
 
 void		list_file(t_autocomp *autoc)
 {
-  t_file	*tmp[2];
+  t_file	*tmp;
   DIR		*dir[NB_PATHES];
   int		i;
 
-  autoc->head = malloc(sizeof(t_file));
-  tmp[0] = autoc->head;
-  tmp[1] = NULL;
+  if (!(autoc->head = malloc(sizeof(t_file))))
+    exit (0);
+  autoc->head->prev = NULL;
+  tmp = autoc->head;
   init_dir(dir);
   autoc->nb_elem = 0;
   i = -1;
   while (dir[++i])
     {
-      while ((tmp[0]->file_name = give_filename(dir[i], autoc->buf)))
+      while ((tmp->file_name = give_filename(dir[i], autoc->buf)))
 	{
-	  tmp[0]->len = my_strlen(tmp[0]->file_name);
-	  autoc->nb_elem++;
-	  tmp[0]->next = malloc(sizeof(t_file));
-	  tmp[1] = tmp[0];
-	  tmp[0] = tmp[0]->next;
+	  tmp->len = my_strlen(tmp->file_name);
+	  tmp->nb = autoc->nb_elem++;
+	  if (!(tmp->next = malloc(sizeof(t_file))))
+	    exit (0);
+	  tmp->next->prev = tmp;
+	  tmp = tmp->next;
 	}
       closedir(dir[i]);
     }
-  free(tmp[0]);
-  (tmp[1]) ? (tmp[1]->next = NULL) : (autoc->head = NULL);
+  if (tmp == autoc->head)
+    {
+      free(tmp);
+      autoc->head = NULL;
+    }
+  else
+    {
+      tmp->prev->next = NULL;
+      free(tmp);
+    }
 }

@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 15:41:40 2016 Nicolas Zimmermann
-** Last update Tue May 10 17:05:22 2016 Nicolas Zimmermann
+** Last update Tue May 31 12:06:35 2016 Nicolas Zimmermann
 */
 
 #include <stdlib.h>
@@ -19,6 +19,7 @@ void		free_file_list(t_autocomp *autoc)
   while (tmp[0])
     {
       tmp[1] = tmp[0]->next;
+      free(tmp[0]->file_name);
       free(tmp[0]);
       tmp[0] = tmp[1];
     }
