@@ -13,7 +13,7 @@
 # include <stdbool.h>
 # include "error.h"
 
-# define KEY_COUNT 6
+# define KEY_COUNT 7
 
 typedef enum	e_key
 {
@@ -22,7 +22,8 @@ typedef enum	e_key
   K_BACKSPACE,
   K_DEL,
   K_HOME,
-  K_END
+  K_END,
+  K_TAB
 }		t_key;
 
 typedef struct	s_prompt

@@ -27,7 +27,8 @@ t_err		application_init(t_application *app, char **env)
   builtin_init_array(app);
   my_memset(&app->parser, 0, sizeof(t_parser));
   app->is_running = true;
-  my_putstr(tigetstr("smkx"));
+  if (isatty(1))
+    my_putstr(tigetstr("smkx"));
   return (prompt_init(&app->prompt));
 }
 
@@ -97,5 +98,6 @@ void		application_free(t_application *app)
   env_free(app->env);
   my_free_str_array(app->path);
   free(app->cd_history);
-  my_putstr(tigetstr("rmkx"));
+  if (isatty(1))
+    my_putstr(tigetstr("rmkx"));
 }

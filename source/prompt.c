@@ -22,6 +22,7 @@ void	init_caps(char *caps[KEY_COUNT])
   caps[K_DEL] = tigetstr("kdch1");
   caps[K_HOME] = tigetstr("khome");
   caps[K_END] = tigetstr("kend");
+  caps[K_TAB] = tigetstr("ht");
 }
 
 /* #include <my_printf.h> */
