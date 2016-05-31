@@ -8,18 +8,18 @@
 ** Last update Fri Mar 25 16:58:29 2016 Quentin Bazin
 */
 
+#include <ncurses.h>
 #include <my.h>
-#include <my_printf.h>
-#include <stdlib.h>
+#include <term.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include "application.h"
 #include "lexer.h"
-#include "signals.h"
 #include "utils.h"
 
 t_err		application_init(t_application *app, char **env)
 {
+  if (setterm(NULL) != OK)
+    return (print_error(ERROR_SETTERM_FAILED));
   my_memset(app, 0, sizeof(t_application));
   if (!(app->env = env_init(env)) ||
       !(app->path = my_str_to_array(my_getenv(app->env, "PATH"), ":")))
@@ -27,6 +27,7 @@ t_err		application_init(t_application *app, char **env)
   builtin_init_array(app);
   my_memset(&app->parser, 0, sizeof(t_parser));
   app->is_running = true;
+  my_putstr(tigetstr("smkx"));
   return (prompt_init(&app->prompt));
 }
 
@@ -96,4 +97,5 @@ void		application_free(t_application *app)
   env_free(app->env);
   my_free_str_array(app->path);
   free(app->cd_history);
+  my_putstr(tigetstr("rmkx"));
 }
