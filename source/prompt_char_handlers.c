@@ -13,7 +13,7 @@
 
 bool	prompt_add_char(t_prompt *prompt, int ch)
 {
-  if ((ch > 31 && ch < 127) || ch == '\t')
+  if (ch > 31 && ch < 127)
     {
       prompt->line = my_strinsm(prompt->line, ch, prompt->pos);
       my_putstr(prompt->line + prompt->pos);
@@ -73,9 +73,19 @@ bool	prompt_move(t_prompt *prompt, int ch)
   return (false);
 }
 
-void	prompt_fill_char_handlers(t_prompt_char_handler handlers[3])
+bool	prompt_autocomplete(t_prompt *prompt, int ch)
+{
+  if (ch == prompt->keys[K_TAB])
+    {
+      return (true);
+    }
+  return (false);
+}
+
+void	prompt_fill_char_handlers(t_prompt_char_handler handlers[HANDLER_COUNT])
 {
   handlers[0] = prompt_add_char;
   handlers[1] = prompt_remove_char;
   handlers[2] = prompt_move;
+  handlers[3] = prompt_autocomplete;
 }

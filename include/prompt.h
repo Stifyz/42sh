@@ -13,6 +13,7 @@
 # include <stdbool.h>
 # include "error.h"
 
+# define HANDLER_COUNT 4
 # define KEY_COUNT 7
 
 typedef enum	e_key
@@ -41,6 +42,6 @@ t_err	prompt_init(t_prompt *prompt);
 char	*prompt_read_line(t_prompt *prompt);
 
 /* prompt_char_handlers.c */
-void	prompt_fill_char_handlers(t_prompt_char_handler handlers[3]);
+void	prompt_fill_char_handlers(t_prompt_char_handler[HANDLER_COUNT]);
 
 #endif /* !PROMPT_H_ */

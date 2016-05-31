@@ -71,7 +71,7 @@ t_err		prompt_init(t_prompt *prompt)
 
 char			*prompt_read_line(t_prompt *prompt)
 {
-  t_prompt_char_handler	handlers[3];
+  t_prompt_char_handler	handlers[HANDLER_COUNT];
   bool			char_handled;
   int			ch;
   int			i;
