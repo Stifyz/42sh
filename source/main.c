@@ -10,6 +10,10 @@
 
 #include "application.h"
 
+#include <my.h>
+#include <ncurses.h>
+#include <term.h>
+
 int		main(int argc, char **argv, char **env)
 {
   t_application	app;

@@ -52,8 +52,6 @@ t_err		prompt_init(t_prompt *prompt)
 
   i = 0;
   prompt->str = "> ";
-  if (setterm(NULL) != OK)
-    return (print_error(ERROR_SETTERM_FAILED));
   init_caps(caps);
   while (i < KEY_COUNT)
     {
