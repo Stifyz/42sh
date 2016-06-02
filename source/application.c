@@ -33,7 +33,7 @@ t_err		application_init(t_application *app, char **env)
   builtin_init_array(app);
   /* my_memset(&app->parser, 0, sizeof(t_parser)); #<{(| FIXME: Is it needed? |)}># */
   app->is_running = true;
-  if (isatty(1))
+  if (isatty(0) && isatty(1))
     my_putstr(tigetstr("smkx"));
   return (prompt_init(&app->prompt, app));
 }
@@ -45,7 +45,7 @@ void		application_run(t_application *app)
 
   while (app->is_running)
     {
-      if (isatty(1))
+      if (isatty(0) && isatty(1))
 	my_putstr(app->prompt.str);
       if ((isatty(0) && (line = prompt_read_line(&app->prompt)) != NULL) ||
 	  (!isatty(0) && (line = my_getline(0))))
@@ -58,7 +58,7 @@ void		application_run(t_application *app)
 	}
       else
 	app->is_running = false;
-      if (!app->is_running && isatty(1))
+      if (!app->is_running && isatty(0) && isatty(1))
 	my_putstr("exit\n");
     }
 }
@@ -106,6 +106,6 @@ void		application_free(t_application *app)
   env_free(app->env);
   my_free_str_array(app->path);
   free(app->cd_history);
-  if (isatty(1))
+  if (isatty(0) && isatty(1))
     my_putstr(tigetstr("rmkx"));
 }
