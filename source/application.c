@@ -81,7 +81,7 @@ char	*application_run_command(t_application *app, char *cmd)
 {
   t_command	*tmp;
 
-  /* application_test_lexer(cmd); FIXME: TO REMOVE */
+  /* application_test_lexer(cmd); #<{(| FIXME: TO REMOVE |)}># */
   cmd = my_epur_str(cmd);
   if (cmd[0] != '\0' && (cmd[0] != ' ' || cmd[1] != '\0'))
     {

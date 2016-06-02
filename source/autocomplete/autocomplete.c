@@ -19,8 +19,12 @@ int		autocomplete(t_prompt *prompt)
   t_autocomp	autoc;
   int		cnt;
 
+  if (my_strcnt(prompt->line, ' ') == my_strlen(prompt->line))
+    return (0);
   autoc.buf = prompt->line;
   list_file(&autoc, prompt->app->path);
+  if (!autoc.head)
+    return (0);
   sort_list(&autoc);
   if (autoc.head && !autoc.head->next)
     {

@@ -44,6 +44,8 @@ typedef bool (*t_prompt_char_handler)(t_prompt *, int);
 t_err	prompt_init(t_prompt *prompt, struct s_application *app);
 char	*prompt_read_line(t_prompt *prompt);
 
+void	print_key(int key); /* FIXME: DEBUG, TO REMOVE */
+
 /* prompt_char_handlers.c */
 void	prompt_fill_char_handlers(t_prompt_char_handler[HANDLER_COUNT]);
 

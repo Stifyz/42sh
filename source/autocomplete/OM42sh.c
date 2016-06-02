@@ -16,19 +16,12 @@
 
 int	check_nb_elem(t_autocomp *autoc)
 {
-  char	c;
-
   if (autoc->nb_elem > MAX_ELEM_PRINTABLE)
     {
       my_printf("\nAutocomplete found %d elements beggining by \"%s\"\n",
 		autoc->nb_elem, autoc->buf);
-      my_printf("Do you want to display all ? <y/n>");
-      while (42)
-	{
-	  c = my_getch();
-	  if (c == 'y' || c == 'n')
-	    return ((c == 'y') ? 0 : 1);
-        }
+      my_printf("Do you want to display all of them? [y/N]");
+      return ((my_getch() == 'y') ? 0 : 1);
     }
   return (0);
 }

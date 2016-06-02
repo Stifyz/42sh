@@ -25,25 +25,25 @@ void	init_caps(char *caps[KEY_COUNT])
   caps[K_TAB] = tigetstr("ht");
 }
 
-/* #include <my_printf.h> */
-/*  */
-/* void	print_key(int key) */
-/* { */
-/*   char	*seq; */
-/*   char	c; */
-/*   int	value; */
-/*  */
-/*   seq = NULL; */
-/*   value = key; */
-/*   while (key > 0) */
-/*     { */
-/*       c = key & 0x7F; */
-/*       seq = my_strncatm(seq, &c, 1); */
-/*       key >>= 7; */
-/*     } */
-/*   my_revstr(seq); */
-/*   my_printf("Key with value %d = '%S'\n", value, seq); */
-/* } */
+#include <my_printf.h>
+
+void	print_key(int key)
+{
+  char	*seq;
+  char	c;
+  int	value;
+
+  seq = NULL;
+  value = key;
+  while (key > 0)
+    {
+      c = key & 0x7F;
+      seq = my_strncatm(seq, &c, 1);
+      key >>= 7;
+    }
+  my_revstr(seq);
+  my_printf("Key with value %d = '%S'\n", value, seq);
+}
 
 t_err		prompt_init(t_prompt *prompt, t_application *app)
 {
