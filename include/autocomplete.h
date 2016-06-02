@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:49:26 2016 Nicolas Zimmermann
-** Last update Tue May 31 22:09:07 2016 Nicolas Zimmermann
+** Last update Thu Jun  2 17:20:47 2016 Nicolas Zimmermann
 */
 
 #ifndef AUTOCOMPLETE_H_
@@ -13,6 +13,8 @@
 
 # define MAX_ELEM_PRINTABLE 50
 # define MARGE 3
+
+# include "prompt.h"
 
 typedef	struct	s_file
 {
@@ -29,7 +31,7 @@ typedef struct	s_autocomp
   t_file	*head;
 }		t_autocomp;
 
-void	autocomplete(char *buf, char **pathes);
+int	autocomplete(t_prompt *prompt);
 
 void	list_file(t_autocomp *autoc, char **pathes);
 void	free_file_list(t_autocomp *autoc);

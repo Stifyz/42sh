@@ -5,11 +5,10 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Wed May 25 18:57:55 2016 Nicolas Zimmermann
-** Last update Tue May 31 16:22:24 2016 Nicolas Zimmermann
+** Last update Thu Jun  2 16:07:19 2016 Nicolas Zimmermann
 */
 
 #include <sys/ioctl.h>
-#include "pos.h"
 
 void			my_getmaxyx(int *y, int *x)
 {

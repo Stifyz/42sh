@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sat Jan 23 21:34:13 2016 Quentin Bazin
-** Last update Sat Jan 23 21:34:13 2016 Quentin Bazin
+** Last update Thu Jun  2 16:55:46 2016 Nicolas Zimmermann
 */
 
 #include <asm-generic/ioctls.h>
@@ -59,7 +59,8 @@ int	my_cmd_isvalid(char *str)
   return (-1);
 }
 
-int			my_getch_term() {
+int			my_getch_term() 
+{
   struct termios	old_t;
   struct termios	new_t;
   char			buf[101];

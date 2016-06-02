@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Thu May 26 15:48:21 2016 Quentin Bazin
-** Last update Thu May 26 15:48:21 2016 Quentin Bazin
+** Last update Thu Jun  2 19:00:18 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -76,9 +76,13 @@ bool	prompt_move(t_prompt *prompt, int ch)
 
 bool	prompt_autocomplete(t_prompt *prompt, int ch)
 {
+  int	cnt;
+
   if (ch == prompt->keys[K_TAB])
     {
-      autocomplete(prompt->line, prompt->app->path);
+      cnt = autocomplete(prompt);
+      while (cnt--)
+	prompt_move(prompt, prompt->keys[K_RIGHT]);
       return (true);
     }
   return (false);

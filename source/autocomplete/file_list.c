@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:54:46 2016 Nicolas Zimmermann
-** Last update Tue May 31 22:10:30 2016 Nicolas Zimmermann
+** Last update Thu Jun  2 18:10:58 2016 Nicolas Zimmermann
 */
 
 #include <dirent.h>
@@ -17,14 +17,17 @@ DIR	**init_dir(char **pathes)
 {
   DIR	**dir;
   int	i;
+  int	j;
 
   i = -1;
   while (pathes[++i]);
   if (!(dir = malloc(sizeof(DIR *) * (i + 2))))
     exit(0);
-  i = -1;
-  while (pathes[++i])
-    dir[i] = opendir(pathes[i]);
+  i = 0;
+  j = -1;
+  while (pathes[++j])
+    if ((dir[i] = opendir(pathes[j])))
+      i++;
   dir[i++] = opendir(".");
   dir[i] = NULL;
   return (dir);
@@ -65,7 +68,7 @@ void		list_file(t_autocomp *autoc, char **pathes)
   dir = init_dir(pathes);
   autoc->nb_elem = 0;
   i = -1;
-  while (dir[++i])
+  while (dir[++i] != NULL)
     {
       while ((tmp->file_name = give_filename(dir[i], autoc->buf)))
 	tmp = add_file_elem(autoc, tmp);

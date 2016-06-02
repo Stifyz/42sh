@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 31 10:41:30 2016 Nicolas Zimmermann
-** Last update Tue May 31 19:51:46 2016 Nicolas Zimmermann
+** Last update Thu Jun  2 17:56:59 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -35,6 +35,7 @@ void		display_autocomplete(t_autocomp *autoc)
   int		i;
   int		cnt;
 
+  my_putchar('\n');
   my_getmaxyx(&max_cols, NULL);
   max_len = found_max_len(autoc) + 2;
   tmp = autoc->head;

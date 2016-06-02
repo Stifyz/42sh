@@ -5,12 +5,27 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 31 11:02:41 2016 Nicolas Zimmermann
-** Last update Tue May 31 20:14:44 2016 Nicolas Zimmermann
+** Last update Thu Jun  2 16:05:34 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
 #include <stdbool.h>
 #include "autocomplete.h"
+
+static int		count_elem(t_autocomp *autoc)
+{
+  int		i;
+  t_file	*tmp;
+
+  i = 0;
+  tmp = autoc->head;
+  while (tmp)
+    {
+      i++;
+      tmp =tmp->next;
+    }
+  return (i);
+}
 
 void		sort_list(t_autocomp *autoc)
 {
@@ -36,5 +51,6 @@ void		sort_list(t_autocomp *autoc)
 	    else
 	      tmp = tmp->next;
 	}
+      autoc->nb_elem = count_elem(autoc);
     }
 }
