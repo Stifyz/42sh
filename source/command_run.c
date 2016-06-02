@@ -19,9 +19,9 @@
 t_err	command_run(t_command *command, t_application *app)
 {
   pid_t	fork_pid;
-  int	status;
   char	**env;
 
+  app->exit_code = 0;
   if (!command->argv[0])
     return (print_error(ERROR_INVALID_NULL_COMMAND));
   redirection_check(command->input);
@@ -37,8 +37,7 @@ t_err	command_run(t_command *command, t_application *app)
 	  command_run(command->piped_command, app);
 	  command_close_pipes(command);
 	}
-      if (wait(&status) != -1)
-	signals_check_status(status);
+      signals_check_status(app);
       my_free_str_array(env);
     }
   return (0);

@@ -87,7 +87,8 @@ char	*env_get_prog_path(char **env_path, char *prog_name)
   i = 0;
   if (!prog_name)
     return (NULL);
-  if (*prog_name == '/' || my_strstr(prog_name, "./") == prog_name)
+  if (*prog_name == '/' || my_strstr(prog_name, "./") == prog_name
+      || access(prog_name, R_OK | X_OK) == 0)
     return (my_strdup(prog_name));
   while (env_path && env_path[i])
     {

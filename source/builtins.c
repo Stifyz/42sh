@@ -36,7 +36,8 @@ int	builtin_run(t_application *app, char **argv)
       argc = 0;
       while (argv[argc] != NULL)
 	++argc;
-      app->builtins[id].func(app, argc, argv);
+      if (app->builtins[id].func(app, argc, argv))
+	app->exit_code = 1;
       return (1);
     }
   return (0);

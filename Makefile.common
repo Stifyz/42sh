@@ -69,6 +69,9 @@ install_libs: fclean
 		echo "OK."; \
 		done;
 
+test:
+	@LC_ALL=C ./moul.sh
+
 build/%.o: source/%.c
 	@echo "=>" $<
 	@$(CC) -c $< -o $@ $(CFLAGS)
@@ -79,4 +82,4 @@ build/%.o: source/autocomplete/%.c
 
 -include */*.d
 
-.PHONY: all clean fclean re run debug libs install_libs
+.PHONY: all clean fclean re run debug libs install_libs test

@@ -20,7 +20,7 @@ int		my_printf_print_format(const char	*format,
   int		j;
 
   j = 0;
-  if (!my_char_in_str("dibuoxXcsSp", format[i]))
+  if (!my_char_in_str("dibuoxXcsSpe", format[i]))
     {
       my_putchar('%');
       my_putchar(format[i]);
@@ -45,6 +45,8 @@ void	my_printf_fill_formats(t_my_formats *formats)
   formats->formats[2].print_func = &my_printf_print_chars;
   formats->formats[3].specifiers = "p";
   formats->formats[3].print_func = &my_printf_print_addr;
+  formats->formats[4].specifiers = "e";
+  formats->formats[4].print_func = &my_printf_print_errno;
 }
 
 int		my_vfprintf(int fd, const char *format, va_list *args)

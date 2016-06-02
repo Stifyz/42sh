@@ -8,7 +8,9 @@
 ** Last update Sun Nov 29 19:23:54 2015 Quentin Bazin
 */
 
+#include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 #include "my.h"
 #include "my_printf.h"
 
@@ -74,4 +76,15 @@ int	my_printf_print_addr(va_list *args, char specifier, int fd)
       my_putstr("(nil)");
       return (5);
     }
+}
+
+int	my_printf_print_errno(va_list *args, char specifier, int fd)
+{
+  char	*error_str;
+
+  (void)args;
+  (void)specifier;
+  error_str = strerror(errno);
+  my_printf_putstr(error_str, fd);
+  return (my_strlen(error_str));
 }

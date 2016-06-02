@@ -10,6 +10,8 @@
 #ifndef SIGNALS_H_
 # define SIGNALS_H_
 
-void	signals_check_status(int status);
+# include "application.h"
+
+void	signals_check_status(t_application *app);
 
 #endif /* !SIGNALS_H_ */

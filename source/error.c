@@ -22,7 +22,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[3] = "%s: Too few arguments";
   messages[4] = "%s: Too many arguments";
   messages[5] = "%s: Argument must be a positive integer";
-  messages[6] = "%s: %s: Unable to open directory";
+  messages[6] = "%s: %e.";
   messages[7] = "%s: End of history";
   messages[8] = "%s: Variable name must contain alphanumeric characters only";
   messages[9] = "Error: Fork failed";
@@ -37,7 +37,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[18] = "Expected char '%c' at position %d";
   messages[19] = "Curses init failed";
   messages[20] = "setterm failed";
-  messages[126] = "%s: Command not found";
+  messages[126] = "%s: Command not found.";
 }
 
 void	print_usage(char *program_name)
@@ -53,7 +53,7 @@ t_err		print_error(t_err error, ...)
   if (error < 0)
     return (error);
   fill_error_messages(errors);
-  my_puterr("42sh: ");
+  /* my_puterr("42sh: "); */
   va_start(args, error);
   my_vfprintf(2, errors[error - 1], &args);
   va_end(args);

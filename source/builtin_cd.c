@@ -18,7 +18,7 @@ t_err	builtin_cd_change_dir(t_application *app, char *new_cwd)
 {
   app->cd_history = my_strdup(my_getenv(app->env, "PWD"));
   if (chdir(new_cwd) == -1)
-    return (print_error(ERROR_UNABLE_TO_OPEN_DIRECTORY, "cd", new_cwd));
+    return (print_error(ERROR_UNABLE_TO_OPEN_DIRECTORY, new_cwd));
   if ((new_cwd = malloc(PATH_MAX + 1)) == NULL)
     return (print_error(ERROR_MALLOC_FAILED));
   getcwd(new_cwd, PATH_MAX);

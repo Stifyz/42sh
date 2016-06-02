@@ -65,6 +65,7 @@ t_err		prompt_init(t_prompt *prompt, t_application *app)
 	  prompt->keys[i] |= caps[i][j];
 	  ++j;
 	}
+      /* print_key(prompt->keys[i]); */
       ++i;
     }
   return (0);
@@ -87,7 +88,7 @@ char			*prompt_read_line(t_prompt *prompt)
 	break;
       i = 0;
       char_handled = false;
-      while (i < 3 && !char_handled)
+      while (i < HANDLER_COUNT && !char_handled)
 	char_handled = handlers[i++](prompt, ch);
     }
   if (ch == -1 || ch == 4)

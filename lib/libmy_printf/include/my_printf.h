@@ -13,7 +13,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 
-#define MY_FORMAT_COUNT 4
+#define MY_FORMAT_COUNT 5
 
 typedef struct		s_my_format
 {
@@ -35,6 +35,7 @@ int		my_printf_print_int(va_list *args, char specifier, int fd);
 int		my_printf_print_uint(va_list *args, char specifier, int fd);
 int		my_printf_print_chars(va_list *args, char specifier, int fd);
 int		my_printf_print_addr(va_list *args, char specifier, int fd);
+int		my_printf_print_errno(va_list *args, char specifier, int fd);
 
 int		my_printf_putchar(char c, int fd);
 int		my_printf_putstr(char *str, int fd);

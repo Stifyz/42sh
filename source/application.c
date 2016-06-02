@@ -18,14 +18,20 @@
 
 t_err		application_init(t_application *app, char **env)
 {
-  if (setterm(NULL) != OK)
-    return (print_error(ERROR_SETTERM_FAILED));
+  char		*path;
+
   my_memset(app, 0, sizeof(t_application));
-  if (!(app->env = env_init(env)) ||
-      !(app->path = my_str_to_array(my_getenv(app->env, "PATH"), ":")))
+  if (!(app->env = env_init(env)) && env[0])
     return (print_error(ERROR_MALLOC_FAILED));
+  if (!(path = my_getenv(app->env, "PATH")))
+    path = "/bin:/usr/bin";
+  if (!(app->path = my_str_to_array(path, ":")))
+    return (print_error(ERROR_MALLOC_FAILED));
+  if ((!my_getenv(app->env, "TERM") && setterm("xterm-noapp") != OK) ||
+      (my_getenv(app->env, "TERM") && setterm(NULL) != OK))
+    return (print_error(ERROR_SETTERM_FAILED));
   builtin_init_array(app);
-  my_memset(&app->parser, 0, sizeof(t_parser));
+  /* my_memset(&app->parser, 0, sizeof(t_parser)); #<{(| FIXME: Is it needed? |)}># */
   app->is_running = true;
   if (isatty(1))
     my_putstr(tigetstr("smkx"));
@@ -80,7 +86,9 @@ char	*application_run_command(t_application *app, char *cmd)
   if (cmd[0] != '\0' && (cmd[0] != ' ' || cmd[1] != '\0'))
     {
       if (parser_parse_str(&app->parser, app, cmd))
-	return (cmd);
+	{
+	  return (cmd);
+	}
       tmp = app->parser.commands;
       while (tmp)
 	{

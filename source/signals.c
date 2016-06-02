@@ -12,9 +12,14 @@
 #include <sys/wait.h>
 #include "signals.h"
 
-void	signals_check_status(int status)
+void	signals_check_status(t_application *app)
 {
-  if (WIFSIGNALED(status))
+  int	status;
+
+  wait(&status);
+  if (WIFEXITED(status) && WEXITSTATUS(status) == 127)
+    app->exit_code = 1;
+  else if (WIFSIGNALED(status))
     {
       if (WTERMSIG(status) == SIGSEGV)
 	{
