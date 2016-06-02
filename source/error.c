@@ -53,7 +53,6 @@ t_err		print_error(t_err error, ...)
   if (error < 0)
     return (error);
   fill_error_messages(errors);
-  /* my_puterr("42sh: "); */
   va_start(args, error);
   my_vfprintf(2, errors[error - 1], &args);
   va_end(args);
