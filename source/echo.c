@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 18:49:32 2016 Bouama_r
-** Last update Fri Jun  3 22:15:38 2016 Bouama_r
+** Last update Fri Jun  3 22:41:04 2016 Bouama_r
 */
 
 #include <my.h>
@@ -86,21 +86,19 @@ void	my_flag_echo(int ac, char **av)
   int	e;
   int	j;
 
-  i = 1;
+  i = 0;
   n = 0;
   e = 0;
-  j = 0;
-  while (av[i][0] == '-' && check_space(av[i]) != 0)
+  j = -1;
+  while (av[++i][0] == '-' && check_space(av[i]) != 0)
     {
-      while (av[1][j] != '\0')
+      while (av[1][++j] != '\0')
 	{
 	  if (av[1][j] == 'n')
 	    n = 1;
 	  if (av[1][j] == 'e')
 	    e = 1;
-	  j++;
 	}
-      i++;
     }
   if (e == 1)
     flag_e(ac, av);
