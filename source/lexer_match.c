@@ -20,12 +20,12 @@ t_match		lexer_match_operator(t_string_reader *reader, size_t pos)
   int		i;
 
   i = 0;
-  operators[0] = ";";
-  operators[1] = "|";
-  operators[2] = "<";
-  operators[3] = ">";
-  operators[4] = "<<";
-  operators[5] = ">>";
+  operators[0] = "<";
+  operators[1] = ">";
+  operators[2] = "<<";
+  operators[3] = ">>";
+  operators[4] = ";";
+  operators[5] = "|";
   operators[6] = "&&";
   operators[7] = "||";
   while (i < OP_COUNT)

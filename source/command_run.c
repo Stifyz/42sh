@@ -22,8 +22,9 @@ t_err	command_run(t_command *command, t_application *app)
   char	**env;
 
   app->exit_code = 0;
-  if (!command->argv[0])
-    return (print_error(ERROR_INVALID_NULL_COMMAND));
+  /* FIXME: The parser should handle this */
+  /* if (!command->argv) */
+  /*   return (print_error(ERROR_INVALID_NULL_COMMAND)); */
   redirection_check(command->input);
   command->path = env_get_prog_path(app->path, command->argv[0]);
   if (command->piped_command || !builtin_run(app, command->argv))

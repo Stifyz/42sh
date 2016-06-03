@@ -26,12 +26,12 @@ typedef enum	e_token_type
 
 typedef enum	e_operator
 {
-  OP_SEMICOLON,
-  OP_PIPE,
   OP_LREDIR,
   OP_RREDIR,
   OP_DLREDIR,
   OP_DRREDIR,
+  OP_SEMICOLON,
+  OP_PIPE,
   OP_AND,
   OP_OR
 }		t_operator;

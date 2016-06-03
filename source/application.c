@@ -63,41 +63,67 @@ void		application_run(t_application *app)
     }
 }
 
-void	application_test_lexer(char *cmd)
-{
-  t_string_reader	reader;
-  t_token_list		list;
-
-  my_memset(&list, 0, sizeof(t_token_list));
-  reader.string = cmd;
-  reader.length = my_strlen(cmd);
-  reader.pos = 0;
-  lexer_fill_token_list(&reader, &list);
-  token_list_print(&list);
-  token_list_free(&list);
-}
+/* void	application_test_lexer(char *cmd) */
+/* { */
+/*   t_string_reader	reader; */
+/*   t_token_list		list; */
+/*  */
+/*   my_memset(&list, 0, sizeof(t_token_list)); */
+/*   reader.string = cmd; */
+/*   reader.length = my_strlen(cmd); */
+/*   reader.pos = 0; */
+/*   lexer_fill_token_list(&reader, &list); */
+/*   token_list_print(&list); */
+/*   token_list_free(&list); */
+/* } */
 
 char	*application_run_command(t_application *app, char *cmd)
 {
   t_command	*tmp;
 
   /* application_test_lexer(cmd); #<{(| FIXME: TO REMOVE |)}># */
-  cmd = my_epur_str(cmd);
-  if (cmd[0] != '\0' && (cmd[0] != ' ' || cmd[1] != '\0'))
+  /* cmd = my_epur_str(cmd); */
+  /* if (cmd[0] != '\0' && (cmd[0] != ' ' || cmd[1] != '\0')) */
+  /*   { */
+  /*     if (parser_parse_str(&app->parser, app, cmd)) */
+	/* { */
+	/*   return (cmd); */
+	/* } */
+  /*     tmp = app->parser.full_command; */
+  /*     while (tmp) */
+	/* { */
+	/*   command_run(tmp, app); */
+	/*   tmp = tmp->next; */
+	/* } */
+  /*     command_free(app->parser.full_command); */
+  /*     my_memset(&app->parser, 0, sizeof(t_parser)); */
+  /*   } */
+  /* application_test_lexer(cmd); */
+  t_string_reader	reader;
+  t_token_list		token_list;
+
+  my_memset(&token_list, 0, sizeof(t_token_list));
+  reader.string = cmd;
+  reader.length = my_strlen(cmd);
+  reader.pos = 0;
+  if (!lexer_fill_token_list(&reader, &token_list))
     {
-      if (parser_parse_str(&app->parser, app, cmd))
+      token_list_print(&token_list);
+      app->parser.current = token_list.first;
+      if (!parse(&app->parser))
 	{
-	  return (cmd);
+	  tmp = app->parser.full_command;
+	  while (tmp)
+	    {
+	      if (!command_create_argv(tmp))
+		command_run(tmp, app);
+	      tmp = tmp->next;
+	    }
+	  command_free(app->parser.full_command);
+	  my_memset(&app->parser, 0, sizeof(t_parser));
 	}
-      tmp = app->parser.commands;
-      while (tmp)
-	{
-	  command_run(tmp, app);
-	  tmp = tmp->next;
-	}
-      command_free(app->parser.commands);
-      my_memset(&app->parser, 0, sizeof(t_parser));
     }
+  token_list_free(&token_list);
   return (cmd);
 }
 
