@@ -40,7 +40,7 @@ SOURCES		= source/application.c \
 			  source/redirection.c \
 			  source/signals.c \
 			  source/token.c \
-			  source/utils.c
+			  source/utils.c \
 			  source/echo.c \
 			  source/echo2.c
 

@@ -8,13 +8,15 @@
 ** Last update Fri Jun  3 22:15:38 2016 Bouama_r
 */
 
+#include <my.h>
 #include "echo.h"
 
-void	builitin_echo(int ac, char **av)
+t_err	builtin_echo(t_application *app, int ac, char **av)
 {
   int	i;
 
   i = 1;
+  (void)app;
   if (av[1][0] == '-')
     my_flag_echo(ac, av);
   else
@@ -28,9 +30,10 @@ void	builitin_echo(int ac, char **av)
 	}
       my_putchar('\n');
     }
+  return (0);
 }
 
-void	disp_normal(int ac, char **av)
+void	disp_normal(char **av)
 {
   my_putstr(av[2]);
 }
@@ -102,7 +105,7 @@ void	my_flag_echo(int ac, char **av)
   if (e == 1)
     flag_e(ac, av);
   else
-    disp_normal(ac ,av);
+    disp_normal(av);
   if (n != 1)
     my_putchar('\n');
 }

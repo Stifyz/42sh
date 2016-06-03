@@ -10,7 +10,7 @@
 
 #include <my.h>
 #include <stdlib.h>
-#include "application.h"
+#include "echo.h"
 
 void	builtin_init_array(t_application *app)
 {
@@ -19,7 +19,7 @@ void	builtin_init_array(t_application *app)
   app->builtins[2].name = "unsetenv";
   app->builtins[3].name = "env";
   app->builtins[4].name = "exit";
-  app->buitlins[5].name = "echo";
+  app->builtins[5].name = "echo";
   app->builtins[0].func = &builtin_cd;
   app->builtins[1].func = &builtin_setenv;
   app->builtins[2].func = &builtin_unsetenv;
