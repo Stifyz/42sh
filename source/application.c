@@ -108,7 +108,7 @@ char	*application_run_command(t_application *app, char *cmd)
   reader.pos = 0;
   if (!lexer_fill_token_list(&reader, &token_list))
     {
-      token_list_print(&token_list);
+      /* token_list_print(&token_list); */
       app->parser.current = token_list.first;
       if (!parse(&app->parser))
 	{

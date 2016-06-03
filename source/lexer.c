@@ -27,7 +27,5 @@ t_err	lexer_fill_token_list(t_string_reader *reader, t_token_list *list)
 	       && (error = token_list_add(list, &match.token)))
 	return (print_error(ERROR_TOKEN_LIST_ADD_FAILED));
     }
-  if (list->length == 0)
-    return (print_error(ERROR_EMPTY_STRING));
   return (0);
 }

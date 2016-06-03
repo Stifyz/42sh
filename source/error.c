@@ -31,12 +31,11 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[12] = "Ambiguous input redirect";
   messages[13] = "Invalid null command";
   messages[14] = "Can't add token to list";
-  messages[15] = "Empty string";
-  messages[16] = "Unexpected char at position %d";
-  messages[17] = "Unexpected end of string";
-  messages[18] = "Expected operator with id %d at position %d";
-  messages[19] = "Curses init failed";
-  messages[20] = "setterm failed";
+  messages[15] = "Unexpected char at position %d";
+  messages[16] = "Unexpected end of string";
+  messages[17] = "Expected operator with id %d at position %d";
+  messages[18] = "Curses init failed";
+  messages[19] = "setterm failed";
   messages[126] = "%s: Command not found.";
 }
 
