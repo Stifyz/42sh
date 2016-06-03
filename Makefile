@@ -5,7 +5,7 @@
 ## Login   <bazin_q@epitech.net>
 ## 
 ## Started on  Tue Dec 01 15:46:23 2015 Quentin Bazin
-## Last update Tue Dec 01 15:46:23 2015 Quentin Bazin
+## Last update Fri Jun  3 22:10:44 2016 Bouama_r
 ##
 
 NAME		= 42sh
@@ -41,6 +41,8 @@ SOURCES		= source/application.c \
 			  source/signals.c \
 			  source/token.c \
 			  source/utils.c
+			  source/echo.c \
+			  source/echo2.c
 
 MY_LIBS		= my_printf my
 
