@@ -187,7 +187,8 @@ t_err		parser_expect_operator(t_parser *parser, t_operator operator,
     }
   parser_skip_whitespaces(parser);
   token = &parser->current->token;
-  if (token->type == TOKEN_OPERATOR && token->value.operator == operator)
+  if ((token->type == TOKEN_REDIRECTION || token->type == TOKEN_SEPARATOR)
+      && token->value.operator == operator)
     {
       parser->current = parser->current->next;
       parser_skip_whitespaces(parser);
@@ -229,7 +230,7 @@ t_err		parse_redirection(t_parser *parser)
   /* operators[3] = OP_DRREDIR; */
   while (i < 4)
     {
-      if (parser_expect_operator(parser, i, false))
+      if (!parser_expect_operator(parser, i, false))
 	{
 	  /* FIXME: Parse redirection here */
 	  return (0);
@@ -251,7 +252,7 @@ t_err		parse_separator(t_parser *parser)
   /* operators[3] = OP_OR; */
   while (i < 4)
     {
-      if (parser_expect_operator(parser, i + 4, false))
+      if (!parser_expect_operator(parser, i + 4, false))
 	return (parse_command(parser, i + 4));
       ++i;
     }

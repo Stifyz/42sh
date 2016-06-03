@@ -13,7 +13,31 @@
 #include <string.h>
 #include "lexer.h"
 
-t_match		lexer_match_operator(t_string_reader *reader, size_t pos)
+t_match		lexer_match_separator(t_string_reader *reader, size_t pos)
+{
+  char		*operators[OP_COUNT];
+  t_token_value	value;
+  int		i;
+
+  i = 0;
+  operators[0] = "&&";
+  operators[1] = "||";
+  operators[2] = "|";
+  operators[3] = ";";
+  while (i < 4)
+    {
+      if (my_strstr(reader->string + pos, operators[i]) == reader->string + pos)
+	{
+	  pos += my_strlen(operators[i]);
+	  value.operator = i + 4;
+	  return (gen_match_from_token(reader, pos, TOKEN_SEPARATOR, value));
+	}
+      ++i;
+    }
+  return (lexer_gen_empty_match());
+}
+
+t_match		lexer_match_redirection(t_string_reader *reader, size_t pos)
 {
   char		*operators[OP_COUNT];
   t_token_value	value;
@@ -24,17 +48,13 @@ t_match		lexer_match_operator(t_string_reader *reader, size_t pos)
   operators[1] = ">";
   operators[2] = "<<";
   operators[3] = ">>";
-  operators[4] = ";";
-  operators[5] = "|";
-  operators[6] = "&&";
-  operators[7] = "||";
-  while (i < OP_COUNT)
+  while (i < 4)
     {
       if (my_strstr(reader->string + pos, operators[i]) == reader->string + pos)
 	{
 	  pos += my_strlen(operators[i]);
 	  value.operator = i;
-	  return (gen_match_from_token(reader, pos, TOKEN_OPERATOR, value));
+	  return (gen_match_from_token(reader, pos, TOKEN_REDIRECTION, value));
 	}
       ++i;
     }
@@ -73,8 +93,9 @@ t_match		lexer_match(t_string_reader *reader)
 
   i = 0;
   functions[0] = &lexer_match_whitespace;
-  functions[1] = &lexer_match_operator;
-  functions[2] = &lexer_match_name;
+  functions[1] = &lexer_match_separator;
+  functions[2] = &lexer_match_redirection;
+  functions[3] = &lexer_match_name;
   while (i < TOKEN_COUNT)
     {
       match = functions[i](reader, reader->pos);

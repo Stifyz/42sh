@@ -13,12 +13,13 @@
 # include <stdlib.h>
 # include "error.h"
 
-# define TOKEN_COUNT 3
+# define TOKEN_COUNT 4
 
 typedef enum	e_token_type
 {
   TOKEN_WHITESPACE,
-  TOKEN_OPERATOR,
+  TOKEN_SEPARATOR,
+  TOKEN_REDIRECTION,
   TOKEN_NAME
 }		t_token_type;
 
@@ -30,10 +31,10 @@ typedef enum	e_operator
   OP_RREDIR,
   OP_DLREDIR,
   OP_DRREDIR,
-  OP_SEMICOLON,
-  OP_PIPE,
   OP_AND,
-  OP_OR
+  OP_OR,
+  OP_PIPE,
+  OP_SEMICOLON
 }		t_operator;
 
 typedef union	u_token_value
