@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 23:13:47 2016 Bouama_r
-** Last update Fri Jun  3 00:32:48 2016 Bouama_r
+** Last update Fri Jun  3 22:13:58 2016 Bouama_r
 */
 
 #include "echo.h"
@@ -26,11 +26,5 @@ int	check_space(char *str)
 	return (-1);
       i++;
     }
-  return (0);
-}
-
-int	main(int ac, char **av)
-{
-  my_echo(ac, av);
   return (0);
 }

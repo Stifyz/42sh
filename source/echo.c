@@ -5,12 +5,12 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 18:49:32 2016 Bouama_r
-** Last update Fri Jun  3 22:07:06 2016 Bouama_r
+** Last update Fri Jun  3 22:15:38 2016 Bouama_r
 */
 
 #include "echo.h"
 
-void	my_echo(int ac, char **av)
+void	builitin_echo(int ac, char **av)
 {
   int	i;
 

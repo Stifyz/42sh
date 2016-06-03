@@ -1,18 +1,18 @@
 /*
 ** builtins.h for  in /home/bazin_q/rendu/PSU/PSU_2015_minishell2/include
-** 
+**
 ** Made by Quentin Bazin
 ** Login   <bazin_q@epitech.net>
-** 
+**
 ** Started on  Sat Mar 26 10:31:46 2016 Quentin Bazin
-** Last update Sat Mar 26 10:31:46 2016 Quentin Bazin
+** Last update Fri Jun  3 22:14:31 2016 Bouama_r
 */
 #ifndef BUILTINS_H_
 # define BUILTINS_H_
 
 # include "error.h"
 
-# define BUILTINS_COUNT 5
+# define BUILTINS_COUNT 6
 
 struct s_application;
 
