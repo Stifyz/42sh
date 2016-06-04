@@ -16,8 +16,8 @@
 /* FIXME: Update for shell */
 bool	lexer_is_name(char c)
 {
-  return (c != '>' && c != '<' && c != '|' && c != ' ' && c != ';' &&
-	  c != '&' && c != ' ' && c != '\t');
+  return (c && c != '>' && c != '<' && c != '|' && c != ';' && c != '&' &&
+	  c != ' ' && c != '\t');
 }
 
 bool	lexer_is_whitespace(char c)
