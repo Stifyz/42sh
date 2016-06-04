@@ -1,11 +1,11 @@
 /*
 ** application.c for  in /home/bazin_q/rendu/PSU/PSU_2015_minishell2/source
-** 
+**
 ** Made by Quentin Bazin
 ** Login   <bazin_q@epitech.net>
-** 
+**
 ** Started on  Fri Mar 25 16:58:29 2016 Quentin Bazin
-** Last update Fri Mar 25 16:58:29 2016 Quentin Bazin
+** Last update Sat Jun  4 06:20:39 2016 Bouama_r
 */
 
 #include <ncurses.h>
@@ -80,23 +80,24 @@ void	application_test_lexer(char *cmd)
 char	*application_run_command(t_application *app, char *cmd)
 {
   t_command	*tmp;
+  t_parser	parser;
 
   /* application_test_lexer(cmd); #<{(| FIXME: TO REMOVE |)}># */
+  my_memset(&parser, 0, sizeof(t_parser));
   cmd = my_epur_str(cmd);
   if (cmd[0] != '\0' && (cmd[0] != ' ' || cmd[1] != '\0'))
     {
-      if (parser_parse_str(&app->parser, app, cmd))
+      if (parser_parse_str(&parser, app, cmd))
 	{
 	  return (cmd);
 	}
-      tmp = app->parser.commands;
+      tmp = parser.commands;
       while (tmp)
 	{
 	  command_run(tmp, app);
 	  tmp = tmp->next;
 	}
-      command_free(app->parser.commands);
-      my_memset(&app->parser, 0, sizeof(t_parser));
+      command_free(parser.commands);
     }
   return (cmd);
 }

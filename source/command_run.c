@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 **
 ** Started on  Thu Apr 07 18:56:50 2016 Quentin Bazin
-** Last update Sat Jun  4 03:55:42 2016 Bouama_r
+** Last update Sat Jun  4 05:58:58 2016 Bouama_r
 */
 
 #include <my.h>
@@ -26,7 +26,7 @@ t_err	command_run(t_command *command, t_application *app)
     return (print_error(ERROR_INVALID_NULL_COMMAND));
   redirection_check(command->input);
   command->path = env_get_prog_path(app->path, command->argv[0]);
-  if (command->piped_command || !alias_run(app, command->argv) || !builtin_run(app, command->argv))
+  if (command->piped_command || (!alias_run(app, command->argv) && !builtin_run(app, command->argv)))
     {
       env = env_to_strarray(app->env);
       fork_pid = fork();
