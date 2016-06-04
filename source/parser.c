@@ -216,18 +216,13 @@ t_err		parser_expect_operator(t_parser *parser, t_operator operator,
 
 #include "token.h"
 
-t_err		parse_command(t_parser *parser, t_operator operator);
+t_err	parse_command(t_parser *parser, t_operator operator);
 
-t_err		parse_redirection(t_parser *parser)
+t_err	parse_redirection(t_parser *parser)
 {
-  /* t_operator	operators[OP_COUNT / 2]; */
-  int		i;
+  int	i;
 
   i = 0;
-  /* operators[0] = OP_LREDIR; */
-  /* operators[1] = OP_RREDIR; */
-  /* operators[2] = OP_DLREDIR; */
-  /* operators[3] = OP_DRREDIR; */
   while (i < 4)
     {
       if (!parser_expect_operator(parser, i, false))
@@ -240,20 +235,18 @@ t_err		parse_redirection(t_parser *parser)
   return (0);
 }
 
-t_err		parse_separator(t_parser *parser)
+t_err	parse_separator(t_parser *parser)
 {
-  /* t_operator	operators[OP_COUNT / 2]; */
-  int		i;
+  int	i;
 
   i = 0;
-  /* operators[0] = OP_SEMICOLON; */
-  /* operators[1] = OP_PIPE; */
-  /* operators[2] = OP_AND; */
-  /* operators[3] = OP_OR; */
   while (i < 4)
     {
-      if (!parser_expect_operator(parser, i + 4, false))
+      if (i + 4 == OP_PIPE && !parser_expect_operator(parser, OP_PIPE, false))
+	{}
+      else if (!parser_expect_operator(parser, i + 4, false))
 	return (parse_command(parser, i + 4));
+      /* FIXME: Add 'Invalid null command' error */
       ++i;
     }
   return (0);
@@ -268,6 +261,10 @@ t_err		parse_command(t_parser *parser, t_operator operator)
     return (0);
   if (!(command = parser_add_command(parser)))
     return (print_error(ERROR_MALLOC_FAILED));
+  if (operator == OP_AND || operator == OP_OR)
+    command->condition = (operator == OP_AND) ? CONDITION_AND : CONDITION_OR;
+  else
+    command->condition = CONDITION_NONE;
   while (parser->current && (parser->current->token.type == TOKEN_NAME ||
 			     parser->current->token.type == TOKEN_WHITESPACE))
     {

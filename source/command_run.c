@@ -21,6 +21,10 @@ t_err	command_run(t_command *command, t_application *app)
   pid_t	fork_pid;
   char	**env;
 
+  if (app->exit_code != 0 && command->condition == CONDITION_AND)
+    return (0);
+  if (app->exit_code == 0 && command->condition == CONDITION_OR)
+    return (0);
   app->exit_code = 0;
   /* FIXME: The parser should handle this */
   /* if (!command->argv) */
@@ -98,12 +102,15 @@ void	command_run_program(t_command *command, t_application *app, char **env)
   exit_code = 0;
   if (command_open_redirections(command) ||
       command_prepare_redirections(command))
-    exit(exit_code);
+    exit(exit_code); /* FIXME: What should I return here? */
   dup2(command->output_fd, 1);
   dup2(command->input_fd, 0);
   command_close_pipes(command);
   if (!builtin_run(app, command->argv)
       && (!command->path || execve(command->path, command->argv, env) == -1))
-    exit_code = print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]);
+    {
+      exit_code = 1;
+      print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]);
+    }
   exit(exit_code);
 }

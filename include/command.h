@@ -21,6 +21,13 @@ typedef struct		s_argument
   struct s_argument	*next;
 }			t_argument;
 
+typedef enum		e_condition
+{
+  CONDITION_NONE,
+  CONDITION_AND,
+  CONDITION_OR
+}			t_condition;
+
 typedef struct		s_command
 {
   t_argument		*args;
@@ -28,6 +35,7 @@ typedef struct		s_command
   int			argc;
   char			**argv;
   char			*path;
+  t_condition		condition;
   int			input_fd;
   int			output_fd;
   t_redirection		*input;

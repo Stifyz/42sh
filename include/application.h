@@ -30,7 +30,7 @@ typedef struct	s_application
 
 t_err		application_init(t_application *app, char **env);
 void		application_run(t_application *app);
-char		*application_run_command(t_application *app, char *cmd);
+void		application_run_command(t_application *app, char *cmd);
 void		application_free(t_application *app);
 
 #endif /* !APPLICATION_H_ */

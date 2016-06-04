@@ -53,7 +53,7 @@ void		application_run(t_application *app)
 	  if ((first_invalid_char = my_cmd_isvalid(line)) != -1)
 	    print_error(ERROR_SYNTAX_ERROR, first_invalid_char);
 	  else
-	    line = application_run_command(app, line);
+	    application_run_command(app, line);
 	  free(line);
 	}
       else
@@ -77,30 +77,11 @@ void		application_run(t_application *app)
 /*   token_list_free(&list); */
 /* } */
 
-char	*application_run_command(t_application *app, char *cmd)
+void			application_run_command(t_application *app, char *cmd)
 {
-  t_command	*tmp;
-
-  /* application_test_lexer(cmd); #<{(| FIXME: TO REMOVE |)}># */
-  /* cmd = my_epur_str(cmd); */
-  /* if (cmd[0] != '\0' && (cmd[0] != ' ' || cmd[1] != '\0')) */
-  /*   { */
-  /*     if (parser_parse_str(&app->parser, app, cmd)) */
-	/* { */
-	/*   return (cmd); */
-	/* } */
-  /*     tmp = app->parser.full_command; */
-  /*     while (tmp) */
-	/* { */
-	/*   command_run(tmp, app); */
-	/*   tmp = tmp->next; */
-	/* } */
-  /*     command_free(app->parser.full_command); */
-  /*     my_memset(&app->parser, 0, sizeof(t_parser)); */
-  /*   } */
-  /* application_test_lexer(cmd); */
   t_string_reader	reader;
   t_token_list		token_list;
+  t_command		*tmp;
 
   my_memset(&token_list, 0, sizeof(t_token_list));
   reader.string = cmd;
@@ -124,7 +105,6 @@ char	*application_run_command(t_application *app, char *cmd)
 	}
     }
   token_list_free(&token_list);
-  return (cmd);
 }
 
 void		application_free(t_application *app)

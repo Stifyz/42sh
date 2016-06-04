@@ -15,6 +15,7 @@
 
 bool	lexer_is_name(char c)
 {
+  /* FIXME: Update for shell */
   return (my_is_alphanum(c) || c == '_' || c == '-');
 }
 
