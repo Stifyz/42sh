@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 18:49:32 2016 Bouama_r
-** Last update Fri Jun  3 22:41:04 2016 Bouama_r
+** Last update Sat Jun  4 22:16:55 2016 Bouama_r
 */
 
 #include <my.h>
@@ -64,18 +64,32 @@ char    get_escaped_char(char *str, int pos)
 
 void	flag_e(int ac, char **av)
 {
-  int	i;
+  int		i;
+  int		j;
 
   i = 0;
-  while (av[ac - 1][i] != '\0')
+  j = 1;
+  while (av[j] != NULL)
     {
-      if (av[ac - 1][i] == '\\' && av[ac - 1][i + 1])
+      if (av[j][0] != '-')
+	break;
+      j++;
+    }
+  while (av[j] != NULL)
+    {
+      while (av[j][i] != '\0')
 	{
-	  my_putchar(get_escaped_char(av[ac - 1], ++i));
+	  if (av[j][i] == '\\' && av[j][i + 1])
+	    {
+	      my_putchar(get_escaped_char(av[j], ++i));
+	    }
+	  else
+	    my_putchar(av[j][i]);
+	  i++;
 	}
-      else
-	my_putchar(av[ac - 1][i]);
-      i++;
+      my_putchar(' ');
+      j++;
+      i = 0;
     }
 }
 
