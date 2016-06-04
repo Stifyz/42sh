@@ -226,16 +226,28 @@ t_err		parser_expect_operator(t_parser *parser, t_operator operator,
 
 t_err	parse_command(t_parser *parser, t_operator operator);
 
-t_err	parse_redirection(t_parser *parser)
+t_err		parse_redirection(t_parser *parser)
 {
-  int	i;
+  t_io_mode	mode;
+  char		*token_content;
+  int		i;
 
   i = 0;
   while (i < 4)
     {
       if (!parser_expect_operator(parser, i, false))
 	{
-	  /* FIXME: Parse redirection here */
+	  mode = (i % 2 == 0) ? IO_MODE_INPUT : IO_MODE_OUTPUT;
+	  mode |= (i < 2) ? IO_MODE_SIMPLE : IO_MODE_DOUBLE;
+	  /* FIXME: Ambiguous output redirect. */
+	  /* FIXME: Missing name for redirect. */
+	  token_content = parser->current->token.content;
+	  if (((mode & IO_MODE_INPUT) &&
+	       !(parser->command->input = redirection_new(token_content, mode)))
+	      || ((mode & IO_MODE_OUTPUT) &&
+		  !(parser->command->output = redirection_new(token_content,
+							      mode))))
+	    return (print_error(ERROR_MALLOC_FAILED));
 	  return (0);
 	}
       ++i;
@@ -250,9 +262,6 @@ t_err	parse_separator(t_parser *parser)
   i = 0;
   while (i < 4)
     {
-      /* if (i + 4 == OP_PIPE && !parser_expect_operator(parser, OP_PIPE, false)) */
-	/* {} */
-      /* else */
       if (!parser_expect_operator(parser, i + 4, false))
 	return (parse_command(parser, i + 4));
       /* FIXME: Add 'Invalid null command' error */
@@ -264,6 +273,7 @@ t_err	parse_separator(t_parser *parser)
 t_err		parse_command(t_parser *parser, t_operator operator)
 {
   t_command	*command;
+  t_err		error;
 
   (void)operator; /* FIXME */
   if (!parser->current || parser->current->token.type != TOKEN_NAME)
@@ -275,10 +285,15 @@ t_err		parse_command(t_parser *parser, t_operator operator)
   else
     command->condition = CONDITION_NONE;
   while (parser->current && (parser->current->token.type == TOKEN_NAME ||
-			     parser->current->token.type == TOKEN_WHITESPACE))
+			     parser->current->token.type == TOKEN_WHITESPACE ||
+			     parser->current->token.type == TOKEN_REDIRECTION))
     {
       if (parser->current->token.type == TOKEN_NAME)
-	command_add_argument(command, parser->current->token.content);
+	error = command_add_argument(command, parser->current->token.content);
+      else if (parser->current->token.type == TOKEN_REDIRECTION)
+	error = parse_redirection(parser);
+      if (error)
+	return (error);
       parser->current = parser->current->next;
     }
   return (parse_separator(parser));
