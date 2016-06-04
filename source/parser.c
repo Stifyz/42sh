@@ -57,7 +57,8 @@ t_err		parser_expect_operator(t_parser *parser, t_operator operator,
     }
   parser_skip_whitespaces(parser);
   token = &parser->current->token;
-  if ((token->type == TOKEN_REDIRECTION || token->type == TOKEN_SEPARATOR)
+  if (token
+      && (token->type == TOKEN_REDIRECTION || token->type == TOKEN_SEPARATOR)
       && token->value.operator == operator)
     {
       parser->current = parser->current->next;
