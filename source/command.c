@@ -87,35 +87,6 @@ t_err	command_open_redirections(t_command *command)
   return (0);
 }
 
-/* t_err		command_parse_redirections(t_command *command) */
-/* { */
-/*   t_io_mode	mode; */
-/*   char		**argv; */
-/*   int		i; */
-/*  */
-/*   i = -1; */
-/*   argv = command->argv; */
-/*   while (argv[++i]) */
-/*     if ((mode = GET_IO_MODE(argv[i])) && IS_IRED(argv[i])) */
-/*       { */
-/* 	if (command->input || command->input_fd != 0) */
-/* 	  return (print_error(ERROR_AMBIGUOUS_INPUT_REDIRECT)); */
-/* 	if (!(command->input = redirection_new(argv[i + 1], mode))) */
-/* 	  return (print_error(ERROR_MALLOC_FAILED)); */
-/* 	argv[i][0] = argv[i + 1][0] = '\0'; */
-/*       } */
-/*     else if (mode && IS_ORED(argv[i])) */
-/*       { */
-/* 	if (command->output || command->output_fd != 1) */
-/* 	  return (print_error(ERROR_AMBIGUOUS_OUTPUT_REDIRECT)); */
-/* 	if (!(command->output = redirection_new(argv[i + 1], mode))) */
-/* 	  return (print_error(ERROR_MALLOC_FAILED)); */
-/* 	argv[i][0] = argv[i + 1][0] = '\0'; */
-/*       } */
-/*   my_epur_array(command->argv); */
-/*   return (0); */
-/* } */
-
 void		command_free(t_command *command)
 {
   t_command	*next;

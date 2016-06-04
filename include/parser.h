@@ -38,6 +38,7 @@
 
 typedef struct		s_parser
 {
+  t_token_elem		*list;
   t_token_elem		*current;
   t_command		*full_command;
   t_command		*command;
@@ -50,6 +51,6 @@ t_err		parser_expect_operator(t_parser *parser, t_operator operator,
 				       bool error_enabled);
 
 t_err		parse(t_parser *parser);
-t_err		parse_command(t_parser *parser, t_operator operator);
+t_err		parse_command(t_parser *parser, t_operator, bool expected);
 
 #endif /* !PARSER_H_ */

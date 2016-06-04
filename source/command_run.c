@@ -106,7 +106,7 @@ void	command_run_program(t_command *command, t_application *app, char **env)
   exit_code = 0;
   if (command_open_redirections(command) ||
       command_prepare_redirections(command))
-    exit(exit_code); /* FIXME: What should I return here? */
+    exit(1);
   dup2(command->output_fd, 1);
   dup2(command->input_fd, 0);
   command_close_pipes(command);

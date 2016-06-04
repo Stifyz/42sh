@@ -12,22 +12,6 @@
 
 # include "error.h"
 
-/*
-** Check if an argument is a redirection
-*/
-# define IS_IRED(arg) (arg[0] == '<' && (!arg[1] || (arg[1] == '<' && !arg[2])))
-# define IS_ORED(arg) (arg[0] == '>' && (!arg[1] || (arg[1] == '>' && !arg[2])))
-# define IS_DRED(arg) (arg[1] == '>' || arg[1] == '<')
-# define IS_VRED(arg) (my_strlen(arg) == 1 || my_strlen(arg) == 2)
-
-/*
-** Get io mode
-*/
-# define GET_IO_MODE1(arg) (IS_ORED(arg) ? IO_MODE_OUTPUT : IO_MODE_INPUT)
-# define GET_IO_MODE2(arg) (IS_DRED(arg) ? IO_MODE_DOUBLE : IO_MODE_SIMPLE)
-# define GET_IO_MODE3(arg) (GET_IO_MODE1(arg) | GET_IO_MODE2(arg))
-# define GET_IO_MODE(arg) (IS_VRED(arg) ? GET_IO_MODE3(arg) : 0)
-
 struct s_command;
 
 typedef enum		e_io_mode

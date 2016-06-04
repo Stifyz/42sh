@@ -50,7 +50,6 @@ t_command	*command_new();
 t_err		command_add_argument(t_command *command, char *str);
 t_err		command_create_argv(t_command *command);
 t_err		command_open_redirections(t_command *command);
-/* t_err		command_parse_redirections(t_command *command); */
 void		command_free(t_command *command);
 
 /* command_run.c */

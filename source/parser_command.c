@@ -44,31 +44,19 @@ t_err	parse_separator(t_parser *parser)
   int	i;
 
   i = 0;
-  while (i < 4)
+  while (i < 3)
     {
       if (!parser_expect_operator(parser, i + 4, false))
-	return (parse_command(parser, i + 4));
-      /* FIXME: Add 'Invalid null command' error */
+	return (parse_command(parser, i + 4, true));
       ++i;
     }
   return (0);
 }
 
-t_err		parse_command(t_parser *parser, t_operator operator)
+t_err		parse_arguments(t_parser *parser, t_command *command)
 {
-  t_command	*command;
   t_err		error;
 
-  (void)operator; /* FIXME */
-  if (!parser->current || (parser->current->token.type != TOKEN_NAME &&
-			   parser->current->token.type != TOKEN_REDIRECTION))
-    return (0);
-  if (!(command = parser_add_command(parser, operator == OP_PIPE)))
-    return (print_error(ERROR_MALLOC_FAILED));
-  if (operator == OP_AND || operator == OP_OR)
-    command->condition = (operator == OP_AND) ? CONDITION_AND : CONDITION_OR;
-  else
-    command->condition = CONDITION_NONE;
   while (parser->current && (parser->current->token.type == TOKEN_NAME ||
 			     parser->current->token.type == TOKEN_WHITESPACE ||
 			     parser->current->token.type == TOKEN_REDIRECTION))
@@ -81,6 +69,26 @@ t_err		parse_command(t_parser *parser, t_operator operator)
 	return (error);
       parser->current = parser->current->next;
     }
+  return (0);
+}
+
+t_err		parse_command(t_parser *parser, t_operator operator,
+			      bool expected)
+{
+  t_command	*command;
+  t_err		error;
+
+  if (!parser->current || (parser->current->token.type != TOKEN_NAME &&
+			   parser->current->token.type != TOKEN_REDIRECTION))
+    return ((expected) ? print_error(ERROR_INVALID_NULL_COMMAND) : 0);
+  if (!(command = parser_add_command(parser, operator == OP_PIPE)))
+    return (print_error(ERROR_MALLOC_FAILED));
+  if (operator == OP_AND || operator == OP_OR)
+    command->condition = (operator == OP_AND) ? CONDITION_AND : CONDITION_OR;
+  else
+    command->condition = CONDITION_NONE;
+  if ((error = parse_arguments(parser, command)))
+    return (error);
   return (parse_separator(parser));
 }
 
@@ -89,7 +97,9 @@ t_err		parse(t_parser *parser)
   t_err		error;
 
   while (!parser_expect_operator(parser, OP_SEMICOLON, false));
-  if ((error = parse_command(parser, OP_SEMICOLON)))
+  if (!parser->current)
+    return (0);
+  if ((error = parse_command(parser, OP_SEMICOLON, false)))
     return (error);
   if (!parser_expect_operator(parser, OP_SEMICOLON, false))
     return (parse(parser));
