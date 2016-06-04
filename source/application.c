@@ -96,8 +96,7 @@ void			application_run_command(t_application *app, char *cmd)
 	  tmp = app->parser.full_command;
 	  while (tmp)
 	    {
-	      if (!command_create_argv(tmp))
-		command_run(tmp, app);
+	      command_run(tmp, app);
 	      tmp = tmp->next;
 	    }
 	  command_free(app->parser.full_command);

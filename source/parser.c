@@ -119,14 +119,22 @@
 /* } */
 /*  */
 
-t_command	*parser_add_command(t_parser *parser)
+t_command	*parser_add_command(t_parser *parser, bool is_piped)
 {
   t_command	*command;
 
   if (!(command = command_new()))
     return (NULL);
   if (parser->command)
-    parser->command->next = command;
+    {
+      if (!is_piped)
+	parser->command->next = command;
+      else
+	{
+	  parser->command->piped_command = command;
+	  command_setup_pipe(parser->command);
+	}
+    }
   parser->command = command;
   if (!parser->full_command)
     parser->full_command = command;
@@ -242,9 +250,10 @@ t_err	parse_separator(t_parser *parser)
   i = 0;
   while (i < 4)
     {
-      if (i + 4 == OP_PIPE && !parser_expect_operator(parser, OP_PIPE, false))
-	{}
-      else if (!parser_expect_operator(parser, i + 4, false))
+      /* if (i + 4 == OP_PIPE && !parser_expect_operator(parser, OP_PIPE, false)) */
+	/* {} */
+      /* else */
+      if (!parser_expect_operator(parser, i + 4, false))
 	return (parse_command(parser, i + 4));
       /* FIXME: Add 'Invalid null command' error */
       ++i;
@@ -259,7 +268,7 @@ t_err		parse_command(t_parser *parser, t_operator operator)
   (void)operator; /* FIXME */
   if (!parser->current || parser->current->token.type != TOKEN_NAME)
     return (0);
-  if (!(command = parser_add_command(parser)))
+  if (!(command = parser_add_command(parser, operator == OP_PIPE)))
     return (print_error(ERROR_MALLOC_FAILED));
   if (operator == OP_AND || operator == OP_OR)
     command->condition = (operator == OP_AND) ? CONDITION_AND : CONDITION_OR;

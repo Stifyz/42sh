@@ -19,12 +19,15 @@
 t_err	command_run(t_command *command, t_application *app)
 {
   pid_t	fork_pid;
+  t_err	error;
   char	**env;
 
   if (app->exit_code != 0 && command->condition == CONDITION_AND)
     return (0);
   if (app->exit_code == 0 && command->condition == CONDITION_OR)
     return (0);
+  if ((error = command_create_argv(command)))
+    return (error);
   app->exit_code = 0;
   /* FIXME: The parser should handle this */
   /* if (!command->argv) */
