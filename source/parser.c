@@ -128,7 +128,11 @@ t_command	*parser_add_command(t_parser *parser, bool is_piped)
   if (parser->command)
     {
       if (!is_piped)
-	parser->command->next = command;
+	{
+	  while (parser->command->piped_parent)
+	    parser->command = parser->command->piped_parent;
+	  parser->command->next = command;
+	}
       else
 	{
 	  parser->command->piped_command = command;
@@ -276,7 +280,8 @@ t_err		parse_command(t_parser *parser, t_operator operator)
   t_err		error;
 
   (void)operator; /* FIXME */
-  if (!parser->current || parser->current->token.type != TOKEN_NAME)
+  if (!parser->current || (parser->current->token.type != TOKEN_NAME &&
+			   parser->current->token.type != TOKEN_REDIRECTION))
     return (0);
   if (!(command = parser_add_command(parser, operator == OP_PIPE)))
     return (print_error(ERROR_MALLOC_FAILED));
