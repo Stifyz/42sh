@@ -66,25 +66,26 @@ void			application_run_command(t_application *app, char *cmd)
 {
   t_string_reader	reader;
   t_token_list		token_list;
+  t_parser		parser;
   t_command		*tmp;
 
   my_memset(&token_list, 0, sizeof(t_token_list));
+  my_memset(&parser, 0, sizeof(t_parser));
   reader.string = cmd;
   reader.length = my_strlen(cmd);
   reader.pos = 0;
   if (!lexer_fill_token_list(&reader, &token_list))
     {
-      app->parser.current = token_list.first;
-      if (!parse(&app->parser))
+      parser.current = token_list.first;
+      if (!parse(&parser))
 	{
-	  tmp = app->parser.full_command;
+	  tmp = parser.full_command;
 	  while (tmp)
 	    {
 	      command_run(tmp, app);
 	      tmp = tmp->next;
 	    }
-	  command_free(app->parser.full_command);
-	  my_memset(&app->parser, 0, sizeof(t_parser));
+	  command_free(parser.full_command);
 	}
     }
   token_list_free(&token_list);
