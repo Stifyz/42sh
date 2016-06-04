@@ -52,9 +52,11 @@ t_err		command_create_argv(t_command *command);
 t_err		command_open_redirections(t_command *command);
 void		command_free(t_command *command);
 
-/* command_run.c */
+/* command_pipe.c */
 t_err	command_setup_pipe(t_command *command);
 void	command_close_pipes(t_command *command);
+
+/* command_run.c */
 t_err	command_run(t_command *command, struct s_application *app);
 void	command_run_program(t_command *, struct s_application *, char **env);
 

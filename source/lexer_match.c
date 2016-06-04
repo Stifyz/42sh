@@ -77,7 +77,6 @@ t_match		lexer_match_whitespace(t_string_reader *reader, size_t pos)
 {
   t_token_value	token_value;
 
-  /* FIXME: Replace isspace by my_isspace (read man isspace) */
   if (!lexer_is_whitespace(reader->string[pos]))
     return (lexer_gen_empty_match());
   while (lexer_is_whitespace(reader->string[pos]))

@@ -13,9 +13,9 @@
 #include <string.h>
 #include "lexer.h"
 
+/* FIXME: Update for shell */
 bool	lexer_is_name(char c)
 {
-  /* FIXME: Update for shell */
   return (c != '>' && c != '<' && c != '|' && c != ' ' && c != ';' &&
 	  c != '&' && c != ' ' && c != '\t');
 }

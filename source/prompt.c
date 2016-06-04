@@ -65,7 +65,6 @@ t_err		prompt_init(t_prompt *prompt, t_application *app)
 	  prompt->keys[i] |= caps[i][j];
 	  ++j;
 	}
-      /* print_key(prompt->keys[i]); */
       ++i;
     }
   return (0);
@@ -83,7 +82,6 @@ char			*prompt_read_line(t_prompt *prompt)
   prompt_fill_char_handlers(handlers);
   while ((ch = my_getch()) != -1 && ch != '\n' && ch != '\r')
     {
-      /* print_key(ch); */
       if (ch == 4 && prompt->line && !prompt->line[0])
 	break;
       i = 0;

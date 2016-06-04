@@ -10,39 +10,44 @@
 
 #include "parser.h"
 
+t_err		check_redirection(t_parser *parser, t_io_mode mode)
+{
+  if ((mode & IO_MODE_INPUT)
+      && (parser->command->input || parser->command->input_fd != 0))
+    return (print_error(ERROR_AMBIGUOUS_INPUT_REDIRECT));
+  if ((mode & IO_MODE_OUTPUT)
+      && (parser->command->output || parser->command->output_fd != 1))
+    return (print_error(ERROR_AMBIGUOUS_OUTPUT_REDIRECT));
+  parser_skip_whitespaces(parser);
+  if (!parser->current || parser->current->token.type != TOKEN_NAME)
+    return (print_error(ERROR_MISSING_NAME_FOR_REDIRECT));
+  return (0);
+}
+
 t_err		parse_redirection(t_parser *parser)
 {
   t_io_mode	mode;
+  t_err		error;
   char		*token_content;
   int		i;
 
-  i = 0;
-  while (i < 4)
-    {
-      if (!parser_expect_operator(parser, i, false))
-	{
-	  mode = (i % 2 == 0) ? IO_MODE_INPUT : IO_MODE_OUTPUT;
-	  mode |= (i < 2) ? IO_MODE_DOUBLE : IO_MODE_SIMPLE;
-	  /* FIXME: Missing name for redirect. */
-	  if ((mode & IO_MODE_INPUT) && (parser->command->input || parser->command->input_fd != 0))
-	    return (print_error(ERROR_AMBIGUOUS_INPUT_REDIRECT));
-	  if ((mode & IO_MODE_OUTPUT) && (parser->command->output || parser->command->output_fd != 1))
-	    return (print_error(ERROR_AMBIGUOUS_OUTPUT_REDIRECT));
-	  parser_skip_whitespaces(parser);
-	  if (!parser->current ||
-	      parser->current->token.type != TOKEN_NAME)
-	    return (print_error(ERROR_MISSING_NAME_FOR_REDIRECT));
-	  token_content = parser->current->token.content;
-	  if (((mode & IO_MODE_INPUT) &&
-	       !(parser->command->input = redirection_new(token_content, mode)))
-	      || ((mode & IO_MODE_OUTPUT) &&
-		  !(parser->command->output = redirection_new(token_content,
-							      mode))))
-	    return (print_error(ERROR_MALLOC_FAILED));
-	  return (0);
-	}
-      ++i;
-    }
+  i = -1;
+  while (++i < 4)
+    if (!parser_expect_operator(parser, i, false))
+      {
+	mode = (i % 2 == 0) ? IO_MODE_INPUT : IO_MODE_OUTPUT;
+	mode |= (i < 2) ? IO_MODE_DOUBLE : IO_MODE_SIMPLE;
+	if ((error = check_redirection(parser, mode)))
+	  return (error);
+	token_content = parser->current->token.content;
+	if (((mode & IO_MODE_INPUT) &&
+	     !(parser->command->input = redirection_new(token_content, mode)))
+	    || ((mode & IO_MODE_OUTPUT) &&
+		!(parser->command->output = redirection_new(token_content,
+							    mode))))
+	  return (print_error(ERROR_MALLOC_FAILED));
+	return (0);
+      }
   return (0);
 }
 
@@ -104,18 +109,4 @@ t_err		parse_command(t_parser *parser, t_operator operator,
     return ((expected || command->input || command->output) ?
 	    print_error(ERROR_INVALID_NULL_COMMAND) : 0);
   return (parse_separator(parser));
-}
-
-t_err		parse(t_parser *parser)
-{
-  t_err		error;
-
-  while (!parser_expect_operator(parser, OP_SEMICOLON, false));
-  if (!parser->current)
-    return (0);
-  if ((error = parse_command(parser, OP_SEMICOLON, false)))
-    return (error);
-  if (!parser_expect_operator(parser, OP_SEMICOLON, false))
-    return (parse(parser));
-  return (0);
 }

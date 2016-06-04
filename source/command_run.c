@@ -16,25 +16,11 @@
 #include "command.h"
 #include "signals.h"
 
-t_err	command_run(t_command *command, t_application *app)
+t_err	command_run_fork(t_command *command, t_application *app)
 {
   pid_t	fork_pid;
-  t_err	error;
   char	**env;
 
-  if (app->exit_code != 0 && command->condition == CONDITION_AND)
-    return (0);
-  if (app->exit_code == 0 && command->condition == CONDITION_OR)
-    return (0);
-  if ((error = command_create_argv(command)))
-    return (error);
-  if (!command->piped_parent)
-    app->exit_code = 0;
-  /* FIXME: The parser should handle this */
-  /* if (!command->argv) */
-  /*   return (print_error(ERROR_INVALID_NULL_COMMAND)); */
-  redirection_check(command->input);
-  command->path = env_get_prog_path(app->path, command->argv[0]);
   if (command->piped_command || !builtin_run(app, command->argv))
     {
       env = env_to_strarray(app->env);
@@ -52,6 +38,23 @@ t_err	command_run(t_command *command, t_application *app)
   return (0);
 }
 
+t_err	command_run(t_command *command, t_application *app)
+{
+  t_err	error;
+
+  if (app->exit_code != 0 && command->condition == CONDITION_AND)
+    return (0);
+  if (app->exit_code == 0 && command->condition == CONDITION_OR)
+    return (0);
+  if ((error = command_create_argv(command)))
+    return (error);
+  if (!command->piped_parent)
+    app->exit_code = 0;
+  redirection_check(command->input);
+  command->path = env_get_prog_path(app->path, command->argv[0]);
+  return (command_run_fork(command, app));
+}
+
 t_err	command_prepare_redirections(t_command *command)
 {
   int	pipe_fd[2];
@@ -65,38 +68,6 @@ t_err	command_prepare_redirections(t_command *command)
       close(pipe_fd[1]);
     }
   return (0);
-}
-
-t_err	command_setup_pipe(t_command *command)
-{
-  int	pipe_fd[2];
-
-  if (pipe(pipe_fd) == -1)
-    return (print_error(ERROR_PIPE_FAILED));
-  command->piped_command->input_fd = pipe_fd[0];
-  command->piped_command->piped_parent = command;
-  command->output_fd = pipe_fd[1];
-  return (0);
-}
-
-void		command_close_pipes(t_command *command)
-{
-  while (command->piped_parent)
-    command = command->piped_parent;
-  while (command)
-    {
-      if (command->input_fd > 2)
-	{
-	  close(command->input_fd);
-	  command->input_fd = -1;
-	}
-      if (command->output_fd > 2)
-	{
-	  close(command->output_fd);
-	  command->output_fd = -1;
-	}
-      command = command->piped_command;
-    }
 }
 
 void	command_run_program(t_command *command, t_application *app, char **env)

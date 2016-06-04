@@ -26,6 +26,7 @@ SOURCES		= source/application.c \
 			  source/builtin_env.c \
 			  source/builtins.c \
 			  source/command.c \
+			  source/command_pipe.c \
 			  source/command_run.c \
 			  source/env.c \
 			  source/env_utils.c \

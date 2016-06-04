@@ -31,7 +31,6 @@ t_err		application_init(t_application *app, char **env)
       (my_getenv(app->env, "TERM") && setterm(NULL) != OK))
     return (print_error(ERROR_SETTERM_FAILED));
   builtin_init_array(app);
-  /* my_memset(&app->parser, 0, sizeof(t_parser)); #<{(| FIXME: Is it needed? |)}># */
   app->is_running = true;
   if (isatty(0) && isatty(1))
     my_putstr(tigetstr("smkx"));
@@ -63,20 +62,6 @@ void		application_run(t_application *app)
     }
 }
 
-/* void	application_test_lexer(char *cmd) */
-/* { */
-/*   t_string_reader	reader; */
-/*   t_token_list		list; */
-/*  */
-/*   my_memset(&list, 0, sizeof(t_token_list)); */
-/*   reader.string = cmd; */
-/*   reader.length = my_strlen(cmd); */
-/*   reader.pos = 0; */
-/*   lexer_fill_token_list(&reader, &list); */
-/*   token_list_print(&list); */
-/*   token_list_free(&list); */
-/* } */
-
 void			application_run_command(t_application *app, char *cmd)
 {
   t_string_reader	reader;
@@ -89,7 +74,6 @@ void			application_run_command(t_application *app, char *cmd)
   reader.pos = 0;
   if (!lexer_fill_token_list(&reader, &token_list))
     {
-      /* token_list_print(&token_list); */
       app->parser.current = token_list.first;
       if (!parse(&app->parser))
 	{

@@ -22,8 +22,6 @@ t_command	*command_new(char *str)
   if (!str || !(command = malloc(sizeof(t_command))))
     return (NULL);
   my_memset(command, 0, sizeof(t_command));
-  /* if (!(command->argv = my_str_to_array(str, " "))) */
-  /*   return (NULL); */
   command->output_fd = 1;
   return (command);
 }

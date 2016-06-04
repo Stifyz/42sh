@@ -68,3 +68,17 @@ t_err		parser_expect_operator(t_parser *parser, t_operator operator,
   /* return (print_error(error, operator, token->begin)); */
   return (1);
 }
+
+t_err		parse(t_parser *parser)
+{
+  t_err		error;
+
+  while (!parser_expect_operator(parser, OP_SEMICOLON, false));
+  if (!parser->current)
+    return (0);
+  if ((error = parse_command(parser, OP_SEMICOLON, false)))
+    return (error);
+  if (!parser_expect_operator(parser, OP_SEMICOLON, false))
+    return (parse(parser));
+  return (0);
+}
