@@ -31,7 +31,6 @@ t_err		application_init(t_application *app, char **env)
       (my_getenv(app->env, "TERM") && setterm(NULL) != OK))
     return (print_error(ERROR_SETTERM_FAILED));
   builtin_init_array(app);
-  /* my_memset(&app->parser, 0, sizeof(t_parser)); #<{(| FIXME: Is it needed? |)}># */
   app->is_running = true;
   if (isatty(0) && isatty(1))
     my_putstr(tigetstr("smkx"));
@@ -53,7 +52,7 @@ void		application_run(t_application *app)
 	  if ((first_invalid_char = my_cmd_isvalid(line)) != -1)
 	    print_error(ERROR_SYNTAX_ERROR, first_invalid_char);
 	  else
-	    line = application_run_command(app, line);
+	    application_run_command(app, line);
 	  free(line);
 	}
       else
@@ -63,43 +62,32 @@ void		application_run(t_application *app)
     }
 }
 
-void	application_test_lexer(char *cmd)
+void			application_run_command(t_application *app, char *cmd)
 {
   t_string_reader	reader;
-  t_token_list		list;
+  t_token_list		token_list;
+  t_command		*tmp;
 
-  my_memset(&list, 0, sizeof(t_token_list));
+  my_memset(&token_list, 0, sizeof(t_token_list));
   reader.string = cmd;
   reader.length = my_strlen(cmd);
   reader.pos = 0;
-  lexer_fill_token_list(&reader, &list);
-  token_list_print(&list);
-  token_list_free(&list);
-}
-
-char	*application_run_command(t_application *app, char *cmd)
-{
-  t_command	*tmp;
-  t_parser	parser;
-
-  /* application_test_lexer(cmd); #<{(| FIXME: TO REMOVE |)}># */
-  my_memset(&parser, 0, sizeof(t_parser));
-  cmd = my_epur_str(cmd);
-  if (cmd[0] != '\0' && (cmd[0] != ' ' || cmd[1] != '\0'))
+  if (!lexer_fill_token_list(&reader, &token_list))
     {
-      if (parser_parse_str(&parser, app, cmd))
+      app->parser.current = token_list.first;
+      if (!parse(&app->parser))
 	{
-	  return (cmd);
+	  tmp = app->parser.full_command;
+	  while (tmp)
+	    {
+	      command_run(tmp, app);
+	      tmp = tmp->next;
+	    }
+	  command_free(app->parser.full_command);
+	  my_memset(&app->parser, 0, sizeof(t_parser));
 	}
-      tmp = parser.commands;
-      while (tmp)
-	{
-	  command_run(tmp, app);
-	  tmp = tmp->next;
-	}
-      command_free(parser.commands);
     }
-  return (cmd);
+  token_list_free(&token_list);
 }
 
 void		application_free(t_application *app)

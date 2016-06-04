@@ -26,6 +26,7 @@ SOURCES		= source/application.c \
 			  source/builtin_env.c \
 			  source/builtins.c \
 			  source/command.c \
+			  source/command_pipe.c \
 			  source/command_run.c \
 			  source/env.c \
 			  source/env_utils.c \
@@ -35,6 +36,7 @@ SOURCES		= source/application.c \
 			  source/lexer_utils.c \
 			  source/main.c \
 			  source/parser.c \
+			  source/parser_command.c \
 			  source/prompt.c \
 			  source/prompt_char_handlers.c \
 			  source/redirection.c \

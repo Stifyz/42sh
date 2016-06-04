@@ -20,8 +20,9 @@ void		token_print(t_token *token)
 
   i = 0;
   token_types[0] = "WHITESPACE";
-  token_types[1] = "OPERATOR";
-  token_types[2] = "NAME";
+  token_types[1] = "SEPARATOR";
+  token_types[2] = "REDIRECTION";
+  token_types[3] = "NAME";
   while (i < TOKEN_COUNT)
     {
       if (token->type == i)

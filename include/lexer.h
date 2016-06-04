@@ -43,6 +43,7 @@ t_match		lexer_match(t_string_reader *reader);
 
 /* lexer_utils.c */
 bool		lexer_is_name(char c);
+bool		lexer_is_whitespace(char c);
 t_match		lexer_gen_empty_match();
 t_match		gen_match_from_token(t_string_reader	*reader,
 				     size_t		end,

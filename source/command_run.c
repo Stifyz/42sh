@@ -16,7 +16,7 @@
 #include "command.h"
 #include "signals.h"
 
-t_err	command_run(t_command *command, t_application *app)
+t_err	command_run_fork(t_command *command, t_application *app)
 {
   pid_t	fork_pid;
   char	**env;
@@ -26,7 +26,8 @@ t_err	command_run(t_command *command, t_application *app)
     return (print_error(ERROR_INVALID_NULL_COMMAND));
   redirection_check(command->input);
   command->path = env_get_prog_path(app->path, command->argv[0]);
-  if (command->piped_command || (!alias_run(app, command->argv) && !builtin_run(app, command->argv)))
+  if (command->piped_command || (!alias_run(app, command->argv) &&
+				 !builtin_run(app, command->argv)))
     {
       env = env_to_strarray(app->env);
       fork_pid = fork();
@@ -41,6 +42,23 @@ t_err	command_run(t_command *command, t_application *app)
       my_free_str_array(env);
     }
   return (0);
+}
+
+t_err	command_run(t_command *command, t_application *app)
+{
+  t_err	error;
+
+  if (app->exit_code != 0 && command->condition == CONDITION_AND)
+    return (0);
+  if (app->exit_code == 0 && command->condition == CONDITION_OR)
+    return (0);
+  if ((error = command_create_argv(command)))
+    return (error);
+  if (!command->piped_parent)
+    app->exit_code = 0;
+  redirection_check(command->input);
+  command->path = env_get_prog_path(app->path, command->argv[0]);
+  return (command_run_fork(command, app));
 }
 
 t_err	command_prepare_redirections(t_command *command)
@@ -58,38 +76,6 @@ t_err	command_prepare_redirections(t_command *command)
   return (0);
 }
 
-t_err	command_setup_pipe(t_command *command)
-{
-  int	pipe_fd[2];
-
-  if (pipe(pipe_fd) == -1)
-    return (print_error(ERROR_PIPE_FAILED));
-  command->piped_command->input_fd = pipe_fd[0];
-  command->piped_command->piped_parent = command;
-  command->output_fd = pipe_fd[1];
-  return (0);
-}
-
-void		command_close_pipes(t_command *command)
-{
-  while (command->piped_parent)
-    command = command->piped_parent;
-  while (command)
-    {
-      if (command->input_fd > 2)
-	{
-	  close(command->input_fd);
-	  command->input_fd = -1;
-	}
-      if (command->output_fd > 2)
-	{
-	  close(command->output_fd);
-	  command->output_fd = -1;
-	}
-      command = command->piped_command;
-    }
-}
-
 void	command_run_program(t_command *command, t_application *app, char **env)
 {
   int	exit_code;
@@ -97,12 +83,15 @@ void	command_run_program(t_command *command, t_application *app, char **env)
   exit_code = 0;
   if (command_open_redirections(command) ||
       command_prepare_redirections(command))
-    exit(exit_code);
+    exit(1);
   dup2(command->output_fd, 1);
   dup2(command->input_fd, 0);
   command_close_pipes(command);
   if (!alias_run(app, command->argv) && !builtin_run(app, command->argv)
       && (!command->path || execve(command->path, command->argv, env) == -1))
-    exit_code = print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]);
+    {
+      exit_code = 1;
+      print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]);
+    }
   exit(exit_code);
 }

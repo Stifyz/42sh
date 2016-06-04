@@ -25,13 +25,14 @@ typedef struct	s_application
   int		exit_code;
   bool		is_running;
   t_prompt	prompt;
+  t_parser	parser;
   t_builtin	builtins[BUILTINS_COUNT];
   t_alias	*alias_list;
 }		t_application;
 
 t_err		application_init(t_application *app, char **env);
 void		application_run(t_application *app);
-char		*application_run_command(t_application *app, char *cmd);
+void		application_run_command(t_application *app, char *cmd);
 void		application_free(t_application *app);
 
 #endif /* !APPLICATION_H_ */

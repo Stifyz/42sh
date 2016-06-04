@@ -13,9 +13,16 @@
 #include <string.h>
 #include "lexer.h"
 
+/* FIXME: Update for shell */
 bool	lexer_is_name(char c)
 {
-  return (my_is_alphanum(c) || c == '_' || c == '-');
+  return (c != '>' && c != '<' && c != '|' && c != ' ' && c != ';' &&
+	  c != '&' && c != ' ' && c != '\t');
+}
+
+bool	lexer_is_whitespace(char c)
+{
+  return (c == ' ' || c == '\t');
 }
 
 t_match		lexer_gen_empty_match()

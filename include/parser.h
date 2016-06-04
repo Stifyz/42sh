@@ -10,19 +10,26 @@
 #ifndef PARSER_H_
 # define PARSER_H_
 
+# include <stdbool.h>
 # include "command.h"
 # include "error.h"
+# include "token.h"
 
-typedef struct	s_parser
+typedef struct		s_parser
 {
-  t_command	*commands;
-  t_command	*last;
-}		t_parser;
+  t_token_elem		*list;
+  t_token_elem		*current;
+  t_command		*full_command;
+  t_command		*command;
+}			t_parser;
 
-t_err		parser_parse_str(t_parser *, struct s_application *, char *);
-t_err		parser_add_pipe(t_parser *, struct s_application *, char *);
-t_err		parser_add_command(t_parser *, struct s_application *, char *);
-char		*parser_edit_command_str(char *cmd);
-t_command	*parser_new_command(char *cmd);
+/* parser.c */
+t_command	*parser_add_command(t_parser *parser, bool is_piped);
+void		parser_skip_whitespaces(t_parser *parser);
+t_err		parser_expect_operator(t_parser *parser, t_operator operator,
+				       bool error_enabled);
+
+t_err		parse(t_parser *parser);
+t_err		parse_command(t_parser *parser, t_operator, bool expected);
 
 #endif /* !PARSER_H_ */

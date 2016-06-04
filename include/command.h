@@ -15,10 +15,27 @@
 
 struct s_application;
 
+typedef struct		s_argument
+{
+  char			*str;
+  struct s_argument	*next;
+}			t_argument;
+
+typedef enum		e_condition
+{
+  CONDITION_NONE,
+  CONDITION_AND,
+  CONDITION_OR
+}			t_condition;
+
 typedef struct		s_command
 {
+  t_argument		*args;
+  t_argument		*last_arg;
+  int			argc;
   char			**argv;
   char			*path;
+  t_condition		condition;
   int			input_fd;
   int			output_fd;
   t_redirection		*input;
@@ -28,13 +45,18 @@ typedef struct		s_command
   struct s_command	*next;
 }			t_command;
 
-t_command	*command_new(char *str);
+/* command.c */
+t_command	*command_new();
+t_err		command_add_argument(t_command *command, char *str);
+t_err		command_create_argv(t_command *command);
 t_err		command_open_redirections(t_command *command);
-t_err		command_parse_redirections(t_command *command);
 void		command_free(t_command *command);
 
+/* command_pipe.c */
 t_err	command_setup_pipe(t_command *command);
 void	command_close_pipes(t_command *command);
+
+/* command_run.c */
 t_err	command_run(t_command *command, struct s_application *app);
 void	command_run_program(t_command *, struct s_application *, char **env);
 

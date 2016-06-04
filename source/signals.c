@@ -17,8 +17,8 @@ void	signals_check_status(t_application *app)
   int	status;
 
   wait(&status);
-  if (WIFEXITED(status) && WEXITSTATUS(status) == 127)
-    app->exit_code = 1;
+  if (WIFEXITED(status) && !app->exit_code)
+    app->exit_code = WEXITSTATUS(status);
   else if (WIFSIGNALED(status))
     {
       if (WTERMSIG(status) == SIGSEGV)

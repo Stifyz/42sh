@@ -59,7 +59,7 @@ int	my_cmd_isvalid(char *str)
   return (-1);
 }
 
-int			my_getch_term() 
+int			my_getch_term()
 {
   struct termios	old_t;
   struct termios	new_t;
