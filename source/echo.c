@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 18:49:32 2016 Bouama_r
-** Last update Sat Jun  4 22:16:55 2016 Bouama_r
+** Last update Sat Jun  4 23:51:54 2016 Bouama_r
 */
 
 #include <my.h>
@@ -67,17 +67,17 @@ void	flag_e(int ac, char **av)
   int		i;
   int		j;
 
-  i = 0;
-  j = 1;
-  while (av[j] != NULL)
+  j = 0;
+  (void)ac;
+  while (av[++j] != NULL)
     {
       if (av[j][0] != '-')
 	break;
-      j++;
     }
-  while (av[j] != NULL)
+  while (av[++j] != NULL)
     {
-      while (av[j][i] != '\0')
+      i = -1;
+      while (av[j][++i] != '\0')
 	{
 	  if (av[j][i] == '\\' && av[j][i + 1])
 	    {
@@ -85,11 +85,8 @@ void	flag_e(int ac, char **av)
 	    }
 	  else
 	    my_putchar(av[j][i]);
-	  i++;
-	}
+        }
       my_putchar(' ');
-      j++;
-      i = 0;
     }
 }
 

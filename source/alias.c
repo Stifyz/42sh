@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Sat Jun  4 01:50:05 2016 Bouama_r
-** Last update Sat Jun  4 23:37:01 2016 Bouama_r
+** Last update Sat Jun  4 23:49:40 2016 Bouama_r
 */
 
 #include <my.h>
@@ -18,10 +18,8 @@ t_alias		*search_alias(t_application *app, char **av)
   t_alias	*tmp;
 
   tmp = app->alias_list;
-  my_printf("av[0] : %s\n", av[0]);
   while (tmp)
     {
-      my_printf("tmp->name : %s\n", tmp->name);
       if (my_strcmp(av[0], tmp->name) == 0)
 	return (tmp);
       tmp = tmp->next;
@@ -46,7 +44,6 @@ t_err		alias_run(t_application *app, char **av)
 	  cmd = my_strcatm(cmd, av[i]);
 	  i++;
 	}
-      my_printf("cmd_run : %s\n", cmd);
       application_run_command(app, cmd);
       return (true);
     }
@@ -77,7 +74,6 @@ t_alias		*alias_new(char *name, char *cmd)
 {
   t_alias	*elem;
 
-  my_printf("__ name : %s\n cmd : %s\n", name, cmd);
   elem = NULL;
   if ((elem = malloc(sizeof(t_alias))) == NULL)
     return (elem);
@@ -104,11 +100,9 @@ t_err		builtin_alias(t_application *app, int ac, char **av)
     {
       if (i != 2)
 	cmd = my_strcatm(cmd, " ");
-      my_printf("av (i] : %s\n", av[i]);
       cmd = my_strcatm(cmd, av[i]);
       i++;
     }
-  my_printf("name : %s\n cmd : %s\n", name, cmd);
   new = alias_new(name, cmd);
   new->next = app->alias_list;
   app->alias_list = new;
