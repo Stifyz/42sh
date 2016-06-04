@@ -27,15 +27,16 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[8] = "%s: Variable name must contain alphanumeric characters only";
   messages[9] = "Error: Fork failed";
   messages[10] = "Unable to open file: %s";
-  messages[11] = "Ambiguous output redirect";
-  messages[12] = "Ambiguous input redirect";
-  messages[13] = "Invalid null command";
+  messages[11] = "Ambiguous output redirect.";
+  messages[12] = "Ambiguous input redirect.";
+  messages[13] = "Invalid null command.";
   messages[14] = "Can't add token to list";
   messages[15] = "Unexpected char at position %d";
   messages[16] = "Unexpected end of string";
   messages[17] = "Expected operator with id %d at position %d";
   messages[18] = "Curses init failed";
   messages[19] = "setterm failed";
+  messages[20] = "Missing name for redirect.";
   messages[126] = "%s: Command not found.";
 }
 

@@ -23,8 +23,15 @@ t_err		parse_redirection(t_parser *parser)
 	{
 	  mode = (i % 2 == 0) ? IO_MODE_INPUT : IO_MODE_OUTPUT;
 	  mode |= (i < 2) ? IO_MODE_DOUBLE : IO_MODE_SIMPLE;
-	  /* FIXME: Ambiguous output redirect. */
 	  /* FIXME: Missing name for redirect. */
+	  if ((mode & IO_MODE_INPUT) && (parser->command->input || parser->command->input_fd != 0))
+	    return (print_error(ERROR_AMBIGUOUS_INPUT_REDIRECT));
+	  if ((mode & IO_MODE_OUTPUT) && (parser->command->output || parser->command->output_fd != 1))
+	    return (print_error(ERROR_AMBIGUOUS_OUTPUT_REDIRECT));
+	  parser_skip_whitespaces(parser);
+	  if (!parser->current ||
+	      parser->current->token.type != TOKEN_NAME)
+	    return (print_error(ERROR_MISSING_NAME_FOR_REDIRECT));
 	  token_content = parser->current->token.content;
 	  if (((mode & IO_MODE_INPUT) &&
 	       !(parser->command->input = redirection_new(token_content, mode)))
@@ -47,7 +54,11 @@ t_err	parse_separator(t_parser *parser)
   while (i < 3)
     {
       if (!parser_expect_operator(parser, i + 4, false))
-	return (parse_command(parser, i + 4, true));
+	{
+	  if (i + 4 == OP_PIPE && parser->command->output)
+	    return (print_error(ERROR_AMBIGUOUS_OUTPUT_REDIRECT));
+	  return (parse_command(parser, i + 4, true));
+	}
       ++i;
     }
   return (0);
@@ -89,6 +100,9 @@ t_err		parse_command(t_parser *parser, t_operator operator,
     command->condition = CONDITION_NONE;
   if ((error = parse_arguments(parser, command)))
     return (error);
+  if (!command->args)
+    return ((expected || command->input || command->output) ?
+	    print_error(ERROR_INVALID_NULL_COMMAND) : 0);
   return (parse_separator(parser));
 }
 

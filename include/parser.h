@@ -15,27 +15,6 @@
 # include "error.h"
 # include "token.h"
 
-/* typedef enum		e_expr_type */
-/* { */
-/*   EXPR_TYPE, */
-/*   EXPR_NAME, */
-/*   EXPR_VAR_DECL, */
-/*   EXPR_FUNC_DECL, */
-/*   EXPR_FUNC_PTR_NAME, */
-/*   EXPR_FUNC_PTR_DECL */
-/* }			t_expr_type; */
-/*  */
-/* typedef struct		s_expression */
-/* { */
-/*   t_ctype		ctype; */
-/*   t_expr_type		type; */
-/*   int			pointer_count; */
-/*   char			*type_name; */
-/*   char			*name; */
-/*   struct s_expression	*child; */
-/*   struct s_expression	*next; */
-/* }			t_expression; */
-
 typedef struct		s_parser
 {
   t_token_elem		*list;
