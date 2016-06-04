@@ -106,4 +106,5 @@ t_err		builtin_alias(t_application *app, int ac, char **av)
   new = alias_new(name, cmd);
   new->next = app->alias_list;
   app->alias_list = new;
+  return (0);
 }
