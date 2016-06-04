@@ -17,7 +17,7 @@ void	signals_check_status(t_application *app)
   int	status;
 
   wait(&status);
-  if (WIFEXITED(status))
+  if (WIFEXITED(status) && !app->exit_code)
     app->exit_code = WEXITSTATUS(status);
   else if (WIFSIGNALED(status))
     {

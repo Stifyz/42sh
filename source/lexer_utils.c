@@ -16,7 +16,13 @@
 bool	lexer_is_name(char c)
 {
   /* FIXME: Update for shell */
-  return (c != '>' && c != '<' && c != '|' && c != ' ' && c != ';' && c != '&');
+  return (c != '>' && c != '<' && c != '|' && c != ' ' && c != ';' &&
+	  c != '&' && c != ' ' && c != '\t');
+}
+
+bool	lexer_is_whitespace(char c)
+{
+  return (c == ' ' || c == '\t');
 }
 
 t_match		lexer_gen_empty_match()

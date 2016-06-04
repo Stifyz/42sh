@@ -35,6 +35,7 @@ SOURCES		= source/application.c \
 			  source/lexer_utils.c \
 			  source/main.c \
 			  source/parser.c \
+			  source/parser_command.c \
 			  source/prompt.c \
 			  source/prompt_char_handlers.c \
 			  source/redirection.c \

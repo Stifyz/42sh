@@ -28,7 +28,8 @@ t_err	command_run(t_command *command, t_application *app)
     return (0);
   if ((error = command_create_argv(command)))
     return (error);
-  app->exit_code = 0;
+  if (!command->piped_parent)
+    app->exit_code = 0;
   /* FIXME: The parser should handle this */
   /* if (!command->argv) */
   /*   return (print_error(ERROR_INVALID_NULL_COMMAND)); */

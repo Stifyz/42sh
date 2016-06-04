@@ -44,11 +44,12 @@ typedef struct		s_parser
 }			t_parser;
 
 /* parser.c */
-/* t_err		parser_init(t_parser *parser); */
+t_command	*parser_add_command(t_parser *parser, bool is_piped);
 void		parser_skip_whitespaces(t_parser *parser);
 t_err		parser_expect_operator(t_parser *parser, t_operator operator,
 				       bool error_enabled);
 
 t_err		parse(t_parser *parser);
+t_err		parse_command(t_parser *parser, t_operator operator);
 
 #endif /* !PARSER_H_ */
