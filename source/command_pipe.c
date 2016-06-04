@@ -11,6 +11,13 @@
 #include <unistd.h>
 #include "command.h"
 
+void	command_init_pipe(t_command *command)
+{
+  command->piped_command->input_fd = -1;
+  command->piped_command->piped_parent = command;
+  command->output_fd = -1;
+}
+
 t_err	command_setup_pipe(t_command *command)
 {
   int	pipe_fd[2];
