@@ -238,7 +238,7 @@ t_err		parse_redirection(t_parser *parser)
       if (!parser_expect_operator(parser, i, false))
 	{
 	  mode = (i % 2 == 0) ? IO_MODE_INPUT : IO_MODE_OUTPUT;
-	  mode |= (i < 2) ? IO_MODE_SIMPLE : IO_MODE_DOUBLE;
+	  mode |= (i < 2) ? IO_MODE_DOUBLE : IO_MODE_SIMPLE;
 	  /* FIXME: Ambiguous output redirect. */
 	  /* FIXME: Missing name for redirect. */
 	  token_content = parser->current->token.content;

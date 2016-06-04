@@ -44,10 +44,10 @@ t_match		lexer_match_redirection(t_string_reader *reader, size_t pos)
   int		i;
 
   i = 0;
-  operators[0] = "<";
-  operators[1] = ">";
-  operators[2] = "<<";
-  operators[3] = ">>";
+  operators[0] = "<<";
+  operators[1] = ">>";
+  operators[2] = "<";
+  operators[3] = ">";
   while (i < 4)
     {
       if (my_strstr(reader->string + pos, operators[i]) == reader->string + pos)
@@ -65,8 +65,7 @@ t_match		lexer_match_name(t_string_reader *reader, size_t pos)
 {
   t_token_value	token_value;
 
-  /* FIXME: my_is_num was for C lexing */
-  if (my_is_num(reader->string[pos]) || !lexer_is_name(reader->string[pos]))
+  if (!lexer_is_name(reader->string[pos]))
     return (lexer_gen_empty_match());
   while (lexer_is_name(reader->string[pos]))
     ++pos;
