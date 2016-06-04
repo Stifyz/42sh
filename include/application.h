@@ -1,11 +1,11 @@
 /*
 ** application.h for  in /home/bazin_q/rendu/PSU/PSU_2015_minishell2/include
-** 
+**
 ** Made by Quentin Bazin
 ** Login   <bazin_q@epitech.net>
-** 
+**
 ** Started on  Fri Mar 25 16:57:25 2016 Quentin Bazin
-** Last update Fri Mar 25 16:57:25 2016 Quentin Bazin
+** Last update Sat Jun  4 02:29:41 2016 Bouama_r
 */
 #ifndef APPLICATION_H_
 # define APPLICATION_H_
@@ -15,6 +15,7 @@
 # include "env.h"
 # include "parser.h"
 # include "prompt.h"
+# include "alias.h"
 
 typedef struct	s_application
 {
@@ -26,6 +27,7 @@ typedef struct	s_application
   t_parser	parser;
   t_prompt	prompt;
   t_builtin	builtins[BUILTINS_COUNT];
+  t_alias	*alias_list;
 }		t_application;
 
 t_err		application_init(t_application *app, char **env);

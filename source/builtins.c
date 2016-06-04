@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 **
 ** Started on  Thu Jan 21 10:20:57 2016 Quentin Bazin
-** Last update Fri Jun  3 22:15:46 2016 Bouama_r
+** Last update Sat Jun  4 03:27:26 2016 Bouama_r
 */
 
 #include <my.h>
@@ -20,12 +20,14 @@ void	builtin_init_array(t_application *app)
   app->builtins[3].name = "env";
   app->builtins[4].name = "exit";
   app->builtins[5].name = "echo";
+  app->builtins[6].name = "alias";
   app->builtins[0].func = &builtin_cd;
   app->builtins[1].func = &builtin_setenv;
   app->builtins[2].func = &builtin_unsetenv;
   app->builtins[3].func = &builtin_env;
   app->builtins[4].func = &builtin_exit;
   app->builtins[5].func = &builtin_echo;
+  app->builtins[6].func = &builtin_alias;
 }
 
 int	builtin_run(t_application *app, char **argv)

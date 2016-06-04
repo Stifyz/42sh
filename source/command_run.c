@@ -1,11 +1,11 @@
 /*
 ** command_run.c for  in /home/bazin_q/rendu/PSU/PSU_2015_minishell2/source
-** 
+**
 ** Made by Quentin Bazin
 ** Login   <bazin_q@epitech.net>
-** 
+**
 ** Started on  Thu Apr 07 18:56:50 2016 Quentin Bazin
-** Last update Thu Apr 07 18:56:50 2016 Quentin Bazin
+** Last update Sat Jun  4 03:55:42 2016 Bouama_r
 */
 
 #include <my.h>
@@ -26,7 +26,7 @@ t_err	command_run(t_command *command, t_application *app)
     return (print_error(ERROR_INVALID_NULL_COMMAND));
   redirection_check(command->input);
   command->path = env_get_prog_path(app->path, command->argv[0]);
-  if (command->piped_command || !builtin_run(app, command->argv))
+  if (command->piped_command || !alias_run(app, command->argv) || !builtin_run(app, command->argv))
     {
       env = env_to_strarray(app->env);
       fork_pid = fork();
@@ -101,7 +101,7 @@ void	command_run_program(t_command *command, t_application *app, char **env)
   dup2(command->output_fd, 1);
   dup2(command->input_fd, 0);
   command_close_pipes(command);
-  if (!builtin_run(app, command->argv)
+  if (!alias_run(app, command->argv) && !builtin_run(app, command->argv)
       && (!command->path || execve(command->path, command->argv, env) == -1))
     exit_code = print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]);
   exit(exit_code);

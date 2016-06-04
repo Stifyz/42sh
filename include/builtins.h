@@ -5,14 +5,14 @@
 ** Login   <bazin_q@epitech.net>
 **
 ** Started on  Sat Mar 26 10:31:46 2016 Quentin Bazin
-** Last update Fri Jun  3 22:14:31 2016 Bouama_r
+** Last update Sat Jun  4 03:26:05 2016 Bouama_r
 */
 #ifndef BUILTINS_H_
 # define BUILTINS_H_
 
 # include "error.h"
 
-# define BUILTINS_COUNT 6
+# define BUILTINS_COUNT 7
 
 struct s_application;
 
