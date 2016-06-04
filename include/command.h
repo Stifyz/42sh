@@ -55,6 +55,7 @@ void		command_free(t_command *command);
 /* command_pipe.c */
 void	command_init_pipe(t_command *command);
 t_err	command_setup_pipe(t_command *command);
+void	command_close_pipe(t_command *command);
 void	command_close_pipes(t_command *command);
 
 /* command_run.c */

@@ -27,6 +27,7 @@ void	signals_check_status(t_application *app)
 	  if (WCOREDUMP(status))
 	    my_puterr(" (core dumped)");
 	  my_puterr("\n");
+	  app->exit_code = 128 + SIGSEGV;
 	}
       else if (WTERMSIG(status) == SIGFPE)
 	{
@@ -34,6 +35,7 @@ void	signals_check_status(t_application *app)
 	  if (WCOREDUMP(status))
 	    my_puterr(" (core dumped)");
 	  my_puterr("\n");
+	  app->exit_code = 128 + SIGFPE;
 	}
     }
 }

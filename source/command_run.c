@@ -21,7 +21,6 @@ t_err	command_run_fork(t_command *command, t_application *app)
   pid_t	fork_pid;
   char	**env;
 
-  app->exit_code = 0;
   if (!command->argv[0])
     return (print_error(ERROR_INVALID_NULL_COMMAND));
   redirection_check(command->input);
@@ -29,6 +28,8 @@ t_err	command_run_fork(t_command *command, t_application *app)
   if (command->piped_command || (!alias_run(app, command->argv) &&
 				 !builtin_run(app, command->argv)))
     {
+      if (command->piped_command)
+	command_setup_pipe(command);
       env = env_to_strarray(app->env);
       fork_pid = fork();
       if (fork_pid == 0)
@@ -58,6 +59,7 @@ t_err	command_run(t_command *command, t_application *app)
     app->exit_code = 0;
   redirection_check(command->input);
   command->path = env_get_prog_path(app->path, command->argv[0]);
+  app->exit_code = 0;
   return (command_run_fork(command, app));
 }
 

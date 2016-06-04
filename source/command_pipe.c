@@ -25,9 +25,22 @@ t_err	command_setup_pipe(t_command *command)
   if (pipe(pipe_fd) == -1)
     return (print_error(ERROR_PIPE_FAILED));
   command->piped_command->input_fd = pipe_fd[0];
-  command->piped_command->piped_parent = command;
   command->output_fd = pipe_fd[1];
   return (0);
+}
+
+void	command_close_pipe(t_command *command)
+{
+  if (command->piped_command->input_fd > 2 && !command->piped_command->input)
+    {
+      close(command->piped_command->input_fd);
+      command->piped_command->input_fd = -1;
+    }
+  else if (command->output_fd > 2 && !command->output)
+    {
+      close(command->output_fd);
+      command->output_fd = -1;
+    }
 }
 
 void		command_close_pipes(t_command *command)
