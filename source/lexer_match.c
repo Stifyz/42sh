@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:47:02 2016 Quentin Bazin
-** Last update Sun May 22 14:47:02 2016 Quentin Bazin
+** Last update Sun Jun  5 01:37:06 2016 Nicolas Zimmermann
 */
 
 #include <ctype.h>
@@ -45,9 +45,11 @@ t_match		lexer_match_name(t_string_reader *reader, size_t pos)
 {
   t_token_value	token_value;
 
-  if (my_is_num(reader->string[pos]) || !lexer_is_name(reader->string[pos]))
-    return (lexer_gen_empty_match());
-  while (lexer_is_name(reader->string[pos]))
+  /* FIXME: my_is_num was for C lexing */
+  /* if (my_is_num(reader->string[pos]) || !lexer_is_name(reader->string[pos])) */
+  /*   return (lexer_gen_empty_match()); */
+  while (lexer_is_name(reader->string[pos],
+		       (pos > 0) ? reader->string[pos - 1] : 0))
     ++pos;
   my_memset(&token_value, 0, sizeof(t_token_value));
   return (gen_match_from_token(reader, pos, TOKEN_NAME, token_value));
@@ -57,6 +59,7 @@ t_match		lexer_match_whitespace(t_string_reader *reader, size_t pos)
 {
   t_token_value	token_value;
 
+  /* FIXME: Replace isspace by my_isspace (read man isspace) */
   if (!isspace(reader->string[pos]))
     return (lexer_gen_empty_match());
   while (isspace(reader->string[pos]))

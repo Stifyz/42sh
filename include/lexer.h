@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:43:42 2016 Quentin Bazin
-** Last update Sun May 22 14:43:42 2016 Quentin Bazin
+** Last update Sat Jun  4 18:23:11 2016 Nicolas Zimmermann
 */
 #ifndef LEXER_H_
 # define LEXER_H_
@@ -42,7 +42,7 @@ t_err		lexer_fill_token_list(t_string_reader *reader, t_token_list *);
 t_match		lexer_match(t_string_reader *reader);
 
 /* lexer_utils.c */
-bool		lexer_is_name(char c);
+bool		lexer_is_name(char c, char last_c);
 t_match		lexer_gen_empty_match();
 t_match		gen_match_from_token(t_string_reader	*reader,
 				     size_t		end,

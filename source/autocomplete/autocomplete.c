@@ -5,38 +5,59 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 31 12:13:15 2016 Nicolas Zimmermann
-** Last update Thu Jun  2 17:53:39 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 01:40:36 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
-#include <my_printf.h>
-#include <stdlib.h>
-#include "autocomplete.h"
 #include "application.h"
+#include "autocomplete.h"
+#include "lexer.h"
 
-int		autocomplete(t_prompt *prompt)
+t_err			autocomplete_lexer(char *cmds, t_token_list *list)
+{
+  t_string_reader	reader;
+
+  my_memset(list, 0, sizeof(t_token_list));
+  reader.string = cmds;
+  reader.length = my_strlen(cmds);
+  reader.pos = 0;
+  return (lexer_fill_token_list(&reader, list));
+}
+
+t_token_elem	*autocomplete_found_curs_pos(t_token_list *list,
+					     t_prompt *prompt)
+{
+  t_token_elem	*tmp;
+
+  tmp = list->first;
+  while (tmp && tmp->token.end != (size_t)prompt->pos)
+    tmp = tmp->next;
+  if (tmp && tmp->token.type == TOKEN_NAME)
+    return (tmp);
+  else
+    return (NULL);
+}
+
+t_err		autocomplete(t_prompt *prompt)
 {
   t_autocomp	autoc;
-  int		cnt;
+  t_token_list	list;
+  t_token_elem	*act;
+  t_err		err;
 
-  if (my_strcnt(prompt->line, ' ') == my_strlen(prompt->line))
+  if (!prompt->line || !*prompt->line)
     return (0);
-  autoc.buf = prompt->line;
-  list_file(&autoc, prompt->app->path);
-  if (!autoc.head)
+  if ((err = autocomplete_lexer(prompt->line, &list)))
+    return (err);
+  if (!(act = autocomplete_found_curs_pos(&list, prompt)))
     return (0);
-  sort_list(&autoc);
-  if (autoc.head && !autoc.head->next)
-    {
-      cnt = my_strlen(autoc.head->file_name) - my_strlen(prompt->line);
-      free(prompt->line);
-      prompt->line = autoc.head->file_name;
-      free(autoc.head);
-      return (cnt);
-    }
-  oh_my_42sh(&autoc);
-  if (autoc.head)
-    my_printf("%s%s", prompt->str, prompt->line);
+  if ((autoc.is_folder = my_char_in_str(act->token.content, '/')) == true)
+    err = autocomplete_folder(act->token.content, &autoc);
+  else
+    err = autocomplete_file(act->token.content, &autoc, prompt->app->path);
+  if (err || (err = oh_my_42sh(&autoc, prompt)))
+    return (err);
   free_file_list(&autoc);
-  return (0);
+  token_list_free(&list);
+  return (err);
 }

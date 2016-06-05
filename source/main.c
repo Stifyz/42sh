@@ -5,14 +5,13 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Fri Mar 25 16:57:01 2016 Quentin Bazin
-** Last update Fri Mar 25 16:57:01 2016 Quentin Bazin
+** Last update Sun Jun  5 01:41:26 2016 Nicolas Zimmermann
 */
-
-#include "application.h"
 
 #include <my.h>
 #include <ncurses.h>
 #include <term.h>
+#include "application.h"
 
 int		main(int argc, char **argv, char **env)
 {

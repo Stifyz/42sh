@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:47:28 2016 Quentin Bazin
-** Last update Sun May 22 14:47:28 2016 Quentin Bazin
+** Last update Sat Jun  4 21:59:03 2016 Nicolas Zimmermann
 */
 
 #include <ctype.h>
@@ -13,9 +13,23 @@
 #include <string.h>
 #include "lexer.h"
 
-bool	lexer_is_name(char c)
+bool	lexer_is_name(char c, char last_c)
 {
-  return (my_is_alphanum(c) || c == '_' || c == '-');
+  char	exept[7];
+  int	i;
+
+  exept[0] = ';';
+  exept[1] = '|';
+  exept[2] = '<';
+  exept[3] = '>';
+  exept[4] = '&';
+  exept[5] = ' ';
+  exept[6] = '\0';
+  i = 0;
+  while (i < 7)
+    if (c == exept[i++] && last_c != '\\')
+      return (false);
+  return (true);
 }
 
 t_match		lexer_gen_empty_match()
