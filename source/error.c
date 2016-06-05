@@ -37,6 +37,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[18] = "Curses init failed";
   messages[19] = "setterm failed";
   messages[20] = "Missing name for redirect.";
+  messages[21] = "%s: %e.%s";
   messages[126] = "%s: Command not found.";
 }
 

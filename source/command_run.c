@@ -9,6 +9,7 @@
 */
 
 #include <my.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include "application.h"
@@ -75,14 +76,8 @@ t_err	command_prepare_redirections(t_command *command)
   return (0);
 }
 
-void	command_run_program(t_command *command, t_application *app, char **env)
+void	command_redirect_io(t_command *command)
 {
-  int	exit_code;
-
-  exit_code = 0;
-  if (command_open_redirections(command) ||
-      command_prepare_redirections(command))
-    exit(1);
   if (command->output_fd != 1)
     {
       close(1);
@@ -95,9 +90,28 @@ void	command_run_program(t_command *command, t_application *app, char **env)
       dup(command->input_fd);
       close(command->input_fd);
     }
+}
+
+void	command_run_program(t_command *command, t_application *app, char **env)
+{
+  int	exit_code;
+
+  exit_code = 0;
+  if (command_open_redirections(command) ||
+      command_prepare_redirections(command))
+    exit(1);
+  command_redirect_io(command);
   command_close_pipes(command);
   if (!alias_run(app, command->argv) && !builtin_run(app, command->argv)
       && (!command->path || execve(command->path, command->argv, env) == -1))
-    exit_code = print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]) && 1;
+    {
+      if (errno == ENOENT || errno == EBADF)
+	exit_code = print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]) && 1;
+      else if (errno == ENOEXEC)
+	exit_code = print_error(ERROR_EXECVE_FAILED, command->argv[0],
+				" Binary file not executable.") && 1;
+      else
+	exit_code = print_error(ERROR_EXECVE_FAILED, command->argv[0], "") && 1;
+    }
   exit(exit_code);
 }
