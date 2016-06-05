@@ -10,6 +10,7 @@
 #ifndef COMMAND_H_
 # define COMMAND_H_
 
+# include <unistd.h>
 # include "error.h"
 # include "redirection.h"
 
@@ -40,6 +41,7 @@ typedef struct		s_command
   int			output_fd;
   t_redirection		*input;
   t_redirection		*output;
+  pid_t			pid;
   struct s_command	*piped_parent;
   struct s_command	*piped_command;
   struct s_command	*next;
@@ -55,6 +57,7 @@ void		command_free(t_command *command);
 /* command_pipe.c */
 void	command_init_pipe(t_command *command);
 t_err	command_setup_pipe(t_command *command);
+void	command_close_pipe(t_command *command);
 void	command_close_pipes(t_command *command);
 
 /* command_run.c */

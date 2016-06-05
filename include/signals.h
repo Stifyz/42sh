@@ -12,6 +12,6 @@
 
 # include "application.h"
 
-void	signals_check_status(t_application *app);
+void	signals_check_status(t_application *app, t_command *command);
 
 #endif /* !SIGNALS_H_ */

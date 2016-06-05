@@ -27,7 +27,7 @@ t_command	*parser_add_command(t_parser *parser, bool is_piped)
       else
 	{
 	  parser->command->piped_command = command;
-	  command_setup_pipe(parser->command);
+	  command_init_pipe(parser->command);
 	}
     }
   parser->command = command;
