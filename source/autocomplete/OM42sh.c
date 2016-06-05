@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 24 16:55:24 2016 Nicolas Zimmermann
-** Last update Sun Jun  5 03:46:31 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 22:09:01 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -17,6 +17,8 @@
 
 int	check_nb_elem(t_autocomp *autoc)
 {
+  int	input;
+
   if (autoc->nb_elem > MAX_ELEM_PRINTABLE)
     {
       my_printf("\nAutocomplete found %d elements", autoc->nb_elem);
@@ -25,7 +27,8 @@ int	check_nb_elem(t_autocomp *autoc)
       else
 	my_putchar('\n');
       my_printf("Do you want to display all of them? [y/N]");
-      return ((my_getch() == 'y') ? 0 : write(1, "\n", 1));
+      while ((input = my_getch()) == '\t');
+      return ((input == 'y') ? 0 : write(1, "\n", 1));
     }
   return (0);
 }

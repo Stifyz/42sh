@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:49:26 2016 Nicolas Zimmermann
-** Last update Sun Jun  5 07:19:53 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 21:21:32 2016 Nicolas Zimmermann
 */
 
 #ifndef AUTOCOMPLETE_H_
@@ -29,15 +29,14 @@ typedef	struct	s_file
 typedef struct	s_autocomp
 {
   int		nb_elem;
-  bool		is_folder;
   bool		is_file;
   char		*buf;
   t_file	*head;
 }		t_autocomp;
 
 t_err	autocomplete(t_prompt *prompt);
-t_err   autocomplete_folder(char *arg, t_autocomp *autoc);
-t_err	autocomplete_file(char *arg, t_autocomp *autoc, char **pathes);
+t_err   autocomplete_file(char *arg, t_autocomp *autoc);
+t_err	autocomplete_cmd(char *arg, t_autocomp *autoc, char **pathes);
 
 t_err	file_list(t_autocomp *autoc, char **pathes);
 void	free_file_list(t_autocomp *autoc);

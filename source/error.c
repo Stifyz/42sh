@@ -25,7 +25,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[6] = "%s: %e.";
   messages[7] = "%s: End of history.";
   messages[8] = "%s: Variable name must contain alphanumeric characters.";
-  messages[9] = "Error: Fork failed";
+  messages[9] = "fork: %e.";
   messages[10] = "%s: %e.";
   messages[11] = "Ambiguous output redirect.";
   messages[12] = "Ambiguous input redirect.";

@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 31 12:13:15 2016 Nicolas Zimmermann
-** Last update Sun Jun  5 16:03:25 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 21:21:59 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -62,20 +62,16 @@ t_err		autocomplete(t_prompt *prompt)
   t_token_elem	*act;
   t_err		err;
 
-  autoc.is_file = false;
   if (!prompt->line || !*prompt->line)
     return (0);
   if ((err = autocomplete_lexer(prompt->line, &list)))
     return (err);
   if (!(act = autocomplete_found_curs_pos(&list, prompt)))
     return (0);
-  if ((autoc.is_folder = my_char_in_str(act->token.value.string, '/')) == true)
-    err = autocomplete_folder(act->token.value.string, &autoc);
+  if ((autoc.is_file = is_file(&list, act)) == true)
+    err = autocomplete_file(act->token.value.string, &autoc);
   else
-    {
-      autoc.is_file = is_file(&list, act);
-      err = autocomplete_file(act->token.value.string, &autoc, prompt->app->path);
-    }
+    err = autocomplete_cmd(act->token.value.string, &autoc, prompt->app->path);
   if (err || (err = oh_my_42sh(&autoc, prompt)))
     return (err);
   free_file_list(&autoc);
