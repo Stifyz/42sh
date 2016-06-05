@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:47:28 2016 Quentin Bazin
-** Last update Sun May 22 14:47:28 2016 Quentin Bazin
+** Last update Sat Jun  4 21:59:03 2016 Nicolas Zimmermann
 */
 
 #include <ctype.h>
@@ -13,11 +13,19 @@
 #include <string.h>
 #include "lexer.h"
 
-/* FIXME: Update for shell */
-bool	lexer_is_name(char c)
+bool	lexer_is_name(char c, char last_c)
 {
-  return (c && c != '>' && c != '<' && c != '|' && c != ';' && c != '&' &&
-	  c != ' ' && c != '\t');
+  char	*reserved;
+  int	i;
+
+  i = 0;
+  reserved = ";|<>&\t ";
+  if (!c)
+    return (false);
+  while (reserved[i])
+    if (c == reserved[i++] && last_c != '\\')
+      return (false);
+  return (true);
 }
 
 bool	lexer_is_whitespace(char c)

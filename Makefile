@@ -5,7 +5,7 @@
 ## Login   <bazin_q@epitech.net>
 ## 
 ## Started on  Tue Dec 01 15:46:23 2015 Quentin Bazin
-## Last update Sun Jun  5 03:13:37 2016 Bouama_r
+## Last update Sun Jun  5 04:24:40 2016 Nicolas Zimmermann
 ##
 
 NAME		= 42sh
@@ -15,7 +15,10 @@ INC_DIRS	= include
 SOURCES		= source/application.c \
 			  source/autocomplete/OM42sh.c \
 			  source/autocomplete/autocomplete.c \
+			  source/autocomplete/autocomplete_file.c \
+			  source/autocomplete/autocomplete_folder.c \
 			  source/autocomplete/display_autocomplete.c \
+			  source/autocomplete/display_autocomplete_in_line.c \
 			  source/autocomplete/file_list.c \
 			  source/autocomplete/free_list.c \
 			  source/autocomplete/my_getmaxyx.c \

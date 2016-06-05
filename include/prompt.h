@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Thu May 26 15:21:03 2016 Quentin Bazin
-** Last update Thu May 26 15:21:03 2016 Quentin Bazin
+** Last update Sun Jun  5 01:05:27 2016 Nicolas Zimmermann
 */
 #ifndef PROMPT_H_
 # define PROMPT_H_
@@ -48,5 +48,7 @@ void	print_key(int key); /* FIXME: DEBUG, TO REMOVE */
 
 /* prompt_char_handlers.c */
 void	prompt_fill_char_handlers(t_prompt_char_handler[HANDLER_COUNT]);
+bool    prompt_add_char(t_prompt *prompt, int ch);
+bool	prompt_move(t_prompt *prompt, int ch);
 
 #endif /* !PROMPT_H_ */

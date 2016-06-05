@@ -5,8 +5,9 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:44:27 2016 Quentin Bazin
-** Last update Sun May 22 14:44:27 2016 Quentin Bazin
+** Last update Sat Jun  4 18:19:21 2016 Nicolas Zimmermann
 */
+
 #ifndef TOKEN_H_
 # define TOKEN_H_
 
