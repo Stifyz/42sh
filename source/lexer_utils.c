@@ -20,7 +20,7 @@ bool	lexer_is_name(char c, char last_c, char next_c)
 
   i = 0;
   reserved = ";|<>&\t \"\'";
-  if (c == '\\') 
+  if (c == '\\')
     if (!next_c && last_c != '\\')
       return (false);
   if (!c)

@@ -13,5 +13,6 @@
 # include "application.h"
 
 void	signals_check_status(t_application *app, t_command *command);
+void	signals_handle_sigint();
 
 #endif /* !SIGNALS_H_ */

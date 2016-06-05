@@ -11,7 +11,7 @@
 #include <my.h>
 #include "lexer.h"
 
-t_match         lexer_match_string(t_string_reader *reader, size_t pos)
+t_match		lexer_match_string(t_string_reader *reader, size_t pos)
 {
   t_token_value	token_value;
   t_match	match;
@@ -30,7 +30,7 @@ t_match         lexer_match_string(t_string_reader *reader, size_t pos)
   pos += 1;
   reader_pos = reader->pos;
   match = gen_match_from_token(reader, pos, TOKEN_STRING, token_value);
-  match.token.value.string = clear_name(my_strndup(reader->string + reader_pos + 1,                   
-						   pos - reader_pos - 2));
+  match.token.value.string = clear_name(my_strndup(reader->string + reader_pos
+						   + 1, pos - reader_pos - 3));
   return (match);
 }

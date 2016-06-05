@@ -35,7 +35,6 @@ t_err	command_run_fork(t_command *command, t_application *app)
 	  if (command->piped_command)
 	    command_run(command->piped_command, app);
 	}
-      /* command_close_pipes(command); */
       signals_check_status(app, command);
       my_free_str_array(env);
     }
