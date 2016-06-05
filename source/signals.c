@@ -57,6 +57,8 @@ void		signals_check_status(t_application *app, t_command *command)
 
 void	signals_handle_sigint()
 {
+  if (!isatty(0))
+    gl_app->is_running = false;
   if (isatty(0) && isatty(1))
     my_putchar('\n');
   if (gl_app->prompt.line)
