@@ -27,6 +27,7 @@ typedef struct	s_application
   t_prompt	prompt;
   t_builtin	builtins[BUILTINS_COUNT];
   t_alias	*alias_list;
+  t_alias	*coming_from;
 }		t_application;
 
 t_application	*gl_app;

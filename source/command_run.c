@@ -18,9 +18,10 @@
 
 t_err	command_run_fork(t_command *command, t_application *app)
 {
+  t_err	error;
   char	**env;
 
-  if (command->piped_command || (!alias_run(app, command->argv) &&
+  if (command->piped_command || ((error = alias_run(app, command->argv)) == -1 &&
 				 !builtin_run(app, command->argv)))
     {
       if (command->piped_command)
@@ -38,7 +39,7 @@ t_err	command_run_fork(t_command *command, t_application *app)
       signals_check_status(app, command);
       my_free_str_array(env);
     }
-  return (0);
+  return (error > 0 ? error : 0);
 }
 
 t_err	command_run(t_command *command, t_application *app)
@@ -93,15 +94,18 @@ void	command_redirect_io(t_command *command)
 
 void	command_run_program(t_command *command, t_application *app, char **env)
 {
+  t_err	error;
   int	exit_code;
 
+  error = 0;
   exit_code = 0;
   if (command_open_redirections(command) ||
       command_prepare_redirections(command))
     exit(1);
   command_redirect_io(command);
   command_close_pipes(command);
-  if (!alias_run(app, command->argv) && !builtin_run(app, command->argv)
+  if ((error = alias_run(app, command->argv)) == -1
+      && !builtin_run(app, command->argv)
       && (!command->path || execve(command->path, command->argv, env) == -1))
     {
       if (errno == ENOENT || errno == EBADF)
@@ -112,5 +116,5 @@ void	command_run_program(t_command *command, t_application *app, char **env)
       else
 	exit_code = print_error(ERROR_EXECVE_FAILED, command->argv[0], "") && 1;
     }
-  exit(exit_code);
+  exit(error > 0 ? 1 : exit_code);
 }

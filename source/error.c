@@ -26,7 +26,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[7] = "%s: End of history.";
   messages[8] = "%s: Variable name must contain alphanumeric characters.";
   messages[9] = "Error: Fork failed";
-  messages[10] = "Unable to open file: %s";
+  messages[10] = "%s: %e.";
   messages[11] = "Ambiguous output redirect.";
   messages[12] = "Ambiguous input redirect.";
   messages[13] = "Invalid null command.";
@@ -38,6 +38,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[19] = "setterm failed";
   messages[20] = "Missing name for redirect.";
   messages[21] = "%s: %e.%s";
+  messages[22] = "Alias loop.";
   messages[126] = "%s: Command not found.";
 }
 

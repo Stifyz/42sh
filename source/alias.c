@@ -35,6 +35,8 @@ t_err		alias_run(t_application *app, char **av)
 
   i = 1;
   tmp = search_alias(app, av);
+  if (app->coming_from && app->coming_from == tmp)
+    return (print_error(ERROR_ALIAS_LOOP));
   if (tmp != NULL)
     {
       cmd = my_strdup(tmp->cmd);
@@ -44,10 +46,11 @@ t_err		alias_run(t_application *app, char **av)
 	  cmd = my_strcatm(cmd, av[i]);
 	  i++;
 	}
+      app->coming_from = tmp;
       application_run_command(app, cmd);
-      return (true);
+      return (0);
     }
-  return (false);
+  return (-1);
 }
 
 int		check_print_alias(t_application *app, int ac, char **av)

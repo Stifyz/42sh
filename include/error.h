@@ -15,6 +15,7 @@
 
 typedef enum				e_err
 {
+  ERROR_SILENT				= -1,
   ERROR_MALLOC_FAILED			= 1,
   ERROR_PIPE_FAILED			= 2,
   ERROR_SYNTAX_ERROR			= 3,
@@ -37,6 +38,7 @@ typedef enum				e_err
   ERROR_SETTERM_FAILED			= 20,
   ERROR_MISSING_NAME_FOR_REDIRECT	= 21,
   ERROR_EXECVE_FAILED			= 22,
+  ERROR_ALIAS_LOOP			= 23,
   ERROR_COMMAND_NOT_FOUND		= 127
 }					t_err;
 

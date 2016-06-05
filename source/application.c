@@ -71,7 +71,9 @@ void		application_parse(t_application *app, t_token_list *token_list)
 {
   t_command	*tmp;
   t_parser	parser;
+  t_err		error;
 
+  error = 0;
   my_memset(&parser, 0, sizeof(t_parser));
   parser.current = token_list->first;
   if (!parse(&parser))
@@ -79,7 +81,8 @@ void		application_parse(t_application *app, t_token_list *token_list)
       tmp = parser.full_command;
       while (tmp)
 	{
-	  command_run(tmp, app);
+	  if ((error = command_run(tmp, app)))
+	    app->exit_code = 1;
 	  tmp = tmp->next;
 	}
       command_free(parser.full_command);
