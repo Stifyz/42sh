@@ -31,12 +31,12 @@ t_err	command_setup_pipe(t_command *command)
 
 void	command_close_pipe(t_command *command)
 {
-  if (command->piped_command->input_fd > 2 && !command->piped_command->input)
+  if (command->input_fd > 2)
     {
-      close(command->piped_command->input_fd);
-      command->piped_command->input_fd = -1;
+      close(command->input_fd);
+      command->input_fd = -1;
     }
-  else if (command->output_fd > 2 && !command->output)
+  if (command->output_fd > 2)
     {
       close(command->output_fd);
       command->output_fd = -1;

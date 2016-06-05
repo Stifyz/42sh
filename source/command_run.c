@@ -28,9 +28,13 @@ t_err	command_run_fork(t_command *command, t_application *app)
       command->pid = fork();
       if (command->pid == 0)
 	command_run_program(command, app, env);
-      else if (command->piped_command)
-	command_run(command->piped_command, app);
-      command_close_pipes(command);
+      else
+	{
+	  command_close_pipe(command);
+	  if (command->piped_command)
+	    command_run(command->piped_command, app);
+	}
+      /* command_close_pipes(command); */
       signals_check_status(app, command);
       my_free_str_array(env);
     }
@@ -79,14 +83,21 @@ void	command_run_program(t_command *command, t_application *app, char **env)
   if (command_open_redirections(command) ||
       command_prepare_redirections(command))
     exit(1);
-  dup2(command->output_fd, 1);
-  dup2(command->input_fd, 0);
+  if (command->output_fd != 1)
+    {
+      close(1);
+      dup(command->output_fd);
+      close(command->output_fd);
+    }
+  if (command->input_fd != 0)
+    {
+      close(0);
+      dup(command->input_fd);
+      close(command->input_fd);
+    }
   command_close_pipes(command);
   if (!alias_run(app, command->argv) && !builtin_run(app, command->argv)
       && (!command->path || execve(command->path, command->argv, env) == -1))
-    {
-      exit_code = 1;
-      print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]);
-    }
+    exit_code = print_error(ERROR_COMMAND_NOT_FOUND, command->argv[0]) && 1;
   exit(exit_code);
 }
