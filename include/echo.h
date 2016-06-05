@@ -18,9 +18,8 @@
 # include "error.h"
 
 t_err	builtin_echo(t_application *app, int ac, char **av);
-void	disp_normal(char **av, int bf);
 char	get_escaped_char(char *str, int pos);
-void	flag_e(char **av, int bf);
+void	flag_e(char **av, int b);
 int	my_flag_echo(int ac, char **av);
 bool	my_is_octal(char c);
 int	check_space(char *str);

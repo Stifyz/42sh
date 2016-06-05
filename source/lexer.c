@@ -10,6 +10,29 @@
 
 #include "lexer.h"
 
+bool	lexer_is_name(char c, char last_c, char next_c)
+{
+  char	*reserved;
+  int	i;
+
+  i = 0;
+  reserved = ";|<>&\t \"\'";
+  if (c == '\\')
+    if (!next_c && last_c != '\\')
+      return (false);
+  if (!c)
+    return (false);
+  while (reserved[i])
+    if (c == reserved[i++] && last_c != '\\')
+      return (false);
+  return (true);
+}
+
+bool	lexer_is_whitespace(char c)
+{
+  return (c == ' ' || c == '\t');
+}
+
 t_err	lexer_fill_token_list(t_string_reader *reader, t_token_list *list)
 {
   t_match	match;

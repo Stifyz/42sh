@@ -13,29 +13,6 @@
 #include <string.h>
 #include "lexer.h"
 
-bool	lexer_is_name(char c, char last_c, char next_c)
-{
-  char	*reserved;
-  int	i;
-
-  i = 0;
-  reserved = ";|<>&\t \"\'";
-  if (c == '\\')
-    if (!next_c && last_c != '\\')
-      return (false);
-  if (!c)
-    return (false);
-  while (reserved[i])
-    if (c == reserved[i++] && last_c != '\\')
-      return (false);
-  return (true);
-}
-
-bool	lexer_is_whitespace(char c)
-{
-  return (c == ' ' || c == '\t');
-}
-
 int	count_backslash(char *str, size_t pos)
 {
   int	cnt;
@@ -52,11 +29,10 @@ int	count_backslash(char *str, size_t pos)
   return (cnt);
 }
 
-char	*clear_name(char *str)
+int	get_name_len(char *str)
 {
   int	i;
   int	j;
-  char	*dup;
 
   i = -1;
   j = 0;
@@ -68,7 +44,16 @@ char	*clear_name(char *str)
       }
     else if (str[i] != '\\')
       j++;
-  if (!(dup = malloc(j + 1)))
+  return (j);
+}
+
+char	*clear_name(char *str)
+{
+  int	i;
+  int	j;
+  char	*dup;
+
+  if (!(dup = malloc(get_name_len(str) + 1)))
     return (NULL);
   i = -1;
   j = 0;
@@ -82,11 +67,10 @@ char	*clear_name(char *str)
   return (dup);
 }
 
-char	*clear_string(char *str)
+int	get_string_length(char *str)
 {
   int	i;
   int	j;
-  char	*dup;
 
   i = -1;
   j = 0;
@@ -99,7 +83,16 @@ char	*clear_string(char *str)
       }
     else
       j++;
-  if (!(dup = malloc(j + 1)))
+  return (j);
+}
+
+char	*clear_string(char *str)
+{
+  int	i;
+  int	j;
+  char	*dup;
+
+  if (!(dup = malloc(get_string_length(str) + 1)))
     return (NULL);
   i = -1;
   j = 0;
@@ -110,6 +103,6 @@ char	*clear_string(char *str)
     else
       dup[j++] = str[i];
   free(str);
-  dup[j] = 0;
+  dup[j] = '\0';
   return (dup);
 }

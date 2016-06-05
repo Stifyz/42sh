@@ -20,10 +20,7 @@ int	treat_echo(int ac, char **av, int bf, int b)
 {
   if ((bf & 2) && ac == 2)
     return (0);
-  if (bf & 1)
-    flag_e(av, !b);
-  else
-    disp_normal(av, !b);
+  flag_e(av, !b);
   if (!(bf & 2))
     my_putchar('\n');
   return (0);
@@ -38,7 +35,7 @@ int	check_space(char *str)
     return (-1);
   while (str[i] != '\0')
     {
-      if (str[i] != '-' || str[i] != 'n' || str[i] != 'e')
+      if (str[i] != '-' || str[i] != 'n')
 	return (-1);
       i++;
     }

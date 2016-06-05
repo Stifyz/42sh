@@ -13,43 +13,14 @@
 
 t_err	builtin_echo(t_application *app, int ac, char **av)
 {
-  int	i;
-
-  i = 1;
   (void)app;
   if (ac == 1)
     {
       my_putchar('\n');
       return (0);
     }
-  if (av[1][0] == '-')
-    my_flag_echo(ac, av);
-  else
-    {
-      while (i < ac)
-	{
-	  if (i != 1)
-	    my_putchar(' ');
-	  my_putstr(av[i]);
-	  i++;
-	}
-      my_putchar('\n');
-    }
+  my_flag_echo(ac, av);
   return (0);
-}
-
-void	disp_normal(char **av, int b)
-{
-  int	j;
-
-  j = b + 1;
-  while (av[j] != NULL)
-    {
-      if (j != b + 1)
-	my_putchar(' ');
-      my_putstr(av[j]);
-      j++;
-    }
 }
 
 char    get_escaped_char(char *str, int pos)
@@ -88,9 +59,7 @@ void	flag_e(char **av, int b)
       while (av[j][++i] != '\0')
 	{
 	  if (av[j][i] == '\\' && av[j][i + 1])
-	    {
-	      my_putchar(get_escaped_char(av[j], ++i));
-	    }
+	    my_putchar(get_escaped_char(av[j], ++i));
 	  else
 	    my_putchar(av[j][i]);
 	}
@@ -98,44 +67,4 @@ void	flag_e(char **av, int b)
       if (av[j])
 	my_putchar(' ');
     }
-}
-
-int	my_flag_echo(int ac, char **av)
-{
-  int	bf;
-  int	j;
-  int	b;
-
-  bf = 0;
-  b = 0;
-  if (av[1][0] == '-')
-    {
-      j = 0;
-      while (b == 0 && av[1][++j] != '\0')
-  	if (av[1][j] == 'e')
-  	  {
-  	    if (!(bf & 1))
-  	      bf += 1;
-  	    else
-  	      b = 1;
-  	  }
-  	else if (av[1][j] == 'n')
-  	  {
-  	    if (!(bf & 2))
-  	      bf += 2;
-  	    else
-  	      b = 1;
-  	  }
-  	else
-	  {
-	    bf = 0;
-	    b = 1;
-	  }
-    }
-  else
-    b = 1;
-  if (av[1][1] == 0)
-    b = 1;
-  treat_echo(ac, av, bf, b);
-  return (0);
 }

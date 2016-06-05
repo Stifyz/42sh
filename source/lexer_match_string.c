@@ -23,7 +23,7 @@ t_match		lexer_match_string(t_string_reader *reader, size_t pos)
     return (lexer_gen_empty_match());
   c = reader->string[pos];
   while ((reader->string[++pos] &&
-	  (reader->string[pos] != '\"' && reader->string[pos] != '\'')) ||
+	  (reader->string[pos] != c)) ||
 	 count_backslash(reader->string, pos) % 2 == 1);
   if (!reader->string[pos] || reader->string[pos] != c)
     return (lexer_gen_error_match());

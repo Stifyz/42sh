@@ -53,7 +53,8 @@ SOURCES		= source/application.c \
 			  source/echo2.c \
 			  source/alias.c\
 			  source/alias2.c \
-			  source/unalias.c
+			  source/unalias.c \
+			  source/echo_flag.c
 
 MY_LIBS		= my_printf my
 
