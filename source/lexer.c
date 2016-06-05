@@ -5,10 +5,9 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:44:57 2016 Quentin Bazin
-** Last update Sun May 22 14:44:57 2016 Quentin Bazin
+** Last update Sun Jun  5 09:58:36 2016 Nicolas Zimmermann
 */
 
-#include <stdio.h>
 #include "lexer.h"
 
 t_err	lexer_fill_token_list(t_string_reader *reader, t_token_list *list)

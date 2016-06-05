@@ -5,7 +5,7 @@
 ## Login   <bazin_q@epitech.net>
 ## 
 ## Started on  Tue Dec 01 15:46:23 2015 Quentin Bazin
-## Last update Sun Jun  5 04:24:40 2016 Nicolas Zimmermann
+## Last update Sun Jun  5 12:32:33 2016 Nicolas Zimmermann
 ##
 
 NAME		= 42sh
@@ -35,10 +35,13 @@ SOURCES		= source/application.c \
 			  source/env_utils.c \
 			  source/error.c \
 			  source/lexer.c \
+			  source/lexer_gen_token.c \
 			  source/lexer_match.c \
+			  source/lexer_match_string.c \
 			  source/lexer_utils.c \
 			  source/main.c \
 			  source/parser.c \
+			  source/parser_arguments.c \
 			  source/parser_command.c \
 			  source/prompt.c \
 			  source/prompt_char_handlers.c \

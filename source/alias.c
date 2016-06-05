@@ -5,14 +5,13 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Sat Jun  4 01:50:05 2016 Bouama_r
-** Last update Sun Jun  5 03:23:20 2016 Bouama_r
+** Last update Sun Jun  5 15:46:28 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
 #include <my_printf.h>
-#include "alias.h"
 #include "application.h"
-#include "error.h"
+#include "alias.h"
 
 t_alias		*search_alias(t_application *app, char **av)
 {
@@ -72,12 +71,12 @@ t_alias		*alias_new(char *name, char *cmd)
 {
   t_alias	*elem;
 
-  elem = NULL;
   if ((elem = malloc(sizeof(t_alias))) == NULL)
-    return (elem);
+    return (NULL);
   my_memset(elem, 0, sizeof(t_alias));
-  elem->name = my_strcatm(elem->name, name);
-  elem->cmd = my_strcatm(elem->cmd, cmd);
+  if (!(elem->name = my_strcatm(elem->name, name)) ||
+      !(elem->cmd = my_strcatm(elem->cmd, cmd)))
+    return (NULL);
   return (elem);
 }
 
@@ -106,6 +105,5 @@ t_err		builtin_alias(t_application *app, int ac, char **av)
       cmd = my_strcatm(cmd, av[i]);
       i++;
     }
-  attribution(app, name ,cmd);
-  return (0);
+  return (attribution(app, name, cmd));
 }

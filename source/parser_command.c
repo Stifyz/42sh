@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sat Jun 04 18:22:34 2016 Quentin Bazin
-** Last update Sat Jun 04 18:22:34 2016 Quentin Bazin
+** Last update Sun Jun  5 11:21:13 2016 Nicolas Zimmermann
 */
 
 #include "parser.h"
@@ -69,25 +69,6 @@ t_err	parse_separator(t_parser *parser)
   return (0);
 }
 
-t_err		parse_arguments(t_parser *parser, t_command *command)
-{
-  t_err		error;
-
-  while (parser->current && (parser->current->token.type == TOKEN_NAME ||
-			     parser->current->token.type == TOKEN_WHITESPACE ||
-			     parser->current->token.type == TOKEN_REDIRECTION))
-    {
-      if (parser->current->token.type == TOKEN_NAME)
-	error = command_add_argument(command, parser->current->token.content);
-      else if (parser->current->token.type == TOKEN_REDIRECTION)
-	error = parse_redirection(parser);
-      if (error)
-	return (error);
-      parser->current = parser->current->next;
-    }
-  return (0);
-}
-
 t_err		parse_command(t_parser *parser, t_operator operator,
 			      bool expected)
 {
@@ -95,7 +76,8 @@ t_err		parse_command(t_parser *parser, t_operator operator,
   t_err		error;
 
   if (!parser->current || (parser->current->token.type != TOKEN_NAME &&
-			   parser->current->token.type != TOKEN_REDIRECTION))
+			   parser->current->token.type != TOKEN_REDIRECTION &&
+			   parser->current->token.type != TOKEN_STRING))
     return ((expected) ? print_error(ERROR_INVALID_NULL_COMMAND) : 0);
   if (!(command = parser_add_command(parser, operator == OP_PIPE)))
     return (print_error(ERROR_MALLOC_FAILED));

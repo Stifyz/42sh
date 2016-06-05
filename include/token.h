@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:44:27 2016 Quentin Bazin
-** Last update Sat Jun  4 18:19:21 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 09:28:10 2016 Nicolas Zimmermann
 */
 
 #ifndef TOKEN_H_
@@ -14,17 +14,18 @@
 # include <stdlib.h>
 # include "error.h"
 
-# define TOKEN_COUNT 4
+# define TOKEN_COUNT 5
 
 typedef enum	e_token_type
 {
   TOKEN_WHITESPACE,
   TOKEN_SEPARATOR,
   TOKEN_REDIRECTION,
-  TOKEN_NAME
+  TOKEN_NAME,
+  TOKEN_STRING
 }		t_token_type;
 
-# define OP_COUNT 8
+# define OP_COUNT 10
 
 typedef enum	e_operator
 {
@@ -38,9 +39,16 @@ typedef enum	e_operator
   OP_SEMICOLON
 }		t_operator;
 
+typedef enum	e_string_type
+{
+    STR_SIMPLE,
+    STR_DOUBLE
+}		t_string_type;
+
 typedef union	u_token_value
 {
   t_operator	operator;
+  t_string_type	string_type;
   char		*string;
 }		t_token_value;
 

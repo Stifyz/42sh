@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 **
 ** Started on  Fri Mar 25 16:57:25 2016 Quentin Bazin
-** Last update Sat Jun  4 06:19:22 2016 Bouama_r
+** Last update Sun Jun  5 14:49:54 2016 Nicolas Zimmermann
 */
 #ifndef APPLICATION_H_
 # define APPLICATION_H_
@@ -28,6 +28,8 @@ typedef struct	s_application
   t_builtin	builtins[BUILTINS_COUNT];
   t_alias	*alias_list;
 }		t_application;
+
+t_application	*gl_app;
 
 t_err		application_init(t_application *app, char **env);
 void		application_run(t_application *app);
