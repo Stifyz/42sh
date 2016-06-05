@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Sat Jun  4 01:50:05 2016 Bouama_r
-** Last update Sat Jun  4 23:49:40 2016 Bouama_r
+** Last update Sun Jun  5 03:23:20 2016 Bouama_r
 */
 
 #include <my.h>
@@ -87,14 +87,19 @@ t_err		builtin_alias(t_application *app, int ac, char **av)
 {
   char		*name;
   char		*cmd;
-  t_alias	*new;
   int		i;
 
   i = 2;
   if (ac == 1 && check_print_alias(app, ac, av) == 0)
     return (0);
+  if (ac == 2)
+    {
+      print_alias_info(app, av);
+      return (0);
+    }
   name = NULL;
-  name = my_strcatm(name, av[1]);
+  if (!(name = my_strcatm(name, av[1])))
+    return (print_error(ERROR_MALLOC_FAILED));
   cmd = NULL;
   while (i < ac)
     {
@@ -103,8 +108,6 @@ t_err		builtin_alias(t_application *app, int ac, char **av)
       cmd = my_strcatm(cmd, av[i]);
       i++;
     }
-  new = alias_new(name, cmd);
-  new->next = app->alias_list;
-  app->alias_list = new;
+  attribution(app, name ,cmd);
   return (0);
 }

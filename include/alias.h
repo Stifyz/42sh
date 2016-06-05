@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Sat Jun  4 01:46:52 2016 Bouama_r
-** Last update Sat Jun  4 03:49:59 2016 Bouama_r
+** Last update Sun Jun  5 03:25:10 2016 Bouama_r
 */
 
 #ifndef ALIAS_H_
@@ -41,5 +41,7 @@ t_err		alias_run(struct s_application *app, char **av);
 t_alias		*alias_new(char *name, char *cmd);
 t_err		builtin_alias(struct s_application *app, int ac, char **av);
 int		check_print_alias(struct s_application *app, int ac, char **av);
+void		print_alias_info(struct s_application *app, char **av);
+void		attribution(struct s_application *app, char *name, char *cmd);
 
 #endif /* !ALIAS_H_ */
