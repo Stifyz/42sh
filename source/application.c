@@ -10,17 +10,34 @@
 
 #include <ncurses.h>
 #include <my.h>
+#include <my_printf.h>
+#include <signal.h>
 #include <term.h>
 #include <unistd.h>
 #include "application.h"
 #include "lexer.h"
 #include "utils.h"
 
+void	handle_sigint()
+{
+  if (isatty(0) && isatty(1))
+    my_putchar('\n');
+  if (gl_app->prompt.line)
+    {
+      free(gl_app->prompt.line);
+      gl_app->prompt.pos = 0;
+      gl_app->prompt.line = my_strdup("");
+      if (isatty(0) && isatty(1))
+	my_putstr(gl_app->prompt.str);
+    }
+}
+
 t_err		application_init(t_application *app, char **env)
 {
   char		*path;
 
   my_memset(app, 0, sizeof(t_application));
+  signal(SIGINT, handle_sigint);
   if (!(app->env = env_init(env)) && env[0])
     return (print_error(ERROR_MALLOC_FAILED));
   if (!(path = my_getenv(app->env, "PATH")))
@@ -50,10 +67,12 @@ void		application_run(t_application *app)
 	  (!isatty(0) && (line = my_getline(0))))
 	{
 	  if ((first_invalid_char = my_cmd_isvalid(line)) != -1)
-	    print_error(ERROR_SYNTAX_ERROR, first_invalid_char);
+	    {
+	      print_error(ERROR_SYNTAX_ERROR, first_invalid_char);
+	      free(line);
+	    }
 	  else
 	    application_run_command(app, line);
-	  free(line);
 	}
       else
 	app->is_running = false;
@@ -76,6 +95,9 @@ void			application_run_command(t_application *app, char *cmd)
   reader.pos = 0;
   if (!lexer_fill_token_list(&reader, &token_list))
     {
+      free(cmd);
+      if (app->prompt.line)
+	app->prompt.line = NULL;
       parser.current = token_list.first;
       if (!parse(&parser))
 	{
