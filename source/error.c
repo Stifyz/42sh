@@ -17,7 +17,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
 {
   my_memset(messages, 0, sizeof(char *) * ERROR_COUNT);
   messages[0] = "Error: Unable to allocate memory";
-  messages[1] = "Error: Pipe failed";
+  messages[1] = "pipe: %e.";
   messages[2] = "Syntax error at position %d";
   messages[3] = "%s: Too few arguments";
   messages[4] = "%s: Too many arguments";

@@ -11,35 +11,27 @@
 #include <my.h>
 #include <stdlib.h>
 #include <sys/wait.h>
-#include <unistd.h>
 #include "application.h"
 #include "command.h"
 #include "signals.h"
 
 t_err	command_run_fork(t_command *command, t_application *app)
 {
-  pid_t	fork_pid;
   char	**env;
 
-  if (!command->argv[0])
-    return (print_error(ERROR_INVALID_NULL_COMMAND));
-  redirection_check(command->input);
-  command->path = env_get_prog_path(app->path, command->argv[0]);
   if (command->piped_command || (!alias_run(app, command->argv) &&
 				 !builtin_run(app, command->argv)))
     {
       if (command->piped_command)
 	command_setup_pipe(command);
       env = env_to_strarray(app->env);
-      fork_pid = fork();
-      if (fork_pid == 0)
+      command->pid = fork();
+      if (command->pid == 0)
 	command_run_program(command, app, env);
       else if (command->piped_command)
-	{
-	  command_run(command->piped_command, app);
-	  command_close_pipes(command);
-	}
-      signals_check_status(app);
+	command_run(command->piped_command, app);
+      command_close_pipes(command);
+      signals_check_status(app, command);
       my_free_str_array(env);
     }
   return (0);
@@ -57,9 +49,10 @@ t_err	command_run(t_command *command, t_application *app)
     return (error);
   if (!command->piped_parent)
     app->exit_code = 0;
+  if (!command->argv[0])
+    return (print_error(ERROR_INVALID_NULL_COMMAND));
   redirection_check(command->input);
   command->path = env_get_prog_path(app->path, command->argv[0]);
-  app->exit_code = 0;
   return (command_run_fork(command, app));
 }
 

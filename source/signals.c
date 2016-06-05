@@ -12,11 +12,8 @@
 #include <sys/wait.h>
 #include "signals.h"
 
-void	signals_check_status(t_application *app)
+void	check_exit_code(t_application *app, int status)
 {
-  int	status;
-
-  wait(&status);
   if (WIFEXITED(status) && !app->exit_code)
     app->exit_code = WEXITSTATUS(status);
   else if (WIFSIGNALED(status))
@@ -37,5 +34,23 @@ void	signals_check_status(t_application *app)
 	  my_puterr("\n");
 	  app->exit_code = 128 + SIGFPE;
 	}
+    }
+}
+
+void		signals_check_status(t_application *app, t_command *command)
+{
+  int		status;
+  t_command	*tmp;
+
+  tmp = command;
+  status = 0;
+  while (tmp->piped_parent)
+    tmp = tmp->piped_parent;
+  while (tmp && waitpid(tmp->pid, &status, WUNTRACED))
+    {
+      if (command->piped_command)
+	command_close_pipe(command);
+      check_exit_code(app, status);
+      tmp = tmp->piped_command;
     }
 }
