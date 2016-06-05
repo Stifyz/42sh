@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:47:28 2016 Quentin Bazin
-** Last update Sat Jun  4 21:59:03 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 13:38:41 2016 Nicolas Zimmermann
 */
 
 #include <ctype.h>
@@ -13,13 +13,16 @@
 #include <string.h>
 #include "lexer.h"
 
-bool	lexer_is_name(char c, char last_c)
+bool	lexer_is_name(char c, char last_c, char next_c)
 {
   char	*reserved;
   int	i;
 
   i = 0;
-  reserved = ";|<>&\t ";
+  reserved = ";|<>&\t \"\'";
+  if (c == '\\') 
+    if (!next_c && last_c != '\\')
+      return (false);
   if (!c)
     return (false);
   while (reserved[i])
@@ -33,29 +36,48 @@ bool	lexer_is_whitespace(char c)
   return (c == ' ' || c == '\t');
 }
 
-t_match		lexer_gen_empty_match()
+int	count_backslash(char *str, size_t pos)
 {
-  t_match	match;
+  int	cnt;
 
-  my_memset(&match, 0, sizeof(t_match));
-  match.type = MATCH_NONE;
-  return (match);
+  cnt = 0;
+  while (str[--pos] == '\\')
+    {
+      cnt++;
+      if (pos > 0)
+	pos--;
+      else
+	return (cnt);
+    }
+  return (cnt);
 }
 
-t_match		gen_match_from_token(t_string_reader	*reader,
-				     size_t		end,
-				     t_token_type	type,
-				     t_token_value	value)
+char	*clear_name(char *str)
 {
-  t_match	match;
+  int	i;
+  int	j;
+  char	*dup;
 
-  match.type = MATCH_TOKEN;
-  match.token.type = type;
-  match.token.value = value;
-  match.token.begin = reader->pos;
-  match.token.end = end;
-  match.token.content = my_strndup(reader->string + reader->pos,
-				   end - reader->pos);
-  reader->pos = end;
-  return (match);
+  i = -1;
+  j = 0;
+  while (str[++i])
+    if (str[i] == '\\' && str[i + 1] == '\\')
+      {
+	j++;
+	i++;
+      }
+    else if (str[i] != '\\')
+      j++;
+  if (!(dup = malloc(j + 1)))
+    return (NULL);
+  i = -1;
+  j = 0;
+  while (str[++i])
+    if (str[i] == '\\' && str[i + 1] == '\\')
+      dup[j++] = str[i++];
+    else if (str[i] != '\\')
+      dup[j++] = str[i];
+  free(str);
+  dup[j] = '\0';
+  return (dup);
 }

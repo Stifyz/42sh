@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Wed Mar 30 18:05:25 2016 Quentin Bazin
-** Last update Wed Mar 30 18:05:25 2016 Quentin Bazin
+** Last update Sun Jun  5 11:22:44 2016 Nicolas Zimmermann
 */
 #ifndef PARSER_H_
 # define PARSER_H_
@@ -31,5 +31,7 @@ t_err		parser_expect_operator(t_parser *parser, t_operator operator,
 
 t_err		parse(t_parser *parser);
 t_err		parse_command(t_parser *parser, t_operator, bool expected);
+t_err           parse_arguments(t_parser *parser, t_command *command);
+t_err           parse_redirection(t_parser *parser);
 
 #endif /* !PARSER_H_ */

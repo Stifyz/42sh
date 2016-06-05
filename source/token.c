@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:44:34 2016 Quentin Bazin
-** Last update Sun May 22 14:44:34 2016 Quentin Bazin
+** Last update Sun Jun  5 09:55:15 2016 Nicolas Zimmermann
 */
 
 #include <string.h>
@@ -23,6 +23,7 @@ void		token_print(t_token *token)
   token_types[1] = "SEPARATOR";
   token_types[2] = "REDIRECTION";
   token_types[3] = "NAME";
+  token_types[4] = "STRING";
   while (i < TOKEN_COUNT)
     {
       if (token->type == i)

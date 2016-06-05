@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:47:02 2016 Quentin Bazin
-** Last update Sun Jun  5 01:37:06 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 15:34:36 2016 Nicolas Zimmermann
 */
 
 #include <ctype.h>
@@ -64,15 +64,26 @@ t_match		lexer_match_redirection(t_string_reader *reader, size_t pos)
 t_match		lexer_match_name(t_string_reader *reader, size_t pos)
 {
   t_token_value	token_value;
+  t_match	match;
+  size_t	reader_pos;
 
-  if (!lexer_is_name(reader->string[pos],
-		     (pos > 0) ? reader->string[pos - 1] : 0))
+  if (!reader->string[pos] ||
+      !lexer_is_name(reader->string[pos],
+		     (pos > 0) ? reader->string[pos - 1] : 0,
+		     reader->string[pos + 1]))
     return (lexer_gen_empty_match());
-  while (lexer_is_name(reader->string[pos],
-		       (pos > 0) ? reader->string[pos - 1] : 0))
-    ++pos;
+  pos++;
+  while (reader->string[pos] &&
+	 lexer_is_name(reader->string[pos],
+		       (pos > 0) ? reader->string[pos - 1] : 0,
+		       reader->string[pos + 1]))
+    pos++;
+  reader_pos = reader->pos;
   my_memset(&token_value, 0, sizeof(t_token_value));
-  return (gen_match_from_token(reader, pos, TOKEN_NAME, token_value));
+  match = gen_match_from_token(reader, pos, TOKEN_NAME, token_value);
+  match.token.value.string = clear_name(my_strndup(reader->string + reader_pos,
+                                                   pos - reader_pos));
+  return (match);
 }
 
 t_match		lexer_match_whitespace(t_string_reader *reader, size_t pos)
@@ -97,7 +108,8 @@ t_match		lexer_match(t_string_reader *reader)
   functions[0] = &lexer_match_whitespace;
   functions[1] = &lexer_match_separator;
   functions[2] = &lexer_match_redirection;
-  functions[3] = &lexer_match_name;
+  functions[3] = &lexer_match_string;
+  functions[4] = &lexer_match_name;
   while (i < TOKEN_COUNT)
     {
       match = functions[i](reader, reader->pos);

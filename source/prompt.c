@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Thu May 26 15:23:15 2016 Quentin Bazin
-** Last update Thu May 26 15:23:15 2016 Quentin Bazin
+** Last update Sun Jun  5 14:48:59 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
