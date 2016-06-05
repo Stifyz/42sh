@@ -19,12 +19,12 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[0] = "Error: Unable to allocate memory";
   messages[1] = "pipe: %e.";
   messages[2] = "Syntax error at position %d";
-  messages[3] = "%s: Too few arguments";
-  messages[4] = "%s: Too many arguments";
-  messages[5] = "%s: Argument must be a positive integer";
+  messages[3] = "%s: Too few arguments.";
+  messages[4] = "%s: Too many arguments.";
+  messages[5] = "%s: Argument must be a positive integer.";
   messages[6] = "%s: %e.";
-  messages[7] = "%s: End of history";
-  messages[8] = "%s: Variable name must contain alphanumeric characters only";
+  messages[7] = "%s: End of history.";
+  messages[8] = "%s: Variable name must contain alphanumeric characters.";
   messages[9] = "Error: Fork failed";
   messages[10] = "Unable to open file: %s";
   messages[11] = "Ambiguous output redirect.";
