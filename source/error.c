@@ -21,7 +21,7 @@ void	fill_error_messages(char *messages[ERROR_COUNT])
   messages[2] = "Syntax error at position %d";
   messages[3] = "%s: Too few arguments.";
   messages[4] = "%s: Too many arguments.";
-  messages[5] = "%s: Argument must be a positive integer.";
+  messages[5] = "%s: Expression Syntax.";
   messages[6] = "%s: %e.";
   messages[7] = "%s: End of history.";
   messages[8] = "%s: Variable name must contain alphanumeric characters.";

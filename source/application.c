@@ -84,6 +84,8 @@ void		application_parse(t_application *app, t_token_list *token_list)
 	}
       command_free(parser.full_command);
     }
+  else
+    app->exit_code = 1;
 }
 
 void			application_run_command(t_application *app, char *cmd)
