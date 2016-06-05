@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 18:49:32 2016 Bouama_r
-** Last update Sun Jun  5 13:06:20 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 17:46:02 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -38,17 +38,11 @@ t_err	builtin_echo(t_application *app, int ac, char **av)
   return (0);
 }
 
-void	disp_normal(char **av)
+void	disp_normal(char **av, int b)
 {
   int	j;
 
-  j = 1;
-  while (av[j] != NULL)
-    {
-      if (av[j][0] != '-')
-	break;
-      j++;
-    }
+  j = b + 1;
   while (av[j] != NULL)
     {
       my_putstr(av[j]);
@@ -81,18 +75,12 @@ char    get_escaped_char(char *str, int pos)
   return (-1);
 }
 
-void	flag_e(int ac, char **av)
+void	flag_e(char **av, int b)
 {
   int		i;
   int		j;
 
-  j = 0;
-  (void)ac;
-  while (av[++j] != NULL)
-    {
-      if (av[j][0] != '-')
-	break;
-    }
+  j = b + 1;
   while (av[j] != NULL)
     {
       i = -1;
@@ -112,27 +100,33 @@ void	flag_e(int ac, char **av)
 
 int	my_flag_echo(int ac, char **av)
 {
-  int	i;
-  int	n;
-  int	e;
+  int	bf;
   int	j;
+  int	b;
 
-  i = 1;
-  n = 0;
-  e = 0;
-  j = 0;
-  while (av[i] && av[i][0] == '-' && check_space(av[i]) != 0)
+  bf = 0;
+  b = 0;
+  if (av[1][0] == '-')
     {
-      while (av[i][j] != '\0')
-	{
-	  if (av[i][j] == 'n')
-	    n = 1;
-	  if (av[i][j] == 'e')
-	    e = 1;
-	  j++;
-	}
-      i++;
+      j = 0;
+      while (b == 0 && av[1][++j] != '\0')
+  	if (av[1][j] == 'e')
+  	  {
+  	    if (!(bf & 1))
+  	      bf += 1;
+  	    else
+  	      b = 1;
+  	  }
+  	else if (av[1][j] == 'n')
+  	  {
+  	    if (!(bf & 2))
+  	      bf += 2;
+  	    else
+  	      b = 1;
+  	  }
+  	else
+  	  b = 1;
     }
-  treat_echo(ac, av, n, e);
+  treat_echo(ac, av, bf);
   return (0);
 }

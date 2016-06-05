@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:43:42 2016 Quentin Bazin
-** Last update Sun Jun  5 13:18:45 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 17:44:04 2016 Nicolas Zimmermann
 */
 #ifndef LEXER_H_
 # define LEXER_H_
@@ -46,6 +46,7 @@ t_match		lexer_match_string(t_string_reader *reader, size_t pos);
 bool		lexer_is_name(char c, char last_c, char next_c);
 bool		lexer_is_whitespace(char c);
 char		*clear_name(char *str);
+char		*clear_string(char *str);
 int		count_backslash(char *str, size_t pos);
 
 /* lexer_gen_token.c */
