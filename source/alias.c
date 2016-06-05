@@ -9,6 +9,7 @@
 */
 
 #include <my.h>
+#include <my_printf.h>
 #include "alias.h"
 #include "application.h"
 #include "error.h"
@@ -59,10 +60,7 @@ int		check_print_alias(t_application *app, int ac, char **av)
     {
       while (tmp)
 	{
-	  my_putstr(tmp->name);
-	  my_putstr(" : ");
-	  my_putstr(tmp->cmd);
-	  my_putchar('\n');
+	  my_printf("%s\t%s\n", tmp->name, tmp->cmd);
 	  tmp = tmp->next;
 	}
       return (0);

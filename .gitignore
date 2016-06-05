@@ -13,5 +13,4 @@ la_sur_mesure
 moulitest
 moul.sh
 tests
-test_segfault
-test_sigfpe
+test_*
