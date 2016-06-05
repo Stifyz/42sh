@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Sun Jun  5 08:13:43 2016 Nicolas Zimmermann
-** Last update Sun Jun  5 17:43:00 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 18:41:36 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -31,7 +31,9 @@ t_match		lexer_match_string(t_string_reader *reader, size_t pos)
   pos += 1;
   reader_pos = reader->pos;
   match = gen_match_from_token(reader, pos, TOKEN_STRING, token_value);
-  str = reader->string + reader->pos + 1;
+  if (!reader->string[reader_pos])
+    return (lexer_gen_error_match());
+  str = &reader->string[reader_pos + 1];
   match.token.value.string = clear_string(my_strndup(str,
 						     pos - reader_pos - 2));
   return (match);

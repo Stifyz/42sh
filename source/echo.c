@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 18:49:32 2016 Bouama_r
-** Last update Sun Jun  5 18:29:49 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 18:46:06 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -95,7 +95,8 @@ void	flag_e(char **av, int b)
 	    my_putchar(av[j][i]);
 	}
       j++;
-      my_putchar(' ');
+      if (av[j])
+	my_putchar(' ');
     }
 }
 
