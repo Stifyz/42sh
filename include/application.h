@@ -33,6 +33,7 @@ t_application	*gl_app;
 
 t_err		application_init(t_application *app, char **env);
 void		application_run(t_application *app);
+void		application_parse(t_application *app, t_token_list *token_list);
 void		application_run_command(t_application *app, char *cmd);
 void		application_free(t_application *app);
 

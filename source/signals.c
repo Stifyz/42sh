@@ -54,3 +54,17 @@ void		signals_check_status(t_application *app, t_command *command)
       tmp = tmp->piped_command;
     }
 }
+
+void	signals_handle_sigint()
+{
+  if (isatty(0) && isatty(1))
+    my_putchar('\n');
+  if (gl_app->prompt.line)
+    {
+      free(gl_app->prompt.line);
+      gl_app->prompt.pos = 0;
+      gl_app->prompt.line = my_strdup("");
+      if (isatty(0) && isatty(1))
+	my_putstr(gl_app->prompt.str);
+    }
+}

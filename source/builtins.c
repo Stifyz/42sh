@@ -72,6 +72,5 @@ t_err	builtin_exit(t_application *app, int argc, char **argv)
       app->exit_code = my_getnbr(argv[1]);
     }
   app->is_running = false;
-  /* my_putstr("exit\n"); */
   return (0);
 }

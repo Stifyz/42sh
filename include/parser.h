@@ -26,8 +26,7 @@ typedef struct		s_parser
 /* parser.c */
 t_command	*parser_add_command(t_parser *parser, bool is_piped);
 void		parser_skip_whitespaces(t_parser *parser);
-t_err		parser_expect_operator(t_parser *parser, t_operator operator,
-				       bool error_enabled);
+bool		parser_expect_operator(t_parser *parser, t_operator operator);
 
 t_err		parse(t_parser *parser);
 t_err		parse_command(t_parser *parser, t_operator, bool expected);

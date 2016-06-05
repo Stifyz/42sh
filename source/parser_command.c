@@ -33,7 +33,7 @@ t_err		parse_redirection(t_parser *parser)
 
   i = -1;
   while (++i < 4)
-    if (!parser_expect_operator(parser, i, false))
+    if (!parser_expect_operator(parser, i))
       {
 	mode = (i % 2 == 0) ? IO_MODE_INPUT : IO_MODE_OUTPUT;
 	mode |= (i < 2) ? IO_MODE_DOUBLE : IO_MODE_SIMPLE;
@@ -58,7 +58,7 @@ t_err	parse_separator(t_parser *parser)
   i = 0;
   while (i < 3)
     {
-      if (!parser_expect_operator(parser, i + 4, false))
+      if (!parser_expect_operator(parser, i + 4))
 	{
 	  if (i + 4 == OP_PIPE && parser->command->output)
 	    return (print_error(ERROR_AMBIGUOUS_OUTPUT_REDIRECT));

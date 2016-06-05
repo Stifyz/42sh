@@ -14,30 +14,16 @@
 #include <signal.h>
 #include <term.h>
 #include <unistd.h>
-#include "application.h"
 #include "lexer.h"
+#include "signals.h"
 #include "utils.h"
-
-void	handle_sigint()
-{
-  if (isatty(0) && isatty(1))
-    my_putchar('\n');
-  if (gl_app->prompt.line)
-    {
-      free(gl_app->prompt.line);
-      gl_app->prompt.pos = 0;
-      gl_app->prompt.line = my_strdup("");
-      if (isatty(0) && isatty(1))
-	my_putstr(gl_app->prompt.str);
-    }
-}
 
 t_err		application_init(t_application *app, char **env)
 {
   char		*path;
 
   my_memset(app, 0, sizeof(t_application));
-  signal(SIGINT, handle_sigint);
+  signal(SIGINT, signals_handle_sigint);
   if (!(app->env = env_init(env)) && env[0])
     return (print_error(ERROR_MALLOC_FAILED));
   if (!(path = my_getenv(app->env, "PATH")))
@@ -81,15 +67,31 @@ void		application_run(t_application *app)
     }
 }
 
+void		application_parse(t_application *app, t_token_list *token_list)
+{
+  t_command	*tmp;
+  t_parser	parser;
+
+  my_memset(&parser, 0, sizeof(t_parser));
+  parser.current = token_list->first;
+  if (!parse(&parser))
+    {
+      tmp = parser.full_command;
+      while (tmp)
+	{
+	  command_run(tmp, app);
+	  tmp = tmp->next;
+	}
+      command_free(parser.full_command);
+    }
+}
+
 void			application_run_command(t_application *app, char *cmd)
 {
   t_string_reader	reader;
   t_token_list		token_list;
-  t_parser		parser;
-  t_command		*tmp;
 
   my_memset(&token_list, 0, sizeof(t_token_list));
-  my_memset(&parser, 0, sizeof(t_parser));
   reader.string = cmd;
   reader.length = my_strlen(cmd);
   reader.pos = 0;
@@ -98,17 +100,7 @@ void			application_run_command(t_application *app, char *cmd)
       free(cmd);
       if (app->prompt.line)
 	app->prompt.line = NULL;
-      parser.current = token_list.first;
-      if (!parse(&parser))
-	{
-	  tmp = parser.full_command;
-	  while (tmp)
-	    {
-	      command_run(tmp, app);
-	      tmp = tmp->next;
-	    }
-	  command_free(parser.full_command);
-	}
+      application_parse(app, &token_list);
     }
   token_list_free(&token_list);
 }
