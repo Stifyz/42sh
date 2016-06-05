@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 10 14:54:46 2016 Nicolas Zimmermann
-** Last update Sun Jun  5 01:34:16 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 07:45:18 2016 Nicolas Zimmermann
 */
 
 #include <dirent.h>
@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "autocomplete.h"
 
-DIR	**init_dir(char **pathes, bool is_folder)
+DIR	**init_dir(char **pathes, bool is_folder, bool is_file)
 {
   DIR	**dir;
   int	i;
@@ -21,14 +21,14 @@ DIR	**init_dir(char **pathes, bool is_folder)
 
   i = -1;
   while (pathes[++i]);
-  if (!(dir = malloc(sizeof(DIR *) * (i + ((is_folder) ? 1 : 2)))))
+  if (!(dir = malloc(sizeof(DIR *) * (i + ((is_folder && !is_file) ? 1 : 2)))))
     return (NULL);
   i = 0;
   j = -1;
   while (pathes[++j])
     if ((dir[i] = opendir(pathes[j])))
       i++;
-  if (is_folder == false)
+  if (is_folder == false && is_file == true)
     dir[i++] = opendir(".");
   dir[i] = NULL;
   return (dir);
@@ -103,7 +103,7 @@ t_err		file_list(t_autocomp *autoc, char **pathes)
 
   if (!(autoc->head = malloc(sizeof(t_file))))
     return (print_error(ERROR_MALLOC_FAILED));
-  if (!(dir = init_dir(pathes, autoc->is_folder)))
+  if (!(dir = init_dir(pathes, autoc->is_folder, autoc->is_file)))
     return (print_error(ERROR_MALLOC_FAILED));
   autoc->head->prev = NULL;
   autoc->nb_elem = 0;

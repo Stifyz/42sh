@@ -5,7 +5,7 @@
 ** Login   <zimmer_n@epitech.net>
 ** 
 ** Started on  Tue May 31 12:13:15 2016 Nicolas Zimmermann
-** Last update Sun Jun  5 01:40:36 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 08:06:54 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -38,6 +38,23 @@ t_token_elem	*autocomplete_found_curs_pos(t_token_list *list,
     return (NULL);
 }
 
+bool		is_file(t_token_list *list, t_token_elem *act)
+{
+  t_token_elem	*tmp;
+
+  tmp = list->first;
+  if (tmp == act)
+    return (false);
+  while (tmp->next != act)
+    tmp = tmp->next;
+  if (tmp->token.type == TOKEN_WHITESPACE)
+    return (is_file(list, tmp));
+  else
+    if (tmp->token.type == TOKEN_NAME)
+      return (true);
+  return (false);
+}
+
 t_err		autocomplete(t_prompt *prompt)
 {
   t_autocomp	autoc;
@@ -45,6 +62,7 @@ t_err		autocomplete(t_prompt *prompt)
   t_token_elem	*act;
   t_err		err;
 
+  autoc.is_file = false;
   if (!prompt->line || !*prompt->line)
     return (0);
   if ((err = autocomplete_lexer(prompt->line, &list)))
@@ -54,7 +72,10 @@ t_err		autocomplete(t_prompt *prompt)
   if ((autoc.is_folder = my_char_in_str(act->token.content, '/')) == true)
     err = autocomplete_folder(act->token.content, &autoc);
   else
-    err = autocomplete_file(act->token.content, &autoc, prompt->app->path);
+    {
+      autoc.is_file = is_file(&list, act);
+      err = autocomplete_file(act->token.content, &autoc, prompt->app->path);
+    }
   if (err || (err = oh_my_42sh(&autoc, prompt)))
     return (err);
   free_file_list(&autoc);
