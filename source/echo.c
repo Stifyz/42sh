@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 18:49:32 2016 Bouama_r
-** Last update Sun Jun  5 17:46:02 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 18:29:49 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -126,8 +126,15 @@ int	my_flag_echo(int ac, char **av)
   	      b = 1;
   	  }
   	else
-  	  b = 1;
+	  {
+	    bf = 0;
+	    b = 1;
+	  }
     }
-  treat_echo(ac, av, bf);
+  else
+    b = 1;
+  if (av[1][1] == 0)
+    b = 1;
+  treat_echo(ac, av, bf, b);
   return (0);
 }

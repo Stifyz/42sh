@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 23:20:35 2016 Bouama_r
-** Last update Sun Jun  5 17:33:53 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 18:17:54 2016 Nicolas Zimmermann
 */
 #ifndef ECHO_H_
 # define ECHO_H_
@@ -24,6 +24,6 @@ void	flag_e(char **av, int bf);
 int	my_flag_echo(int ac, char **av);
 bool	my_is_octal(char c);
 int	check_space(char *str);
-int	treat_echo(int ac, char **av, int bf);
+int	treat_echo(int ac, char **av, int bf, int b);
 
 #endif /* !ECHO_H_ */
