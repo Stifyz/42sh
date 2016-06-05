@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Sat Jun  4 01:50:05 2016 Bouama_r
-** Last update Sun Jun  5 15:46:28 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 16:25:32 2016 Nicolas Zimmermann
 */
 
 #include <my.h>
@@ -59,7 +59,10 @@ int		check_print_alias(t_application *app, int ac, char **av)
     {
       while (tmp)
 	{
-	  my_printf("%s\t%s\n", tmp->name, tmp->cmd);
+	  if ((my_char_in_str(tmp->cmd, ' ')))
+	    my_printf("%s\t(%s)\n", tmp->name, tmp->cmd);
+	  else
+	    my_printf("%s\t%s\n", tmp->name, tmp->cmd);
 	  tmp = tmp->next;
 	}
       return (0);

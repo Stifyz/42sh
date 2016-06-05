@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 23:20:35 2016 Bouama_r
-** Last update Sun Jun  5 01:28:32 2016 Bouama_r
+** Last update Sun Jun  5 17:33:53 2016 Nicolas Zimmermann
 */
 #ifndef ECHO_H_
 # define ECHO_H_
@@ -18,12 +18,12 @@
 # include "error.h"
 
 t_err	builtin_echo(t_application *app, int ac, char **av);
-void	disp_normal(char **av);
+void	disp_normal(char **av, int bf);
 char	get_escaped_char(char *str, int pos);
-void	flag_e(int ac, char **av);
+void	flag_e(char **av, int bf);
 int	my_flag_echo(int ac, char **av);
 bool	my_is_octal(char c);
 int	check_space(char *str);
-int	treat_echo(int ac, char **av, int n, int e);
+int	treat_echo(int ac, char **av, int bf);
 
 #endif /* !ECHO_H_ */

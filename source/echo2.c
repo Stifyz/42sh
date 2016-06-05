@@ -5,7 +5,7 @@
 ** Login   <bouamar@epitech.net>
 **
 ** Started on  Thu Jun  2 23:13:47 2016 Bouama_r
-** Last update Sun Jun  5 01:41:27 2016 Bouama_r
+** Last update Sun Jun  5 17:39:49 2016 Nicolas Zimmermann
 */
 
 #include "echo.h"
@@ -16,15 +16,15 @@ inline bool my_is_octal(char c)
   return (c >= '0' && c <= '7');
 }
 
-int	treat_echo(int ac, char **av,int n, int e)
+int	treat_echo(int ac, char **av, int bf)
 {
-  if (n == 1 && ac == 2)
+  if ((bf & 1) && ac == 2)
     return (0);
-  if (e == 1)
-    flag_e(ac, av);
+  if (bf & 1)
+    flag_e(av, (bf != 0));
   else
-    disp_normal(av);
-  if (n != 1)
+    disp_normal(av, (bf != 0));
+  if (!(bf & 2))
     my_putchar('\n');
   return (0);
 }

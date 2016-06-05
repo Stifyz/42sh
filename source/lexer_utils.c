@@ -5,7 +5,7 @@
 ** Login   <bazin_q@epitech.net>
 ** 
 ** Started on  Sun May 22 14:47:28 2016 Quentin Bazin
-** Last update Sun Jun  5 13:38:41 2016 Nicolas Zimmermann
+** Last update Sun Jun  5 17:19:31 2016 Nicolas Zimmermann
 */
 
 #include <ctype.h>
@@ -79,5 +79,37 @@ char	*clear_name(char *str)
       dup[j++] = str[i];
   free(str);
   dup[j] = '\0';
+  return (dup);
+}
+
+char	*clear_string(char *str)
+{
+  int	i;
+  int	j;
+  char	*dup;
+
+  i = -1;
+  j = 0;
+  while (str[++i])
+    if (str[i] == '\\' &&
+	(str[i + 1] == '\'' || str[i + 1] == '\"' || str[i + 1] == '\\'))
+      {
+	j++;
+	i++;
+      }
+    else
+      j++;
+  if (!(dup = malloc(j + 1)))
+    return (NULL);
+  i = -1;
+  j = 0;
+  while (str[++i])
+    if (str[i] == '\\' &&
+	(str[i + 1] == '\'' || str[i + 1] == '\"' || str[i + 1] == '\\'))
+      dup[j++] = str[++i];
+    else
+      dup[j++] = str[i];
+  free(str);
+  dup[j] = 0;
   return (dup);
 }
