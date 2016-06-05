@@ -72,5 +72,9 @@ t_err		parse(t_parser *parser)
     return (error);
   if (!parser_expect_operator(parser, OP_SEMICOLON))
     return (parse(parser));
+  if (parser->current && parser->current->token.type == TOKEN_SEPARATOR
+      && (parser->current->token.value.operator == OP_PIPE ||
+	  parser->current->token.value.operator == OP_OR))
+    return (print_error(ERROR_INVALID_NULL_COMMAND));
   return (0);
 }

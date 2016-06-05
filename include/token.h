@@ -41,8 +41,8 @@ typedef enum	e_operator
 
 typedef enum	e_string_type
 {
-    STR_SIMPLE,
-    STR_DOUBLE
+  STR_SIMPLE,
+  STR_DOUBLE
 }		t_string_type;
 
 typedef union	u_token_value
