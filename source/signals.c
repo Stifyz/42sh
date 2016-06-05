@@ -59,14 +59,17 @@ void	signals_handle_sigint()
 {
   if (!isatty(0))
     gl_app->is_running = false;
-  if (isatty(0) && isatty(1))
-    my_putchar('\n');
-  if (gl_app->prompt.line)
+  if (waitpid(-1, NULL, WNOHANG) != 0)
     {
-      free(gl_app->prompt.line);
-      gl_app->prompt.pos = 0;
-      gl_app->prompt.line = my_strdup("");
       if (isatty(0) && isatty(1))
-	my_putstr(gl_app->prompt.str);
+	my_putchar('\n');
+      if (gl_app->prompt.line)
+	{
+	  free(gl_app->prompt.line);
+	  gl_app->prompt.pos = 0;
+	  gl_app->prompt.line = my_strdup("");
+	  if (isatty(0) && isatty(1))
+	    my_putstr(gl_app->prompt.str);
+	}
     }
 }
