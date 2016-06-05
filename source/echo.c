@@ -45,8 +45,9 @@ void	disp_normal(char **av, int b)
   j = b + 1;
   while (av[j] != NULL)
     {
+      if (j != b + 1)
+	my_putchar(' ');
       my_putstr(av[j]);
-      my_putchar(' ');
       j++;
     }
 }
