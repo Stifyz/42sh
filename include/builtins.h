@@ -12,7 +12,7 @@
 
 # include "error.h"
 
-# define BUILTINS_COUNT 7
+# define BUILTINS_COUNT 8
 
 struct s_application;
 
@@ -31,5 +31,6 @@ t_err	builtin_setenv(struct s_application *app, int argc, char **argv);
 t_err	builtin_unsetenv(struct s_application *app, int argc, char **argv);
 t_err	builtin_env(struct s_application *app, int argc, char **argv);
 t_err	builtin_exit(struct s_application *app, int argc, char **argv);
+t_err	builtin_unalias(struct s_application *app, int ac, char **av);
 
 #endif /* !BUILTINS_H_ */

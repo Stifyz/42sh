@@ -21,6 +21,7 @@ void	builtin_init_array(t_application *app)
   app->builtins[4].name = "exit";
   app->builtins[5].name = "echo";
   app->builtins[6].name = "alias";
+  app->builtins[7].name = "unalias";
   app->builtins[0].func = &builtin_cd;
   app->builtins[1].func = &builtin_setenv;
   app->builtins[2].func = &builtin_unsetenv;
@@ -28,6 +29,7 @@ void	builtin_init_array(t_application *app)
   app->builtins[4].func = &builtin_exit;
   app->builtins[5].func = &builtin_echo;
   app->builtins[6].func = &builtin_alias;
+  app->builtins[7].func = &builtin_unalias;
 }
 
 int	builtin_run(t_application *app, char **argv)
